@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/jdbc
+http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd ">
+
+	<!-- Instructs Spring to perfrom declarative transaction management on annotated 
+		classes -->
+	<tx:annotation-driven />
+
+	<!-- Drives transactions using local JPA APIs -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<!-- Creates a EntityManagerFactory for use with the Hibernate JPA provider 
+		and a simple in-memory data source populated with test data -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="persistenceUnitName" value="database" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+<!-- 				<property name="generateDdl" value="true" /> -->
+<!-- 				<property name="databasePlatform" value="org.hibernate.dialect.H2Dialect" /> -->
+<!-- 				<property name="showSql" value="true" /> -->
+
+			</bean>
+
+		</property>
+	</bean>
+
+	<!-- <jdbc:embedded-database id="dataSource" type="H2"> -->
+	<!-- <jdbc:script location="classpath:/sql/create.sql" /> -->
+	<!-- </jdbc:embedded-database> -->
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		
+		<property name="driverClassName" value="org.h2.Driver" />
+		<property name="url"
+			value="jdbc:h2:mem:wanda;DB_CLOSE_DELAY=-1" />
+		<property name="username" value="wandAdmin" />
+		<property name="password" value="admin" />
+	</bean>
+	<!-- <bean id="dataSource" -->
+	<!-- class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+	<!-- <property name="driverClassName" value="oracle.jdbc.OracleDriver" /> -->
+	<!-- <property name="url" value="jdbc:oracle:thin:@blurk.hu:1521:XE" /> -->
+	<!-- <property name="username" value="ANDI" /> -->
+	<!-- <property name="password" value="Pass123" /> -->
+	<!-- </bean> -->
+
+</beans>
