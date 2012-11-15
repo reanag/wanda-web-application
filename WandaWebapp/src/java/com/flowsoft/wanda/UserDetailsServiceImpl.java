@@ -14,7 +14,7 @@ import com.flowsoft.domain.Comment;
 import com.flowsoft.domain.Tag;
 import com.flowsoft.domain.WandaUser;
 
-@WebService(endpointInterface = "com.flowsoft.wanda.UserDetailsService")
+@WebService(name = "userDetailsService", targetNamespace = "http://com.flowsoft.wanda.UserDetailsServiceImpl", endpointInterface = "com.flowsoft.wanda.UserDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);

@@ -8,6 +8,7 @@ import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +27,10 @@ public class WandaUserDaoImpl implements WandaUserDao {
 	}
 
 	@Override
+	@Cacheable(value = "wandaUser")
 	@Transactional(propagation = Propagation.REQUIRED)
 	public WandaUser findUserByName(String username) {
+		logger.debug("Cache miss: " + username);
 		if (username != null) {
 
 			Query query = em.createQuery(

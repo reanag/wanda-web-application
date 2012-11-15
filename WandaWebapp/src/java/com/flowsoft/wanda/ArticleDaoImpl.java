@@ -21,6 +21,7 @@ import com.flowsoft.domain.WandaUser;
 @Service("articleDao")
 public class ArticleDaoImpl implements ArticleDao {
 	private EntityManager em;
+
 	Logger logger = LoggerFactory.getLogger(ArticleDaoImpl.class);
 
 	@PersistenceContext
