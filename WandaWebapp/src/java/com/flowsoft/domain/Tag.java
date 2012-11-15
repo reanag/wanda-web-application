@@ -10,6 +10,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Entity
 public class Tag implements Serializable {
 
@@ -19,10 +22,13 @@ public class Tag implements Serializable {
 	private Date modifiedTS;
 	private Article taggedArticle;
 
+	Logger logger = LoggerFactory.getLogger(Tag.class);
+
 	public Tag() {
 	}
 
 	public Tag(String name) {
+		logger.debug("Create Tag with id: " + name);
 		this.tagName = name;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();

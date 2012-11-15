@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Entity
 public class Comment implements Serializable {
 
@@ -20,6 +23,7 @@ public class Comment implements Serializable {
 	private String commentContent;
 	private Date createdTS;
 	private Date modifiedTS;
+	Logger logger = LoggerFactory.getLogger(Comment.class);
 
 	public Comment() {
 	}
@@ -30,6 +34,8 @@ public class Comment implements Serializable {
 		this.commentContent = content;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();
+		logger.debug("Create Comment with id: " + this.getId() + " by :"
+				+ owner.getUsername());
 	}
 
 	@ManyToOne()

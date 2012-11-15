@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import com.flowsoft.domain.WandaUser;
 public class WandaUserDaoImpl implements WandaUserDao {
 
 	private EntityManager em;
+	Logger logger = LoggerFactory.getLogger(WandaUserDaoImpl.class);
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager em) {

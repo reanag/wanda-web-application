@@ -10,6 +10,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Entity
 public class Category implements Serializable {
 
@@ -18,6 +21,7 @@ public class Category implements Serializable {
 	private WandaUser owner;
 	private Date createdTS;
 	private Date modifiedTS;
+	Logger logger = LoggerFactory.getLogger(Category.class);
 
 	public Category() {
 	}
@@ -27,6 +31,8 @@ public class Category implements Serializable {
 		this.categoryName = name;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();
+		logger.debug("Create Category with id: " + categoryName + " by : "
+				+ owner.getUsername());
 	}
 
 	@Id

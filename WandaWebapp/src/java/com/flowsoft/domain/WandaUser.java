@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Entity
 public class WandaUser implements Serializable {
 
@@ -28,11 +31,14 @@ public class WandaUser implements Serializable {
 	private Date createdTS;
 	private Date modifiedTS;
 
+	Logger logger = LoggerFactory.getLogger(WandaUser.class);
+
 	public WandaUser() {
 	}
 
 	public WandaUser(String username, String password, String firstname,
 			String lastname) {
+		logger.debug("Create WandaUser with id: " + username);
 		this.username = username;
 		this.password = password;
 		this.firstName = firstname;
@@ -43,6 +49,7 @@ public class WandaUser implements Serializable {
 
 	public WandaUser(String username, String password, Boolean isEnabled,
 			String role, String email) {
+		logger.debug("Create WandaUser with id: " + username);
 		this.username = username;
 		this.password = password;
 		this.enabled = isEnabled;

@@ -10,6 +10,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Entity
 public class Article implements Serializable {
 
@@ -21,6 +24,8 @@ public class Article implements Serializable {
 	private Date createdTS;
 	private Date modifiedTS;
 
+	Logger logger = LoggerFactory.getLogger(Article.class);
+
 	public Article() {
 	}
 
@@ -30,6 +35,8 @@ public class Article implements Serializable {
 		this.content = content;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();
+		logger.debug("Create Article with id: " + this.title + " by: "
+				+ owner.getUsername());
 	}
 
 	@ManyToOne()

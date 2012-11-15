@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.flowsoft.domain.Article;
@@ -14,6 +16,8 @@ import com.flowsoft.domain.WandaUser;
 
 @WebService(endpointInterface = "com.flowsoft.wanda.UserDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
+
+	Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
 	@Autowired
 	private WandaUserDao userDao;
