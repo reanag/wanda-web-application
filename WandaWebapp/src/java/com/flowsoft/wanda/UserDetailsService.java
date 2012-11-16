@@ -39,7 +39,7 @@ public interface UserDetailsService {
 	List<Comment> findAllCommentFor(
 			@WebParam(name = "articleTitle") String articleTitle);
 
-	@WebResult(name = "creationSucces")
+	@WebResult(name = "creationSuccess")
 	Boolean createUser(@WebParam(name = "username") String username,
 			@WebParam(name = "password") String password,
 			@WebParam(name = "firstName") String firstName,
