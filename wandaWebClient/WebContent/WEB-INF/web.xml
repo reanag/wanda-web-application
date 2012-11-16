@@ -22,7 +22,7 @@
     <servlet-class>com.yardspoon.cxfspringjpa.service.StatusServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>WandaVaadinClient Application</servlet-name>
+    <servlet-name>WandaWebClient Application</servlet-name>
     <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
     <init-param>
       <description>
