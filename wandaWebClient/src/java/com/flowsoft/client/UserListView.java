@@ -1,7 +1,5 @@
 package com.flowsoft.client;
 
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.xml.ws.WebServiceRef;
 
@@ -10,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import userdetailsserviceimpl.wanda.flowsoft.com.UserDetailsServiceImplService;
 
-import com.flowsoft.domain.WandaUser;
 import com.flowsoft.wanda.UserDetailsService;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -44,7 +41,7 @@ public class UserListView extends Panel implements View {
 
 	public UserListView() {
 		init();
-		List<WandaUser> w = controller.findAllUser();
+		// List<WandaUser> w = controller.findAllUser();
 		Table table = new Table("Users from database:");
 		table.addContainerProperty("Username", String.class, null);
 		table.addContainerProperty("First Name", String.class, null);
@@ -52,12 +49,10 @@ public class UserListView extends Panel implements View {
 		table.addContainerProperty("Created:", String.class, null);
 		table.setSizeFull();
 
-		for (WandaUser u : w) {
-
-			table.addItem(new String[] { u.getUsername().toString(),
-					u.getFirstName().toString(), u.getLastName().toString(),
-					u.getCreatedTS().toString() }, u.getUsername());
-		}
+		// for (WandaUser u : w) {
+		//
+		// table.addItem(, u.getUsername());
+		// }
 		addComponent(table);
 		Link lnk2 = new Link("Back",
 				new ExternalResource("#!" + IntroView.NAME));

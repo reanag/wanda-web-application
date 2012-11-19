@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
+ *         &lt;element name="categoryCreationSuccess" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -25,8 +26,36 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "createCategoryResponse")
+@XmlType(name = "createCategoryResponse", propOrder = {
+    "categoryCreationSuccess"
+})
 public class CreateCategoryResponse {
+
+	protected Boolean categoryCreationSuccess;
+
+	/**
+     * Gets the value of the categoryCreationSuccess property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
+     */
+    public Boolean isCategoryCreationSuccess() {
+        return categoryCreationSuccess;
+    }
+
+	/**
+     * Sets the value of the categoryCreationSuccess property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
+     */
+    public void setCategoryCreationSuccess(Boolean value) {
+        this.categoryCreationSuccess = value;
+    }
 
 
 }

@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 import com.flowsoft.domain.Article;
+import com.flowsoft.domain.ArticleHeader;
 import com.flowsoft.domain.Category;
 import com.flowsoft.domain.Comment;
 import com.flowsoft.domain.WandaUser;
@@ -24,62 +25,54 @@ import com.flowsoft.domain.WandaUser;
 @XmlRegistry
 public class ObjectFactory {
 
-	private final static QName _CreateCategory_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "createCategory");
-	private final static QName _FindArticleByTitleResponse_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "findArticleByTitleResponse");
-	private final static QName _FindArticleByTitle_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "findArticleByTitle");
-	private final static QName _GetArticleContentByTitle_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "getArticleContentByTitle");
-	private final static QName _InitTestDbResponse_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "initTestDbResponse");
-	private final static QName _CreateUser_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "createUser");
-	private final static QName _ExistResponse_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "existResponse");
-	private final static QName _DeleteCategoryResponse_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "deleteCategoryResponse");
-	private final static QName _CreateArticleResponse_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "createArticleResponse");
 	private final static QName _CreateArticle_QNAME = new QName(
 			"http://wanda.flowsoft.com/", "createArticle");
-	private final static QName _FindByUsername_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "findByUsername");
+	private final static QName _CreateCategory_QNAME = new QName(
+			"http://wanda.flowsoft.com/", "createCategory");
+	private final static QName _FindUserByUsernameResponse_QNAME = new QName(
+			"http://wanda.flowsoft.com/", "findUserByUsernameResponse");
 	private final static QName _FindAllCommentFor_QNAME = new QName(
 			"http://wanda.flowsoft.com/", "findAllCommentFor");
-	private final static QName _FindByUsernameResponse_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "findByUsernameResponse");
+	private final static QName _FindArticleByTitleResponse_QNAME = new QName(
+			"http://wanda.flowsoft.com/", "findArticleByTitleResponse");
 	private final static QName _FindAllCommentForResponse_QNAME = new QName(
 			"http://wanda.flowsoft.com/", "findAllCommentForResponse");
+	private final static QName _FindAllArticleByUsernameResponse_QNAME = new QName(
+			"http://wanda.flowsoft.com/", "findAllArticleByUsernameResponse");
 	private final static QName _CreateUserResponse_QNAME = new QName(
 			"http://wanda.flowsoft.com/", "createUserResponse");
+	private final static QName _FindArticleByTitle_QNAME = new QName(
+			"http://wanda.flowsoft.com/", "findArticleByTitle");
 	private final static QName _DeleteCategory_QNAME = new QName(
 			"http://wanda.flowsoft.com/", "deleteCategory");
-	private final static QName _FindAllUser_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "findAllUser");
-	private final static QName _InitTestDb_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "initTestDb");
-	private final static QName _FindAllUserResponse_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "findAllUserResponse");
-	private final static QName _GetArticleContentByTitleResponse_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "getArticleContentByTitleResponse");
+	private final static QName _FindAllArticleHeader_QNAME = new QName(
+			"http://wanda.flowsoft.com/", "findAllArticleHeader");
 	private final static QName _DeleteArticle_QNAME = new QName(
 			"http://wanda.flowsoft.com/", "deleteArticle");
 	private final static QName _EditArticle_QNAME = new QName(
 			"http://wanda.flowsoft.com/", "editArticle");
-	private final static QName _FindAllArticle_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "findAllArticle");
+	private final static QName _FindUserByUsername_QNAME = new QName(
+			"http://wanda.flowsoft.com/", "findUserByUsername");
+	private final static QName _FindAllArticleHeaderResponse_QNAME = new QName(
+			"http://wanda.flowsoft.com/", "findAllArticleHeaderResponse");
 	private final static QName _Exist_QNAME = new QName(
 			"http://wanda.flowsoft.com/", "exist");
 	private final static QName _CreateCategoryResponse_QNAME = new QName(
 			"http://wanda.flowsoft.com/", "createCategoryResponse");
 	private final static QName _EditArticleResponse_QNAME = new QName(
 			"http://wanda.flowsoft.com/", "editArticleResponse");
-	private final static QName _FindAllArticleResponse_QNAME = new QName(
-			"http://wanda.flowsoft.com/", "findAllArticleResponse");
+	private final static QName _CreateUser_QNAME = new QName(
+			"http://wanda.flowsoft.com/", "createUser");
 	private final static QName _DeleteArticleResponse_QNAME = new QName(
 			"http://wanda.flowsoft.com/", "deleteArticleResponse");
+	private final static QName _FindAllArticleByUsername_QNAME = new QName(
+			"http://wanda.flowsoft.com/", "findAllArticleByUsername");
+	private final static QName _DeleteCategoryResponse_QNAME = new QName(
+			"http://wanda.flowsoft.com/", "deleteCategoryResponse");
+	private final static QName _ExistResponse_QNAME = new QName(
+			"http://wanda.flowsoft.com/", "existResponse");
+	private final static QName _CreateArticleResponse_QNAME = new QName(
+			"http://wanda.flowsoft.com/", "createArticleResponse");
 
 	/**
 	 * Create a new ObjectFactory that can be used to create new instances of
@@ -90,43 +83,19 @@ public class ObjectFactory {
 	}
 
 	/**
-	 * Create an instance of {@link GetArticleContentByTitleResponse }
+	 * Create an instance of {@link FindAllArticleHeader }
 	 * 
 	 */
-	public GetArticleContentByTitleResponse createGetArticleContentByTitleResponse() {
-		return new GetArticleContentByTitleResponse();
+	public FindAllArticleHeader createFindAllArticleHeader() {
+		return new FindAllArticleHeader();
 	}
 
 	/**
-	 * Create an instance of {@link InitTestDb }
+	 * Create an instance of {@link FindUserByUsername }
 	 * 
 	 */
-	public InitTestDb createInitTestDb() {
-		return new InitTestDb();
-	}
-
-	/**
-	 * Create an instance of {@link FindAllUser }
-	 * 
-	 */
-	public FindAllUser createFindAllUser() {
-		return new FindAllUser();
-	}
-
-	/**
-	 * Create an instance of {@link FindAllUserResponse }
-	 * 
-	 */
-	public FindAllUserResponse createFindAllUserResponse() {
-		return new FindAllUserResponse();
-	}
-
-	/**
-	 * Create an instance of {@link EditArticle }
-	 * 
-	 */
-	public EditArticle createEditArticle() {
-		return new EditArticle();
+	public FindUserByUsername createFindUserByUsername() {
+		return new FindUserByUsername();
 	}
 
 	/**
@@ -138,115 +107,11 @@ public class ObjectFactory {
 	}
 
 	/**
-	 * Create an instance of {@link CreateUserResponse }
+	 * Create an instance of {@link EditArticle }
 	 * 
 	 */
-	public CreateUserResponse createCreateUserResponse() {
-		return new CreateUserResponse();
-	}
-
-	/**
-	 * Create an instance of {@link FindAllCommentForResponse }
-	 * 
-	 */
-	public FindAllCommentForResponse createFindAllCommentForResponse() {
-		return new FindAllCommentForResponse();
-	}
-
-	/**
-	 * Create an instance of {@link FindByUsernameResponse }
-	 * 
-	 */
-	public FindByUsernameResponse createFindByUsernameResponse() {
-		return new FindByUsernameResponse();
-	}
-
-	/**
-	 * Create an instance of {@link CreateArticle }
-	 * 
-	 */
-	public CreateArticle createCreateArticle() {
-		return new CreateArticle();
-	}
-
-	/**
-	 * Create an instance of {@link FindAllCommentFor }
-	 * 
-	 */
-	public FindAllCommentFor createFindAllCommentFor() {
-		return new FindAllCommentFor();
-	}
-
-	/**
-	 * Create an instance of {@link FindByUsername }
-	 * 
-	 */
-	public FindByUsername createFindByUsername() {
-		return new FindByUsername();
-	}
-
-	/**
-	 * Create an instance of {@link DeleteCategory }
-	 * 
-	 */
-	public DeleteCategory createDeleteCategory() {
-		return new DeleteCategory();
-	}
-
-	/**
-	 * Create an instance of {@link DeleteArticleResponse }
-	 * 
-	 */
-	public DeleteArticleResponse createDeleteArticleResponse() {
-		return new DeleteArticleResponse();
-	}
-
-	/**
-	 * Create an instance of {@link EditArticleResponse }
-	 * 
-	 */
-	public EditArticleResponse createEditArticleResponse() {
-		return new EditArticleResponse();
-	}
-
-	/**
-	 * Create an instance of {@link FindAllArticleResponse }
-	 * 
-	 */
-	public FindAllArticleResponse createFindAllArticleResponse() {
-		return new FindAllArticleResponse();
-	}
-
-	/**
-	 * Create an instance of {@link FindAllArticle }
-	 * 
-	 */
-	public FindAllArticle createFindAllArticle() {
-		return new FindAllArticle();
-	}
-
-	/**
-	 * Create an instance of {@link Exist }
-	 * 
-	 */
-	public Exist createExist() {
-		return new Exist();
-	}
-
-	/**
-	 * Create an instance of {@link CreateCategoryResponse }
-	 * 
-	 */
-	public CreateCategoryResponse createCreateCategoryResponse() {
-		return new CreateCategoryResponse();
-	}
-
-	/**
-	 * Create an instance of {@link GetArticleContentByTitle }
-	 * 
-	 */
-	public GetArticleContentByTitle createGetArticleContentByTitle() {
-		return new GetArticleContentByTitle();
+	public EditArticle createEditArticle() {
+		return new EditArticle();
 	}
 
 	/**
@@ -258,11 +123,59 @@ public class ObjectFactory {
 	}
 
 	/**
+	 * Create an instance of {@link FindAllCommentForResponse }
+	 * 
+	 */
+	public FindAllCommentForResponse createFindAllCommentForResponse() {
+		return new FindAllCommentForResponse();
+	}
+
+	/**
+	 * Create an instance of {@link FindAllArticleByUsernameResponse }
+	 * 
+	 */
+	public FindAllArticleByUsernameResponse createFindAllArticleByUsernameResponse() {
+		return new FindAllArticleByUsernameResponse();
+	}
+
+	/**
+	 * Create an instance of {@link CreateUserResponse }
+	 * 
+	 */
+	public CreateUserResponse createCreateUserResponse() {
+		return new CreateUserResponse();
+	}
+
+	/**
+	 * Create an instance of {@link CreateArticle }
+	 * 
+	 */
+	public CreateArticle createCreateArticle() {
+		return new CreateArticle();
+	}
+
+	/**
 	 * Create an instance of {@link CreateCategory }
 	 * 
 	 */
 	public CreateCategory createCreateCategory() {
 		return new CreateCategory();
+	}
+
+	/**
+	 * Create an instance of {@link FindUserByUsernameResponse }
+	 * 
+	 */
+	public FindUserByUsernameResponse createFindUserByUsernameResponse() {
+		return new FindUserByUsernameResponse();
+	}
+
+	/**
+	 * Create an instance of {@link FindAllCommentFor }
+	 * 
+	 */
+	public FindAllCommentFor createFindAllCommentFor() {
+		return new FindAllCommentFor();
 	}
 
 	/**
@@ -274,11 +187,43 @@ public class ObjectFactory {
 	}
 
 	/**
+	 * Create an instance of {@link DeleteCategory }
+	 * 
+	 */
+	public DeleteCategory createDeleteCategory() {
+		return new DeleteCategory();
+	}
+
+	/**
+	 * Create an instance of {@link FindAllArticleByUsername }
+	 * 
+	 */
+	public FindAllArticleByUsername createFindAllArticleByUsername() {
+		return new FindAllArticleByUsername();
+	}
+
+	/**
+	 * Create an instance of {@link DeleteArticleResponse }
+	 * 
+	 */
+	public DeleteArticleResponse createDeleteArticleResponse() {
+		return new DeleteArticleResponse();
+	}
+
+	/**
 	 * Create an instance of {@link CreateUser }
 	 * 
 	 */
 	public CreateUser createCreateUser() {
 		return new CreateUser();
+	}
+
+	/**
+	 * Create an instance of {@link EditArticleResponse }
+	 * 
+	 */
+	public EditArticleResponse createEditArticleResponse() {
+		return new EditArticleResponse();
 	}
 
 	/**
@@ -290,14 +235,6 @@ public class ObjectFactory {
 	}
 
 	/**
-	 * Create an instance of {@link DeleteCategoryResponse }
-	 * 
-	 */
-	public DeleteCategoryResponse createDeleteCategoryResponse() {
-		return new DeleteCategoryResponse();
-	}
-
-	/**
 	 * Create an instance of {@link ExistResponse }
 	 * 
 	 */
@@ -306,11 +243,35 @@ public class ObjectFactory {
 	}
 
 	/**
-	 * Create an instance of {@link InitTestDbResponse }
+	 * Create an instance of {@link DeleteCategoryResponse }
 	 * 
 	 */
-	public InitTestDbResponse createInitTestDbResponse() {
-		return new InitTestDbResponse();
+	public DeleteCategoryResponse createDeleteCategoryResponse() {
+		return new DeleteCategoryResponse();
+	}
+
+	/**
+	 * Create an instance of {@link FindAllArticleHeaderResponse }
+	 * 
+	 */
+	public FindAllArticleHeaderResponse createFindAllArticleHeaderResponse() {
+		return new FindAllArticleHeaderResponse();
+	}
+
+	/**
+	 * Create an instance of {@link CreateCategoryResponse }
+	 * 
+	 */
+	public CreateCategoryResponse createCreateCategoryResponse() {
+		return new CreateCategoryResponse();
+	}
+
+	/**
+	 * Create an instance of {@link Exist }
+	 * 
+	 */
+	public Exist createExist() {
+		return new Exist();
 	}
 
 	/**
@@ -330,6 +291,14 @@ public class ObjectFactory {
 	}
 
 	/**
+	 * Create an instance of {@link ArticleHeader }
+	 * 
+	 */
+	public ArticleHeader createArticleHeader() {
+		return new ArticleHeader();
+	}
+
+	/**
 	 * Create an instance of {@link Article }
 	 * 
 	 */
@@ -346,6 +315,17 @@ public class ObjectFactory {
 	}
 
 	/**
+	 * Create an instance of {@link JAXBElement }{@code <}{@link CreateArticle }
+	 * {@code >}
+	 * 
+	 */
+	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "createArticle")
+	public JAXBElement<CreateArticle> createCreateArticle(CreateArticle value) {
+		return new JAXBElement<CreateArticle>(_CreateArticle_QNAME,
+				CreateArticle.class, null, value);
+	}
+
+	/**
 	 * Create an instance of {@link JAXBElement }{@code <}{@link CreateCategory }
 	 * {@code >}
 	 * 
@@ -354,6 +334,31 @@ public class ObjectFactory {
 	public JAXBElement<CreateCategory> createCreateCategory(CreateCategory value) {
 		return new JAXBElement<CreateCategory>(_CreateCategory_QNAME,
 				CreateCategory.class, null, value);
+	}
+
+	/**
+	 * Create an instance of {@link JAXBElement }{@code <}
+	 * {@link FindUserByUsernameResponse }{@code >}
+	 * 
+	 */
+	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findUserByUsernameResponse")
+	public JAXBElement<FindUserByUsernameResponse> createFindUserByUsernameResponse(
+			FindUserByUsernameResponse value) {
+		return new JAXBElement<FindUserByUsernameResponse>(
+				_FindUserByUsernameResponse_QNAME,
+				FindUserByUsernameResponse.class, null, value);
+	}
+
+	/**
+	 * Create an instance of {@link JAXBElement }{@code <}
+	 * {@link FindAllCommentFor }{@code >}
+	 * 
+	 */
+	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findAllCommentFor")
+	public JAXBElement<FindAllCommentFor> createFindAllCommentFor(
+			FindAllCommentFor value) {
+		return new JAXBElement<FindAllCommentFor>(_FindAllCommentFor_QNAME,
+				FindAllCommentFor.class, null, value);
 	}
 
 	/**
@@ -371,138 +376,6 @@ public class ObjectFactory {
 
 	/**
 	 * Create an instance of {@link JAXBElement }{@code <}
-	 * {@link FindArticleByTitle }{@code >}
-	 * 
-	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findArticleByTitle")
-	public JAXBElement<FindArticleByTitle> createFindArticleByTitle(
-			FindArticleByTitle value) {
-		return new JAXBElement<FindArticleByTitle>(_FindArticleByTitle_QNAME,
-				FindArticleByTitle.class, null, value);
-	}
-
-	/**
-	 * Create an instance of {@link JAXBElement }{@code <}
-	 * {@link GetArticleContentByTitle }{@code >}
-	 * 
-	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "getArticleContentByTitle")
-	public JAXBElement<GetArticleContentByTitle> createGetArticleContentByTitle(
-			GetArticleContentByTitle value) {
-		return new JAXBElement<GetArticleContentByTitle>(
-				_GetArticleContentByTitle_QNAME,
-				GetArticleContentByTitle.class, null, value);
-	}
-
-	/**
-	 * Create an instance of {@link JAXBElement }{@code <}
-	 * {@link InitTestDbResponse }{@code >}
-	 * 
-	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "initTestDbResponse")
-	public JAXBElement<InitTestDbResponse> createInitTestDbResponse(
-			InitTestDbResponse value) {
-		return new JAXBElement<InitTestDbResponse>(_InitTestDbResponse_QNAME,
-				InitTestDbResponse.class, null, value);
-	}
-
-	/**
-	 * Create an instance of {@link JAXBElement }{@code <}{@link CreateUser }
-	 * {@code >}
-	 * 
-	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "createUser")
-	public JAXBElement<CreateUser> createCreateUser(CreateUser value) {
-		return new JAXBElement<CreateUser>(_CreateUser_QNAME, CreateUser.class,
-				null, value);
-	}
-
-	/**
-	 * Create an instance of {@link JAXBElement }{@code <}{@link ExistResponse }
-	 * {@code >}
-	 * 
-	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "existResponse")
-	public JAXBElement<ExistResponse> createExistResponse(ExistResponse value) {
-		return new JAXBElement<ExistResponse>(_ExistResponse_QNAME,
-				ExistResponse.class, null, value);
-	}
-
-	/**
-	 * Create an instance of {@link JAXBElement }{@code <}
-	 * {@link DeleteCategoryResponse }{@code >}
-	 * 
-	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "deleteCategoryResponse")
-	public JAXBElement<DeleteCategoryResponse> createDeleteCategoryResponse(
-			DeleteCategoryResponse value) {
-		return new JAXBElement<DeleteCategoryResponse>(
-				_DeleteCategoryResponse_QNAME, DeleteCategoryResponse.class,
-				null, value);
-	}
-
-	/**
-	 * Create an instance of {@link JAXBElement }{@code <}
-	 * {@link CreateArticleResponse }{@code >}
-	 * 
-	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "createArticleResponse")
-	public JAXBElement<CreateArticleResponse> createCreateArticleResponse(
-			CreateArticleResponse value) {
-		return new JAXBElement<CreateArticleResponse>(
-				_CreateArticleResponse_QNAME, CreateArticleResponse.class,
-				null, value);
-	}
-
-	/**
-	 * Create an instance of {@link JAXBElement }{@code <}{@link CreateArticle }
-	 * {@code >}
-	 * 
-	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "createArticle")
-	public JAXBElement<CreateArticle> createCreateArticle(CreateArticle value) {
-		return new JAXBElement<CreateArticle>(_CreateArticle_QNAME,
-				CreateArticle.class, null, value);
-	}
-
-	/**
-	 * Create an instance of {@link JAXBElement }{@code <}{@link FindByUsername }
-	 * {@code >}
-	 * 
-	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findByUsername")
-	public JAXBElement<FindByUsername> createFindByUsername(FindByUsername value) {
-		return new JAXBElement<FindByUsername>(_FindByUsername_QNAME,
-				FindByUsername.class, null, value);
-	}
-
-	/**
-	 * Create an instance of {@link JAXBElement }{@code <}
-	 * {@link FindAllCommentFor }{@code >}
-	 * 
-	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findAllCommentFor")
-	public JAXBElement<FindAllCommentFor> createFindAllCommentFor(
-			FindAllCommentFor value) {
-		return new JAXBElement<FindAllCommentFor>(_FindAllCommentFor_QNAME,
-				FindAllCommentFor.class, null, value);
-	}
-
-	/**
-	 * Create an instance of {@link JAXBElement }{@code <}
-	 * {@link FindByUsernameResponse }{@code >}
-	 * 
-	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findByUsernameResponse")
-	public JAXBElement<FindByUsernameResponse> createFindByUsernameResponse(
-			FindByUsernameResponse value) {
-		return new JAXBElement<FindByUsernameResponse>(
-				_FindByUsernameResponse_QNAME, FindByUsernameResponse.class,
-				null, value);
-	}
-
-	/**
-	 * Create an instance of {@link JAXBElement }{@code <}
 	 * {@link FindAllCommentForResponse }{@code >}
 	 * 
 	 */
@@ -512,6 +385,19 @@ public class ObjectFactory {
 		return new JAXBElement<FindAllCommentForResponse>(
 				_FindAllCommentForResponse_QNAME,
 				FindAllCommentForResponse.class, null, value);
+	}
+
+	/**
+	 * Create an instance of {@link JAXBElement }{@code <}
+	 * {@link FindAllArticleByUsernameResponse }{@code >}
+	 * 
+	 */
+	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findAllArticleByUsernameResponse")
+	public JAXBElement<FindAllArticleByUsernameResponse> createFindAllArticleByUsernameResponse(
+			FindAllArticleByUsernameResponse value) {
+		return new JAXBElement<FindAllArticleByUsernameResponse>(
+				_FindAllArticleByUsernameResponse_QNAME,
+				FindAllArticleByUsernameResponse.class, null, value);
 	}
 
 	/**
@@ -527,6 +413,18 @@ public class ObjectFactory {
 	}
 
 	/**
+	 * Create an instance of {@link JAXBElement }{@code <}
+	 * {@link FindArticleByTitle }{@code >}
+	 * 
+	 */
+	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findArticleByTitle")
+	public JAXBElement<FindArticleByTitle> createFindArticleByTitle(
+			FindArticleByTitle value) {
+		return new JAXBElement<FindArticleByTitle>(_FindArticleByTitle_QNAME,
+				FindArticleByTitle.class, null, value);
+	}
+
+	/**
 	 * Create an instance of {@link JAXBElement }{@code <}{@link DeleteCategory }
 	 * {@code >}
 	 * 
@@ -538,50 +436,16 @@ public class ObjectFactory {
 	}
 
 	/**
-	 * Create an instance of {@link JAXBElement }{@code <}{@link FindAllUser }
-	 * {@code >}
-	 * 
-	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findAllUser")
-	public JAXBElement<FindAllUser> createFindAllUser(FindAllUser value) {
-		return new JAXBElement<FindAllUser>(_FindAllUser_QNAME,
-				FindAllUser.class, null, value);
-	}
-
-	/**
-	 * Create an instance of {@link JAXBElement }{@code <}{@link InitTestDb }
-	 * {@code >}
-	 * 
-	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "initTestDb")
-	public JAXBElement<InitTestDb> createInitTestDb(InitTestDb value) {
-		return new JAXBElement<InitTestDb>(_InitTestDb_QNAME, InitTestDb.class,
-				null, value);
-	}
-
-	/**
 	 * Create an instance of {@link JAXBElement }{@code <}
-	 * {@link FindAllUserResponse }{@code >}
+	 * {@link FindAllArticleHeader }{@code >}
 	 * 
 	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findAllUserResponse")
-	public JAXBElement<FindAllUserResponse> createFindAllUserResponse(
-			FindAllUserResponse value) {
-		return new JAXBElement<FindAllUserResponse>(_FindAllUserResponse_QNAME,
-				FindAllUserResponse.class, null, value);
-	}
-
-	/**
-	 * Create an instance of {@link JAXBElement }{@code <}
-	 * {@link GetArticleContentByTitleResponse }{@code >}
-	 * 
-	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "getArticleContentByTitleResponse")
-	public JAXBElement<GetArticleContentByTitleResponse> createGetArticleContentByTitleResponse(
-			GetArticleContentByTitleResponse value) {
-		return new JAXBElement<GetArticleContentByTitleResponse>(
-				_GetArticleContentByTitleResponse_QNAME,
-				GetArticleContentByTitleResponse.class, null, value);
+	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findAllArticleHeader")
+	public JAXBElement<FindAllArticleHeader> createFindAllArticleHeader(
+			FindAllArticleHeader value) {
+		return new JAXBElement<FindAllArticleHeader>(
+				_FindAllArticleHeader_QNAME, FindAllArticleHeader.class, null,
+				value);
 	}
 
 	/**
@@ -607,14 +471,28 @@ public class ObjectFactory {
 	}
 
 	/**
-	 * Create an instance of {@link JAXBElement }{@code <}{@link FindAllArticle }
-	 * {@code >}
+	 * Create an instance of {@link JAXBElement }{@code <}
+	 * {@link FindUserByUsername }{@code >}
 	 * 
 	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findAllArticle")
-	public JAXBElement<FindAllArticle> createFindAllArticle(FindAllArticle value) {
-		return new JAXBElement<FindAllArticle>(_FindAllArticle_QNAME,
-				FindAllArticle.class, null, value);
+	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findUserByUsername")
+	public JAXBElement<FindUserByUsername> createFindUserByUsername(
+			FindUserByUsername value) {
+		return new JAXBElement<FindUserByUsername>(_FindUserByUsername_QNAME,
+				FindUserByUsername.class, null, value);
+	}
+
+	/**
+	 * Create an instance of {@link JAXBElement }{@code <}
+	 * {@link FindAllArticleHeaderResponse }{@code >}
+	 * 
+	 */
+	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findAllArticleHeaderResponse")
+	public JAXBElement<FindAllArticleHeaderResponse> createFindAllArticleHeaderResponse(
+			FindAllArticleHeaderResponse value) {
+		return new JAXBElement<FindAllArticleHeaderResponse>(
+				_FindAllArticleHeaderResponse_QNAME,
+				FindAllArticleHeaderResponse.class, null, value);
 	}
 
 	/**
@@ -652,15 +530,13 @@ public class ObjectFactory {
 	}
 
 	/**
-	 * Create an instance of {@link JAXBElement }{@code <}
-	 * {@link FindAllArticleResponse }{@code >}
+	 * Create an instance of {@link JAXBElement }{@code <}{@link CreateUser }
+	 * {@code >}
 	 * 
 	 */
-	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findAllArticleResponse")
-	public JAXBElement<FindAllArticleResponse> createFindAllArticleResponse(
-			FindAllArticleResponse value) {
-		return new JAXBElement<FindAllArticleResponse>(
-				_FindAllArticleResponse_QNAME, FindAllArticleResponse.class,
+	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "createUser")
+	public JAXBElement<CreateUser> createCreateUser(CreateUser value) {
+		return new JAXBElement<CreateUser>(_CreateUser_QNAME, CreateUser.class,
 				null, value);
 	}
 
@@ -674,6 +550,56 @@ public class ObjectFactory {
 			DeleteArticleResponse value) {
 		return new JAXBElement<DeleteArticleResponse>(
 				_DeleteArticleResponse_QNAME, DeleteArticleResponse.class,
+				null, value);
+	}
+
+	/**
+	 * Create an instance of {@link JAXBElement }{@code <}
+	 * {@link FindAllArticleByUsername }{@code >}
+	 * 
+	 */
+	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "findAllArticleByUsername")
+	public JAXBElement<FindAllArticleByUsername> createFindAllArticleByUsername(
+			FindAllArticleByUsername value) {
+		return new JAXBElement<FindAllArticleByUsername>(
+				_FindAllArticleByUsername_QNAME,
+				FindAllArticleByUsername.class, null, value);
+	}
+
+	/**
+	 * Create an instance of {@link JAXBElement }{@code <}
+	 * {@link DeleteCategoryResponse }{@code >}
+	 * 
+	 */
+	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "deleteCategoryResponse")
+	public JAXBElement<DeleteCategoryResponse> createDeleteCategoryResponse(
+			DeleteCategoryResponse value) {
+		return new JAXBElement<DeleteCategoryResponse>(
+				_DeleteCategoryResponse_QNAME, DeleteCategoryResponse.class,
+				null, value);
+	}
+
+	/**
+	 * Create an instance of {@link JAXBElement }{@code <}{@link ExistResponse }
+	 * {@code >}
+	 * 
+	 */
+	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "existResponse")
+	public JAXBElement<ExistResponse> createExistResponse(ExistResponse value) {
+		return new JAXBElement<ExistResponse>(_ExistResponse_QNAME,
+				ExistResponse.class, null, value);
+	}
+
+	/**
+	 * Create an instance of {@link JAXBElement }{@code <}
+	 * {@link CreateArticleResponse }{@code >}
+	 * 
+	 */
+	@XmlElementDecl(namespace = "http://wanda.flowsoft.com/", name = "createArticleResponse")
+	public JAXBElement<CreateArticleResponse> createCreateArticleResponse(
+			CreateArticleResponse value) {
+		return new JAXBElement<CreateArticleResponse>(
+				_CreateArticleResponse_QNAME, CreateArticleResponse.class,
 				null, value);
 	}
 

@@ -23,12 +23,12 @@ public class IntroView extends Panel implements View {
 				+ UserListView.NAME));
 		Link lnk3 = new Link("createUser", new ExternalResource("#!"
 				+ CreateUserView.NAME));
-		Link lnk4 = new Link("Count", new ExternalResource("#!"
-				+ CountView.NAME));
+		// Link lnk4 = new Link("Count", new ExternalResource("#!"
+		// + CountView.NAME));
 		addComponent(lnk);
 		addComponent(lnk2);
 		addComponent(lnk3);
-		addComponent(lnk4);
+		// addComponent(lnk4);
 
 	}
 

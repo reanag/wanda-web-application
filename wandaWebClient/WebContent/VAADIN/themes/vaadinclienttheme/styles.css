@@ -1,5 +1,187 @@
 @import url(../reindeer/styles.css);
 
 .v-app {
-    background: #606060;
+	background: #A8A8A8;
+}
+
+.v-panel {
+	background: #A8A8A8;
+	border-color: #A8A8A8;
+}
+
+.v-panel-content {
+	background: url(img/background_alt.jpg);
+	border-color: #A8A8A8;
+}
+
+.v-textfield {
+	background: #f3fced;
+	border: solid 2px #D5E3F9;
+	border-radius: 4px;
+}
+/* /* .v-textfield { */
+* /
+	/* 	color: rgb(118,129,255); */
+	/* 	font-size:   13px; */
+	/*     font-weight: bolder; */
+	/* } */ 
+
+.v-button {
+	border-radius: 4px;
+}
+
+.v-button:focus {
+	background-position: 0 -216px;
+	background-image: url(img/button-sprites.png);
+	border-radius: 4px;
+}
+
+.v-button:focus .v-button-wrap {
+	background-position: right -243px;
+	background-image: url(img/button-sprites.png);
+	border-radius: 4px;
+}
+
+.v-button:active,.v-button.v-pressed {
+	background-position: 0 -270px;
+	background-image: url(img/button-sprites.png);
+	border-radius: 4px;
+}
+
+.v-button:active .v-button-wrap,.v-button.v-pressed .v-button-wrap {
+	background-position: right -297px;
+	background-image: url(img/button-sprites.png);
+	border-radius: 4px;
+}
+
+.v-button,.v-disabled.v-button {
+	height: 27px;
+	padding: 0 0 0 7px;
+	background: transparent url(img/button-sprites.png) 0 -162px;
+	border-radius: 4px;
+}
+
+.v-button-wrap,.v-disabled.v-button .v-button-wrap {
+	height: 22px;
+	padding: 5px 16px 0 9px;
+	background: transparent url(img/button-sprites.png) right -189px;
+	border-radius: 4px;
+}
+
+.v-button-caption {
+	color: #FFFFFF;
+}
+
+.v-caption {
+	color: #3333FF;
+	font-weight: bolder;
+	font-size: 13px;
+	text-shadow: 0.1em 0.1em 0.2em #333333
+	
+}
+
+.tokenfield .v-button-link {
+	background-color: #00B4F0;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	height: 23px;
+	padding: 4px 7px;
+	margin: 4px;
+}
+
+.tokenfield .v-button-link:focus {
+	background-color: #00B4F0;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	height: 23px;
+	padding: 4px 7px;
+	margin: 4px;
+}
+
+.tokenfield .v-button-emphasize,.tokenfield .v-button-emphasize:focus {
+	background-color: #EC0C6D;
+}
+
+.tokenfield .v-button-link .v-button-caption {
+	color: #fff;
+	text-decoration: none;
+}
+/* input */
+.tokentextfield .v-filterselect {
+	margin-bottom: 4px;
+	background: #ddd none;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+.tokentextfield  .v-filterselect .v-filterselect-input {
+	background: transparent none;
+}
+
+.tokentextfield  .v-filterselect .v-filterselect-button {
+	display: none;
+}
+
+/* CssLayout special treatment */
+.v-csslayout div {
+	float: left;
+}
+
+.mydiv {
+	background: #f1f1f1;
+	margin: 10px 16px 16px 30px;
+	padding: 0px 10px 10px 10px;
+	border-radius: 10px 4px;
+	border: solid 2px;
+}
+
+
+.mydiv .v-label{
+	margin: 2px 10px 2px 10px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	padding: 2px 10px 2px 10px;
+}
+
+
+.mydiv a:link {
+	font-weight: bold;
+	text-decoration: none;
+	color: #D4CDDC;
+	margin: 2px 10px 2px 10px;
+}
+
+.mydiv a:visited {
+	font-weight: bold;
+	text-decoration: none;
+	color: #3399FF;
+	margin: 2px 10px 2px 10px;
+}
+
+.mydiv a:hover,a:active {
+	text-decoration: underline;
+	color: #9685BA;
+	margin: 2px 10px 2px 10px;
+}
+
+.mydiv #container {
+	background: #ffffff;
+	padding: 0 175px 0 110px;
+	margin: 0;
+	position: relative;
+}
+
+.tokenfield .v-csslayout .v-button-link {
+	height: 24px;
+}
+
+.title {
+	color: #f3fced;
+	font-family: Myriad Pro;
+	font-style: oblique;
+	font-size: 25px;
+	font-weight: bolder;
 }
