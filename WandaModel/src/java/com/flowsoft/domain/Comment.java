@@ -3,17 +3,9 @@ package com.flowsoft.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Entity
 public class Comment implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -38,8 +30,6 @@ public class Comment implements Serializable {
 				+ owner.getUsername());
 	}
 
-	@ManyToOne()
-	@JoinColumn(name = "username")
 	public WandaUser getOwner() {
 		return owner;
 	}
@@ -48,8 +38,6 @@ public class Comment implements Serializable {
 		this.owner = owner;
 	}
 
-	@ManyToOne()
-	@JoinColumn(name = "title")
 	public Article getCommentedArticle() {
 		return commentedArticle;
 	}
@@ -82,8 +70,6 @@ public class Comment implements Serializable {
 		this.modifiedTS = modifiedTS;
 	}
 
-	@Id()
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	public Integer getId() {
 		return id;
 	}

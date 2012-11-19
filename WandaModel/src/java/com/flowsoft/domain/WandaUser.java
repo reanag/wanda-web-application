@@ -3,15 +3,9 @@ package com.flowsoft.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Entity
 public class WandaUser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -59,7 +53,21 @@ public class WandaUser implements Serializable {
 		this.modifiedTS = (Date) createdTS.clone();
 	}
 
-	@Id
+	public WandaUser(String username, String password, String firstName,
+			String lastName, String emailAdress, Boolean enabled, String role,
+			Date createdTS, Date modifiedTS) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.emailAdress = emailAdress;
+		this.enabled = enabled;
+		this.role = role;
+		this.createdTS = createdTS;
+		this.modifiedTS = modifiedTS;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -108,8 +116,7 @@ public class WandaUser implements Serializable {
 	// public void setBirthDate(Date birthDate) {
 	// this.birthDate = birthDate;
 	// }
-	//
-	@Temporal(TemporalType.TIMESTAMP)
+
 	public Date getCreatedTS() {
 		return createdTS;
 	}
@@ -118,7 +125,6 @@ public class WandaUser implements Serializable {
 		this.createdTS = createdTS;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getModifiedTS() {
 		return modifiedTS;
 	}
@@ -163,13 +169,5 @@ public class WandaUser implements Serializable {
 				+ ", enabled=" + enabled + ", role=" + role + ", createdTS=";
 		// + ", modifiedTS=" + ", articles=" + articles + "]";
 	}
-
-	// public void addArticle(Article a) {
-	// if (articles == null) {
-	// articles = new Hashtable<String, Article>();
-	// }
-	// articles.put(a.getTitle(), a);
-	//
-	// }
 
 }

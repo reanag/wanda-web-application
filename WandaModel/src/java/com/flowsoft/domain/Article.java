@@ -3,26 +3,20 @@ package com.flowsoft.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Entity
 public class Article implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private WandaUser owner;
 	private Category category;
 	private String title;
+
 	private String content;
 	private Date createdTS;
 	private Date modifiedTS;
+	private Integer id;
 
 	Logger logger = LoggerFactory.getLogger(Article.class);
 
@@ -35,12 +29,10 @@ public class Article implements Serializable {
 		this.content = content;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();
-		logger.debug("Create Article with id: " + this.title + " by: "
-				+ owner.getUsername());
+		logger.debug("Create Article with title: {} by: {}", getTitle(),
+				owner.getUsername());
 	}
 
-	@ManyToOne()
-	@JoinColumn(name = "username")
 	public WandaUser getOwner() {
 		return owner;
 	}
@@ -49,8 +41,6 @@ public class Article implements Serializable {
 		this.owner = owner;
 	}
 
-	@ManyToOne()
-	@JoinColumn(name = "category")
 	public Category getCategory() {
 		return category;
 	}
@@ -60,7 +50,6 @@ public class Article implements Serializable {
 		this.category = category;
 	}
 
-	@Id
 	public String getTitle() {
 		return title;
 	}
@@ -78,7 +67,6 @@ public class Article implements Serializable {
 		this.content = content;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreatedTS() {
 		return createdTS;
 	}
@@ -87,13 +75,20 @@ public class Article implements Serializable {
 		this.createdTS = createdTS;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getModifiedTS() {
 		return modifiedTS;
 	}
 
 	public void setModifiedTS(Date modifiedTS) {
 		this.modifiedTS = modifiedTS;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 }

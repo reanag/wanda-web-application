@@ -3,17 +3,9 @@ package com.flowsoft.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Entity
 public class Tag implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -21,6 +13,7 @@ public class Tag implements Serializable {
 	private Date createdTS;
 	private Date modifiedTS;
 	private Article taggedArticle;
+	private Integer id;
 
 	Logger logger = LoggerFactory.getLogger(Tag.class);
 
@@ -34,7 +27,6 @@ public class Tag implements Serializable {
 		this.modifiedTS = (Date) createdTS.clone();
 	}
 
-	@Id
 	public String getTagName() {
 		return tagName;
 	}
@@ -43,8 +35,6 @@ public class Tag implements Serializable {
 		this.tagName = tagName;
 	}
 
-	@ManyToOne()
-	@JoinColumn(name = "taggedArticle")
 	public Article getTaggedArticle() {
 		return taggedArticle;
 	}
@@ -53,7 +43,6 @@ public class Tag implements Serializable {
 		this.taggedArticle = taggedArticle;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreatedTS() {
 		return createdTS;
 	}
@@ -62,13 +51,20 @@ public class Tag implements Serializable {
 		this.createdTS = createdTS;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getModifiedTS() {
 		return modifiedTS;
 	}
 
 	public void setModifiedTS(Date modifiedTS) {
 		this.modifiedTS = modifiedTS;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 }
