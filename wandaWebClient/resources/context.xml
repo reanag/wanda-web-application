@@ -12,8 +12,12 @@
 		http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd 
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-
+<!-- TODO(GERGO): erre a bazi sok namespace-re tuti nincs szukseged -->
 	<import resource="classpath:cxf-context.xml" />
+	<import resource="classpath:security-context.xml" />
+	
+	
+    <context:component-scan base-package="com.flowsoft.client"/>
 
 
 </beans>

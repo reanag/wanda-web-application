@@ -1,5 +1,10 @@
 package com.flowsoft.client;
 
+import java.io.Serializable;
+import java.util.ResourceBundle;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,24 +14,38 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 
 @Theme("vaadinclienttheme")
-public class WandaVaadinClient extends UI {
+public class WandaVaadinClient extends UI implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	Navigator navigator;
+	private static HttpSession httpSession;
+	static Navigator navigator;
+	static public ResourceBundle captions;
 
-	Logger logger = LoggerFactory.getLogger(WandaVaadinClient.class);
+	protected static UI page;
+	static Logger logger = LoggerFactory.getLogger(WandaVaadinClient.class);
 
 	@Override
 	public void init(VaadinRequest request) {
 
-		Navigator navigator = new Navigator(this, getContent());
+		logger.debug("Init UI request: " + request.getRequestPathInfo());
+		captions = ResourceBundle.getBundle("i18n/Messages", getLocale());
+
+		navigator = new Navigator(this, getContent());
+
 		navigator.addView(LoginView.NAME, new LoginView(navigator));
-		navigator.addView(ArticleView.NAME, ArticleView.class);
-		navigator.addView(MainView.NAME, new MainView(navigator));
-		// navigator.addView(LoginView.NAME, n);
-		// navigator.addView(UserListView.NAME, new UserListView());
-		// navigator.addView(CreateUserView.NAME, new CreateUserView());
+		navigator.addView(AboutSiteView.NAME, new AboutMeView());
+		navigator.addView(AboutMeView.NAME, new AboutSiteView());
 		navigator.navigateTo(LoginView.NAME);
+		navigator.setErrorView(new ErrorView(navigator));
 
 	}
+
+	public static HttpSession getHttpSession() {
+		return httpSession;
+	}
+
+	public static void setHttpSession(HttpSession httpSession) {
+		WandaVaadinClient.httpSession = httpSession;
+	}
+
 }
