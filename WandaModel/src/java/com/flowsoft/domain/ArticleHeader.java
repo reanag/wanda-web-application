@@ -1,9 +1,11 @@
 package com.flowsoft.domain;
 
+import java.io.Serializable;
 import java.util.StringTokenizer;
 
-public class ArticleHeader {
+public class ArticleHeader implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private String title, author, content, originalContent;
 	// listLong = true --> return with title + author + createdTS + 2 sentence
 	// from content
