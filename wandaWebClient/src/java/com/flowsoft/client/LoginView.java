@@ -80,7 +80,9 @@ public class LoginView extends Panel implements View, Serializable {
 		image.setHeight("150px");
 		image.setWidth("156px");
 		tf = new TextField(WandaVaadinClient.captions.getString("username"));
+		tf.setValue("erwin");
 		pf = new PasswordField(WandaVaadinClient.captions.getString("password"));
+		pf.setValue("12345");
 		addListener(new com.vaadin.ui.Component.Listener() {
 			@Override
 			public void componentEvent(Event event) {
@@ -111,7 +113,7 @@ public class LoginView extends Panel implements View, Serializable {
 					@Override
 					public void buttonClick(ClickEvent event) {
 
-						final Authentication auth = new UsernamePasswordAuthenticationToken(
+						Authentication auth = new UsernamePasswordAuthenticationToken(
 								tf.getValue(), pf.getValue());
 
 						try {
@@ -120,6 +122,9 @@ public class LoginView extends Panel implements View, Serializable {
 									+ auth.getName() + "' "
 									+ auth.getCredentials());
 
+							if (WandaVaadinClient.getHttpSession() == null) {
+								logger.debug("HTTP SESSION NULL");
+							}
 							WandaVaadinClient.getHttpSession().setAttribute(
 									"username", auth.getName());
 							// VaadinServiceSession.getCurrent().setAttribute("username",

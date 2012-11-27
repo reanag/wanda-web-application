@@ -195,11 +195,17 @@
 			<version>3.1.0.M2</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.vaadin.addons</groupId>
-			<artifactId>sessionguard</artifactId>
-			<version>0.0.5</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.vaadin.addons</groupId> -->
+<!-- 			<artifactId>sessionguard</artifactId> -->
+<!-- 			<version>0.0.5</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.vaadin.addons</groupId> -->
+<!-- 			<artifactId>csvalidation</artifactId> -->
+<!-- 			<version>0.5.0</version> -->
+<!-- 		</dependency> -->
+
 
 
 	</dependencies>

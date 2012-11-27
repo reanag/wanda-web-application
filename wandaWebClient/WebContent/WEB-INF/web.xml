@@ -51,6 +51,7 @@
 			<param-name>UI</param-name>
 			<param-value>com.flowsoft.client.WandaVaadinClient</param-value>
 		</init-param>
+		
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>WandaWebClient Application</servlet-name>

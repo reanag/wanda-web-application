@@ -29,6 +29,8 @@ public class PersonalView extends GeneralView implements View {
 			cssLayout.addComponent(l);
 			cssLayout.addComponent(l2);
 			cssLayout.addComponent(l3);
+
+			resizeMainLayout();
 		} catch (NullPointerException e) {
 
 		}

@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import userdetailsserviceimpl.wanda.flowsoft.com.UserDetailsServiceImplService;
 
-import com.flowsoft.component.ComboBoxContains;
+import com.flowsoft.sidebarcomponent.Sidebar;
 import com.flowsoft.wanda.UserDetailsService;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -29,8 +29,10 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	static Logger logger = LoggerFactory.getLogger(LoginView.class);
 
 	protected static HorizontalLayout headerLayout;
+	protected static HorizontalLayout mainHorizontalLayout;
 	protected VerticalLayout mainLayout;
 	protected static HorizontalLayout footerLayout;
+	protected static Sidebar sidebar;
 	protected TextField usernameLabel;
 
 	@WebServiceRef
@@ -44,20 +46,57 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	public GeneralView() {
 		init();
 		mainLayout = new VerticalLayout();
+		mainLayout.setWidth("600px");
+		resizeMainLayout();
+		mainHorizontalLayout = new HorizontalLayout();
 		generateHeader();
 		generateBody();
+		generateSideBar();
 		generateFooter();
 		try {
 			fetchSession();
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
-
+		mainHorizontalLayout.addStyleName("horizontalright");
+		mainHorizontalLayout.addComponent(mainLayout);
+		mainHorizontalLayout.setComponentAlignment(mainLayout,
+				Alignment.MIDDLE_RIGHT);
+		mainHorizontalLayout.addComponent(sidebar);
+		mainHorizontalLayout.setComponentAlignment(mainLayout,
+				Alignment.MIDDLE_RIGHT);
 		addComponent(headerLayout);
-		addComponent(mainLayout);
+		addComponent(mainHorizontalLayout);
 		addComponent(footerLayout);
 
 		logger.debug("GeneralView construct done: " + this.getClass());
+
+	}
+
+	private void generateSideBar() {
+		sidebar = new Sidebar();
+		sidebar.setStyleName("myblack");
+		sidebar.setSizeFull();
+		resizeMainLayout();
+	}
+
+	protected void resizeMainLayout() {
+		float height = 0;
+		if (sidebar == null && mainLayout == null) {
+			height = 0;
+		}
+		if (sidebar == null) {
+			height = mainLayout.getWidth();
+		}
+		if (mainLayout == null) {
+			height = sidebar.getWidth();
+		}
+		if (sidebar != null && mainLayout != null) {
+			height = Math.max(sidebar.getWidth(), mainLayout.getWidth());
+			sidebar.setHeight(height, Unit.PIXELS);
+			mainLayout.setHeight(height, Unit.PIXELS);
+			mainHorizontalLayout.setHeight(height, Unit.PIXELS);
+		}
 
 	}
 
@@ -70,8 +109,6 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		// Embedded image = new Embedded("", new ThemeResource("img/logo.gif"));
 		// image.setHeight("70px");
 		// image.setWidth("70px");
-		ComboBoxContains cbc = new ComboBoxContains();
-		cbc.setWidth("80px");
 
 		Label l = new Label(WandaVaadinClient.captions.getString("HeaderTitle"));
 		l.setHeight("80px");
@@ -91,14 +128,12 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		headerLayout.addComponent(usernameLabel);
 		headerLayout.setComponentAlignment(usernameLabel,
 				Alignment.BOTTOM_RIGHT);
-		headerLayout.addComponent(cbc);
-		headerLayout.setComponentAlignment(cbc, Alignment.TOP_LEFT);
+
 	}
 
 	public abstract void generateBody();
 
 	public void fetchSession() {
-		logger.debug("fetch session data");
 		setUsername(""
 				+ WandaVaadinClient.getHttpSession().getAttribute("username"));
 	}
@@ -136,6 +171,9 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	// TODO(Gergo): A bejelentkezett user objektumat szokas tarolni, es abbol
 	// kesziteni szoveget, ahova epp kell
 	public void setUsername(String s) {
+		if (s == null) {
+			s = "";
+		}
 		usernameLabel.setValue(WandaVaadinClient.captions
 				.getString("usernameLabelTitle") + s);
 		logger.debug("New username: " + usernameLabel.getValue());

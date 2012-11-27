@@ -37,7 +37,6 @@ public class WandaVaadinClient extends UI implements Serializable {
 		navigator.addView(AboutMeView.NAME, new AboutSiteView());
 		navigator.navigateTo(LoginView.NAME);
 		navigator.setErrorView(new ErrorView(navigator));
-
 	}
 
 	public static HttpSession getHttpSession() {

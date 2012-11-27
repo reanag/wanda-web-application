@@ -62,7 +62,7 @@ public class ArticleView extends GeneralView implements View, Serializable {
 		cssLayout.addComponent(title);
 		cssLayout.addComponent(auth);
 		cssLayout.addComponent(content);
+		resizeMainLayout();
 
 	}
-
 }

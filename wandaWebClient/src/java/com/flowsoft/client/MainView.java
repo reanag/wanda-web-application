@@ -25,10 +25,10 @@ public class MainView extends GeneralView {
 
 	public MainView(Navigator navigator) {
 		this.navigator = navigator;
-
 	}
 
 	public void enter(ViewChangeEvent event) {
+
 		logger.debug("User: "
 				+ SecurityContextHolder.getContext().getAuthentication()
 						.getName());
@@ -42,19 +42,22 @@ public class MainView extends GeneralView {
 				+ SecurityContextHolder.getContext().getAuthentication()
 						.getPrincipal());
 
-		List<ArticleHeader> w = controller.findAllArticleHeader();
+		if (articles == null || articles.isEmpty()) {
+			List<ArticleHeader> w = controller.findAllArticleHeader();
 
-		for (ArticleHeader h : w) {
-			navigator.addView(
-					ArticleView.NAME + "." + h.getTitle().replace(' ', '.'),
-					new ArticleView(h));
-			articles.add(new ReadMoreForm(h, navigator));
-		}
+			for (ArticleHeader h : w) {
+				navigator.addView(ArticleView.NAME + "."
+						+ h.getTitle().replace(' ', '.'), new ArticleView(h));
+				articles.add(new ReadMoreForm(h, navigator));
+			}
 
-		for (CssLayout p : articles) {
-			mainLayout.addComponent(p);
-			mainLayout.setComponentAlignment(p, Alignment.TOP_CENTER);
+			for (CssLayout p : articles) {
+				mainLayout.addComponent(p);
+				mainLayout.setComponentAlignment(p, Alignment.TOP_CENTER);
+			}
 		}
+		resizeMainLayout();
+
 	}
 
 	@Override
