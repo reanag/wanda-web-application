@@ -1,8 +1,13 @@
 package com.flowsoft.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,9 +15,14 @@ public class Article implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private WandaUser owner;
+	@NotNull
 	private Category category;
-	private String title;
 
+	@NotNull
+	@Size(max = 100, min = 3)
+	private String title;
+	private ArrayList<String> tagList = new ArrayList<String>();
+	@NotEmpty
 	private String content;
 	private Date createdTS;
 	private Date modifiedTS;
@@ -55,6 +65,8 @@ public class Article implements Serializable {
 	}
 
 	public void setTitle(String title) {
+		logger.debug("Edit Article with title: {} by: {} new title: {} "
+				+ title, getTitle(), owner.getUsername());
 		this.title = title;
 	}
 
@@ -89,6 +101,14 @@ public class Article implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public ArrayList<String> getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(ArrayList<String> tagList) {
+		this.tagList = tagList;
 	}
 
 }

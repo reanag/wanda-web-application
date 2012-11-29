@@ -11,7 +11,7 @@ public class ArticleHeader implements Serializable {
 	// from content
 	// listLong = false --> return with title + author
 	private Boolean listLong = true;
-	private final static int headerLength = 200;
+	private final static int headerLength = 100;
 
 	public ArticleHeader() {
 	}
