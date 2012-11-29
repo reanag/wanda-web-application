@@ -7,53 +7,61 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 
 import com.flowsoft.domain.Article;
+import com.flowsoft.domain.ArticleHeader;
+import com.flowsoft.domain.Category;
 import com.flowsoft.domain.Comment;
 import com.flowsoft.domain.WandaUser;
 
 @WebService
-// @SOAPBinding(style = Style.DOCUMENT, use = Use.ENCODED)
 public interface UserDetailsService {
 
-	void initTestDb();
+	void createArticle(@WebParam(name = "owner") WandaUser owner,
+			@WebParam(name = "categoryName") String category,
+			@WebParam(name = "articleTitle") String title,
+			@WebParam(name = "articleContent") String content,
+			@WebParam(name = "taglist") String[] taglist);
 
+	void commitArticle(Article a);
+
+	Category findCategoryByName(@WebParam(name = "categoryName") String name);
+
+	@WebResult(name = "categoryList")
+	List<Category> findAllExistingCategory();
+
+	//
 	@WebResult(name = "exist")
 	Boolean exist(@WebParam(name = "username") String username);
 
-	@WebResult(name = "wandaUserList")
-	List<WandaUser> findAllUser();
-
 	@WebResult(name = "wandaUser")
-	WandaUser findByUsername(@WebParam(name = "username") String username);
+	WandaUser findUserByUsername(@WebParam(name = "username") String username);
 
 	@WebResult(name = "articleList")
-	List<Article> findAllArticle(@WebParam(name = "username") String username);
+	List<Article> findAllArticleByUsername(
+			@WebParam(name = "username") String username);
+
+	@WebResult(name = "articleHeaderList")
+	List<ArticleHeader> findAllArticleHeader();
 
 	@WebResult(name = "article")
-	Article findArticleByTitle(@WebParam(name = "articleTitle") String title);
-
-	@WebResult(name = "articleContent")
-	String getArticleContentByTitle(
+	com.flowsoft.domain.Article findArticleByTitle(
 			@WebParam(name = "articleTitle") String title);
 
 	@WebResult(name = "commentList")
 	List<Comment> findAllCommentFor(
 			@WebParam(name = "articleTitle") String articleTitle);
 
-	@WebResult(name = "creationSuccess")
+	@WebResult(name = "userCreationSuccess")
 	Boolean createUser(@WebParam(name = "username") String username,
 			@WebParam(name = "password") String password,
 			@WebParam(name = "firstName") String firstName,
 			@WebParam(name = "lastName") String lastName);
 
-	void createCategory(@WebParam(name = "wandaUser") WandaUser owner,
+	@WebResult(name = "categoryCreationSuccess")
+	Boolean createCategory(@WebParam(name = "wandaUser") WandaUser owner,
 			@WebParam(name = "categoryName") String name);
 
 	void deleteCategory(@WebParam(name = "categoryName") String name,
 			@WebParam(name = "aktUsername") String aktuser);
-
-	void createArticle(@WebParam(name = "wandaUser") WandaUser owner,
-			@WebParam(name = "articleTitle") String title,
-			@WebParam(name = "articleContent") String content);
 
 	String deleteArticle(@WebParam(name = "articleTitle") String title,
 			@WebParam(name = "aktUser") String aktuser);

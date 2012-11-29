@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.flowsoft.domain.WandaUser;
+import com.flowsoft.entities.WandaUser;
 
 @Service("userDao")
 public class WandaUserDaoImpl implements WandaUserDao {

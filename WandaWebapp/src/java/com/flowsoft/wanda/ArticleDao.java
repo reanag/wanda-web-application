@@ -3,37 +3,42 @@ package com.flowsoft.wanda;
 import java.util.List;
 
 import com.flowsoft.domain.Article;
+import com.flowsoft.domain.ArticleHeader;
 import com.flowsoft.domain.Category;
 import com.flowsoft.domain.Comment;
-import com.flowsoft.domain.Tag;
 import com.flowsoft.domain.WandaUser;
 
 public interface ArticleDao {
+
+	public void createArticle(WandaUser owner, String category, String title,
+			String content, String[] taglist);
+
+	public com.flowsoft.entities.Category findCategoryByName(String name);
+
+	// --
+
+	public List<ArticleHeader> listArticleHeaders();
+
+	public List<ArticleHeader> getArticlesByUsername(String username);
+
+	public List<ArticleHeader> getRecommendedArticles(String username);
+
+	public List<ArticleHeader> getMostPopularArticles();
+
+	public com.flowsoft.domain.Article getArticleByTitle(String title);
 
 	List<Article> findAllArticle(String username);
 
 	List<Comment> findAllCommentFor(String article);
 
-	void persistArticle(Article a);
+	void createCategory(String owner, String name);
 
-	void persistCategory(Category c);
+	void deleteCategory(String name);
 
-	void persistTag(Tag t);
+	String deleteArticle(String title);
 
-	void persistComment(Comment c);
+	public void createArticle(Article a);
 
-	Article findArticleByTitle(String title);
-
-	String getArticleContentByTitle(String title);
-
-	void createCategory(WandaUser owner, String name);
-
-	void deleteCategory(String name, String aktuser);
-
-	void createArticle(WandaUser owner, String title, String content);
-
-	String deleteArticle(String title, String aktUsername);
-
-	void editArticle(String title, String newContent);
+	public List<Category> findAllExistingCategory();
 
 }
