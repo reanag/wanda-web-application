@@ -22,16 +22,25 @@ public class ArticleView extends GeneralView implements View, Serializable {
 	public static final String NAME = "articleView";
 	public Logger logger = LoggerFactory.getLogger(ArticleView.class);
 	private CssLayout cssLayout;
-	private ArticleHeader aParam;
+
+	private Article article;
 
 	public ArticleView(ArticleHeader a) {
-		aParam = a;
-		generateArticle(a);
+		generateArticle();
+		initArticle(a);
 	}
 
-	public void generateArticle(ArticleHeader a) {
-		// setUsername(""
-		// + WandaVaadinClient.getHttpSession().getAttribute("username"));
+	private void initArticle(ArticleHeader a) {
+		article = controller.findArticleByTitle(a.getTitle());
+	}
+
+	public ArticleView(Article a) {
+		article = a;
+		generateArticle();
+	}
+
+	public void generateArticle() {
+
 		Link lnk2 = new Link("Back", new ExternalResource("#!" + MainView.NAME));
 
 		mainLayout.addComponent(cssLayout);
@@ -48,7 +57,6 @@ public class ArticleView extends GeneralView implements View, Serializable {
 	}
 
 	public void enter(ViewChangeEvent event) {
-		Article article = controller.findArticleByTitle(aParam.getTitle());
 
 		Label content = new Label(article.getContent());
 		cssLayout.setStyleName("mydiv");
@@ -65,4 +73,5 @@ public class ArticleView extends GeneralView implements View, Serializable {
 		resizeMainLayout();
 
 	}
+
 }

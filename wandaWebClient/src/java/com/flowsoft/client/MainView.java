@@ -5,12 +5,10 @@ import java.util.Vector;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.flowsoft.component.ReadMoreForm;
 import com.flowsoft.domain.ArticleHeader;
 import com.flowsoft.wanda.UserDetailsService;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CssLayout;
@@ -20,27 +18,12 @@ public class MainView extends GeneralView {
 
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "main";
-	private Navigator navigator;
-	Vector<CssLayout> articles;
+	private Vector<CssLayout> articles;
 
-	public MainView(Navigator navigator) {
-		this.navigator = navigator;
+	public MainView() {
 	}
 
 	public void enter(ViewChangeEvent event) {
-
-		logger.debug("User: "
-				+ SecurityContextHolder.getContext().getAuthentication()
-						.getName());
-		logger.debug("isAuth: "
-				+ SecurityContextHolder.getContext().getAuthentication()
-						.isAuthenticated());
-		logger.debug("Auth: "
-				+ SecurityContextHolder.getContext().getAuthentication()
-						.getAuthorities());
-		logger.debug("Princ: "
-				+ SecurityContextHolder.getContext().getAuthentication()
-						.getPrincipal());
 
 		if (articles == null || articles.isEmpty()) {
 			List<ArticleHeader> w = controller.findAllArticleHeader();
@@ -56,6 +39,7 @@ public class MainView extends GeneralView {
 				mainLayout.setComponentAlignment(p, Alignment.TOP_CENTER);
 			}
 		}
+		mainLayout.setHeight(articles.size() * 80, Unit.PIXELS);
 		resizeMainLayout();
 
 	}

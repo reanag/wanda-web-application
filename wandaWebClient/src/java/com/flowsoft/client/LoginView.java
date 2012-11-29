@@ -98,7 +98,7 @@ public class LoginView extends Panel implements View, Serializable {
 					SecurityContextHolder.getContext().setAuthentication(
 							((LoginView.LoginEvent) event).getAuthentication());
 
-					MainView m = new MainView(navigator);
+					MainView m = new MainView();
 					navigator.navigateTo(m.NAME);
 				}
 			}
@@ -124,13 +124,13 @@ public class LoginView extends Panel implements View, Serializable {
 
 							if (WandaVaadinClient.getHttpSession() == null) {
 								logger.debug("HTTP SESSION NULL");
+
 							}
 							WandaVaadinClient.getHttpSession().setAttribute(
 									"username", auth.getName());
 							// VaadinServiceSession.getCurrent().setAttribute("username",
 							// auth.getName());
-							navigator.addView(MainView.NAME, new MainView(
-									navigator));
+							navigator.addView(MainView.NAME, new MainView());
 							logger.debug("Set session variable username: "
 									+ auth.getName());
 

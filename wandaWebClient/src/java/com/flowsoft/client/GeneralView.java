@@ -9,8 +9,10 @@ import org.slf4j.LoggerFactory;
 
 import userdetailsserviceimpl.wanda.flowsoft.com.UserDetailsServiceImplService;
 
+import com.flowsoft.domain.WandaUser;
 import com.flowsoft.sidebarcomponent.Sidebar;
 import com.flowsoft.wanda.UserDetailsService;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;
@@ -26,7 +28,7 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "Footer&Header";
-	static Logger logger = LoggerFactory.getLogger(LoginView.class);
+	static Logger logger = LoggerFactory.getLogger(MainView.class);
 
 	protected static HorizontalLayout headerLayout;
 	protected static HorizontalLayout mainHorizontalLayout;
@@ -34,7 +36,8 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	protected static HorizontalLayout footerLayout;
 	protected static Sidebar sidebar;
 	protected TextField usernameLabel;
-
+	static protected Navigator navigator;
+	public static WandaUser aktUser;
 	@WebServiceRef
 	static protected UserDetailsService controller;
 
@@ -74,7 +77,7 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	}
 
 	private void generateSideBar() {
-		sidebar = new Sidebar();
+		sidebar = new Sidebar(navigator);
 		sidebar.setStyleName("myblack");
 		sidebar.setSizeFull();
 		resizeMainLayout();
@@ -118,6 +121,11 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		usernameLabel.setEnabled(false);
 		usernameLabel.setStyleName("mydiv");
 		usernameLabel.setImmediate(true);
+		try {
+			usernameLabel.setValue(aktUser.getUsername());
+		} catch (NullPointerException e) {
+			logger.error("USER is Null");
+		}
 
 		//
 		// headerLayout.addComponent(image);
@@ -134,8 +142,13 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	public abstract void generateBody();
 
 	public void fetchSession() {
-		setUsername(""
-				+ WandaVaadinClient.getHttpSession().getAttribute("username"));
+		try {
+			setAktUser(controller.findUserByUsername(WandaVaadinClient
+					.getHttpSession().getAttribute("username").toString()));
+
+		} catch (NullPointerException e) {
+		}
+
 	}
 
 	public void generateFooter() {
@@ -168,14 +181,14 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 
 	}
 
-	// TODO(Gergo): A bejelentkezett user objektumat szokas tarolni, es abbol
-	// kesziteni szoveget, ahova epp kell
-	public void setUsername(String s) {
-		if (s == null) {
-			s = "";
-		}
-		usernameLabel.setValue(WandaVaadinClient.captions
-				.getString("usernameLabelTitle") + s);
+	public void setAktUser(WandaUser u) {
+		aktUser = u;
+		usernameLabel.setValue(aktUser.getUsername());
 		logger.debug("New username: " + usernameLabel.getValue());
+	}
+
+	public static void setNavigator(Navigator n) {
+		navigator = n;
+
 	}
 }

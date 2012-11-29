@@ -31,8 +31,9 @@ public class WandaVaadinClient extends UI implements Serializable {
 		captions = ResourceBundle.getBundle("i18n/Messages", getLocale());
 
 		navigator = new Navigator(this, getContent());
-
+		GeneralView.setNavigator(navigator);
 		navigator.addView(LoginView.NAME, new LoginView(navigator));
+		navigator.addView(CreateArticleView.NAME, new CreateArticleView());
 		navigator.addView(AboutSiteView.NAME, new AboutMeView());
 		navigator.addView(AboutMeView.NAME, new AboutSiteView());
 		navigator.navigateTo(LoginView.NAME);
