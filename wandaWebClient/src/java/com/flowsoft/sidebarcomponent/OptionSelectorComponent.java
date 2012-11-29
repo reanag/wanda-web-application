@@ -3,6 +3,7 @@ package com.flowsoft.sidebarcomponent;
 import java.util.Hashtable;
 
 import com.flowsoft.client.CreateArticleView;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.GridLayout;
 
@@ -14,7 +15,7 @@ public class OptionSelectorComponent extends GridLayout {
 	private CssLinkListComponent ownCategoryGroup;
 	private CssLinkComponent settingsLink;
 
-	public OptionSelectorComponent() {
+	public OptionSelectorComponent(Navigator navigator) {
 		// TODO: A: CreateArticleView design
 		createArticleLink = new CssLinkComponent("Write new article..",
 				new ExternalResource("#!" + CreateArticleView.NAME));
@@ -33,9 +34,13 @@ public class OptionSelectorComponent extends GridLayout {
 		ownCategoryGroup = new CssLinkListComponent("Own categories:",
 				(Hashtable<String, ExternalResource>) list.clone());
 
+		settingsLink = new CssLinkComponent("SETTINGS..", new ExternalResource(
+				"#!" + CreateArticleView.NAME));
+
 		addComponent(createArticleLink);
 		addComponent(ownCategoryGroup);
 		addComponent(favoriteCategoryGroup);
+		addComponent(settingsLink);
 	}
 
 	@Override

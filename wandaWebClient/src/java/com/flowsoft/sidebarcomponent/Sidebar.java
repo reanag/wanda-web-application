@@ -1,5 +1,6 @@
 package com.flowsoft.sidebarcomponent;
 
+import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Panel;
@@ -11,8 +12,8 @@ public class Sidebar extends Panel implements View {
 	private ArticleRecommenderComponent articleRecommender;
 	private TagCloudComponent tagCloud;
 
-	public Sidebar() {
-		optionSelector = new OptionSelectorComponent();
+	public Sidebar(Navigator navigator) {
+		optionSelector = new OptionSelectorComponent(navigator);
 		optionSelector.setStyleName("optionSelStyle");
 		optionSelector.setSizeFull();
 		articleRecommender = new ArticleRecommenderComponent();
