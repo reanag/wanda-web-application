@@ -6,11 +6,12 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class WandaUser implements Serializable {
+public class WandaUser extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
+	// private Integer id;
 
 	private String firstName;
 	private String lastName;
@@ -22,8 +23,8 @@ public class WandaUser implements Serializable {
 	private Boolean enabled;
 	private String role;
 
-	private Date createdTS;
-	private Date modifiedTS;
+	// private Date createdTS;
+	// private Date modifiedTS;
 
 	Logger logger = LoggerFactory.getLogger(WandaUser.class);
 
@@ -31,7 +32,7 @@ public class WandaUser implements Serializable {
 	}
 
 	public WandaUser(String username, String password, String firstname,
-			String lastname) {
+			String lastname, Integer id) {
 		logger.debug("Create WandaUser with id: " + username);
 		this.username = username;
 		this.password = password;
@@ -39,6 +40,7 @@ public class WandaUser implements Serializable {
 		this.lastName = lastname;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();
+		this.id = id;
 	}
 
 	public WandaUser(String username, String password, Boolean isEnabled,
@@ -117,21 +119,21 @@ public class WandaUser implements Serializable {
 	// this.birthDate = birthDate;
 	// }
 
-	public Date getCreatedTS() {
-		return createdTS;
-	}
-
-	public void setCreatedTS(Date createdTS) {
-		this.createdTS = createdTS;
-	}
-
-	public Date getModifiedTS() {
-		return modifiedTS;
-	}
-
-	public void setModifiedTS(Date modifiedTS) {
-		this.modifiedTS = modifiedTS;
-	}
+	// public Date getCreatedTS() {
+	// return createdTS;
+	// }
+	//
+	// public void setCreatedTS(Date createdTS) {
+	// this.createdTS = createdTS;
+	// }
+	//
+	// public Date getModifiedTS() {
+	// return modifiedTS;
+	// }
+	//
+	// public void setModifiedTS(Date modifiedTS) {
+	// this.modifiedTS = modifiedTS;
+	// }
 
 	// public Hashtable<String, Article> getArticles() {
 	// return articles;
@@ -169,5 +171,13 @@ public class WandaUser implements Serializable {
 				+ ", enabled=" + enabled + ", role=" + role + ", createdTS=";
 		// + ", modifiedTS=" + ", articles=" + articles + "]";
 	}
+
+	// public Integer getId() {
+	// return id;
+	// }
+	//
+	// public void setId(Integer id) {
+	// this.id = id;
+	// }
 
 }

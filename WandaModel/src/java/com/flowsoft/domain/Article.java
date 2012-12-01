@@ -1,8 +1,9 @@
 package com.flowsoft.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -21,7 +22,7 @@ public class Article implements Serializable {
 	@NotNull
 	@Size(max = 100, min = 3)
 	private String title;
-	private ArrayList<String> tagList = new ArrayList<String>();
+	private Set<String> tagList = new HashSet<String>();
 	@NotEmpty
 	private String content;
 	private Date createdTS;
@@ -103,11 +104,11 @@ public class Article implements Serializable {
 		this.id = id;
 	}
 
-	public ArrayList<String> getTagList() {
+	public Set<String> getTagList() {
 		return tagList;
 	}
 
-	public void setTagList(ArrayList<String> tagList) {
+	public void setTagList(Set<String> tagList) {
 		this.tagList = tagList;
 	}
 

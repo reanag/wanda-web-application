@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Category implements Serializable {
+public class Category extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@NotNull
@@ -19,9 +19,9 @@ public class Category implements Serializable {
 	@NotEmpty
 	private String description;
 	private WandaUser owner;
-	private Date createdTS;
-	private Date modifiedTS;
-	private Integer id;
+	// private Date createdTS;
+	// private Date modifiedTS;
+	// private Integer id;
 	Logger logger = LoggerFactory.getLogger(Category.class);
 
 	public Category() {
@@ -62,29 +62,29 @@ public class Category implements Serializable {
 		this.owner = owner;
 	}
 
-	public Date getCreatedTS() {
-		return createdTS;
-	}
+	// public Date getCreatedTS() {
+	// return createdTS;
+	// }
+	//
+	// public void setCreatedTS(Date createdTS) {
+	// this.createdTS = createdTS;
+	// }
 
-	public void setCreatedTS(Date createdTS) {
-		this.createdTS = createdTS;
-	}
+	// public Date getModifiedTS() {
+	// return modifiedTS;
+	// }
+	//
+	// public void setModifiedTS(Date modifiedTS) {
+	// this.modifiedTS = modifiedTS;
+	// }
 
-	public Date getModifiedTS() {
-		return modifiedTS;
-	}
-
-	public void setModifiedTS(Date modifiedTS) {
-		this.modifiedTS = modifiedTS;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	// public Integer getId() {
+	// return id;
+	// }
+	//
+	// public void setId(Integer id) {
+	// this.id = id;
+	// }
 
 	public String getDescription() {
 		return description;
