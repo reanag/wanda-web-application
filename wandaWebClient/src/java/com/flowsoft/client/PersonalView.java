@@ -1,5 +1,6 @@
 package com.flowsoft.client;
 
+import com.flowsoft.aviews.GeneralView;
 import com.flowsoft.domain.WandaUser;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -21,6 +22,8 @@ public class PersonalView extends GeneralView implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		super.enter(event);
+
 		try {
 			WandaUser u = controller.findUserByUsername(author);
 			Label l = new Label(u.getFirstName() + " " + u.getLastName());

@@ -2,7 +2,9 @@ package com.flowsoft.client;
 
 import java.io.Serializable;
 
+import com.flowsoft.aviews.GeneralView;
 import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 
@@ -21,6 +23,10 @@ public class AboutMeView extends GeneralView implements View, Serializable {
 		Label l = new Label("About me.. \n Under Construction");
 		cssLayout.addComponent(l);
 		mainLayout.addComponent(cssLayout);
+	}
 
+	@Override
+	public void enter(ViewChangeEvent event) {
+		super.enter(event);
 	}
 }

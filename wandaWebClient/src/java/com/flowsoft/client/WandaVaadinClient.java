@@ -8,14 +8,19 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.flowsoft.aviews.CreateArticleView;
+import com.flowsoft.aviews.GeneralView;
+import com.flowsoft.aviews.LoginView;
+import com.flowsoft.aviews.SearchView;
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 
 @Theme("vaadinclienttheme")
+@PreserveOnRefresh
 public class WandaVaadinClient extends UI implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 	private static HttpSession httpSession;
 	static Navigator navigator;
@@ -36,6 +41,7 @@ public class WandaVaadinClient extends UI implements Serializable {
 		navigator.addView(CreateArticleView.NAME, new CreateArticleView());
 		navigator.addView(AboutSiteView.NAME, new AboutMeView());
 		navigator.addView(AboutMeView.NAME, new AboutSiteView());
+		navigator.addView(SearchView.NAME, new SearchView());
 		navigator.navigateTo(LoginView.NAME);
 		navigator.setErrorView(new ErrorView(navigator));
 	}
@@ -46,6 +52,11 @@ public class WandaVaadinClient extends UI implements Serializable {
 
 	public static void setHttpSession(HttpSession httpSession) {
 		WandaVaadinClient.httpSession = httpSession;
+	}
+
+	public static void fetchSession() {
+		GeneralView.fetchSession();
+
 	}
 
 }

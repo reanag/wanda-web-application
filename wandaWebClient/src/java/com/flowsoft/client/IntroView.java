@@ -3,6 +3,7 @@ package com.flowsoft.client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.flowsoft.aviews.LoginView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;

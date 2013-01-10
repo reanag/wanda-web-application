@@ -9,17 +9,33 @@
 	border: 5px;
 }
 
-
 .v-panel-content {
 	background: url(img/background_alt.jpg);
 	border-color: #A8A8A8;
 }
-.v-slot.v-slot-white .v-label{
+
+.v-slot.v-slot-white .v-label {
 	padding: 10px 5px 10px 5px;
 	font-weight: bolder;
 	font-size: 14px;
 	color: #3C14DC;
 }
+
+
+.v-slot.v-slot-comment {
+	padding-top: 10px;
+	margin-top:5px;
+	border: 2px;
+}
+
+.v-tabsheet-content .v-link a span {
+	margin-left: 3px;
+	padding-top: 7px;
+	padding-bottom: 5px;
+	text-decoration: none;
+	font-weight: bolder;
+}
+
 .mydiv .v-label {
 	margin: 2px 10px 2px 10px;
 	-moz-border-radius: 2px;
@@ -71,7 +87,8 @@
 .v-slot.v-slot-myblack {
 	background: #202020;
 	border-radius: 4px;
-	border-color: #303030; padding : 0px 0px;
+	border-color: #303030;
+	padding: 0px 0px;
 	margin: 0px 10px;
 	padding: 0px 0px;
 	/* 	float:right; */
@@ -81,6 +98,7 @@
 	margin-bottom: 7px;
 	margin-top: 7px;
 }
+
 .v-slot.v-slot-recommenderStyle {
 	margin-bottom: 7px;
 	margin-top: 7px;
@@ -101,14 +119,16 @@
 	margin-top: 7px;
 	text-decoration: none;
 	font-size: 12px;
-	color:#303030;
+	color: #303030;
 }
+
 .v-slot.v-slot-horizontalright {
 	float: right;
 	padding-right: 20px;
 }
-.v-slot.v-align-right.v-align-middle{
-	padding-right: 150px; 
+
+.v-slot.v-align-right.v-align-middle {
+	padding-right: 150px;
 }
 
 .v-label-optionSelStyle {
@@ -119,6 +139,7 @@
 	color: #9999FF;
 	text-shadow: 0.01em 0.01em 0.2em #393939;
 }
+
 .v-link-optionSelStyle a span {
 	color: #393939;
 	margin-bottom: 7px;
@@ -126,6 +147,7 @@
 	margin-left: 25px;
 	text-decoration: none;
 }
+
 .v-link-20-style a span {
 	margin-bottom: 7px;
 	margin-top: 7px;
@@ -135,6 +157,7 @@
 	text-decoration: none;
 	font-size: 18px;
 }
+
 .v-link-16-style a span {
 	margin-bottom: 7px;
 	margin-top: 7px;
@@ -144,7 +167,8 @@
 	text-decoration: none;
 	font-size: 15px;
 }
-.v-link-12-style a span{
+
+.v-link-14-style a span {
 	margin-bottom: 7px;
 	margin-top: 7px;
 	margin-left: 15px;
@@ -153,7 +177,8 @@
 	text-decoration: none;
 	font-size: 12px;
 }
-.v-link.v-widget.12-style.v-link-12-style {
+
+.v-link.v-widget.14-style.v-link-14-style {
 	margin-bottom: 7px;
 	margin-top: 7px;
 	margin-left: 5px;
@@ -161,15 +186,16 @@
 	text-decoration: none;
 	font-size: 10px;
 }
+
 .v-csslayout.v-layout.v-widget.mywhite.v-csslayout-mywhite {
 	border-radius: 4px;
 	padding: 10px 0px 80px 0px;
 	margin: 5px 5px 5px 5px;
-	background:  #484848 ;
+	background: #484848;
 }
 
 .v-slot.v-slot-white {
-	background:  #484848 ;
+	background: #484848;
 }
 /* .v-slot.v-slot-white .v-link.v-widget{ */
 /* 	padding: 10px 10px 10px 10px; */
@@ -187,24 +213,24 @@
 /* } */
 
 /* .v-label.v-widget.mywhite.v-label-mywhite { */
-/* 	padding: 2px 10px 2px 10px; */ 
+/* 	padding: 2px 10px 2px 10px; */
 /* 	font-weight: bolder; */
 /* 	font-size: 14px; */
 /* 	color: #3CDC11; */
 /* } */
 
 /* .v-csslayout.v-layout.v-widget.tag-style.v-csslayout-tag-style { */
-/* /* 	padding-top: 60px; */ */
-/* 	margin: 2px 2px 2px 2px; */
-/* /* 	padding: 5px 50px 5px 5px; */ */
-/* 	border: 6px; */
-/* } */
-/* .v-csslayout.v-layout.v-widget.tag-style.v-csslayout-tag-style .v-link.v-widget { */
-	
-/* 	padding: 5px 5px 5px 5px; */
-/* 	margin: 5px 5px 5px 5px; */
-/* 	font-weight: bold; */
-/* } */
+/* /* 	padding-top: 60px; */
+* /
+	/* 	margin: 2px 2px 2px 2px; */
+	/* /* 	padding: 5px 50px 5px 5px; */  * /
+	/* 	border: 6px; */
+	/* } */
+	/* .v-csslayout.v-layout.v-widget.tag-style.v-csslayout-tag-style .v-link.v-widget { */
+	/* 	padding: 5px 5px 5px 5px; */
+	/* 	margin: 5px 5px 5px 5px; */
+	/* 	font-weight: bold; */
+	/* } */ 
 .v-slot.v-align-right.v-align-middle {
 	padding: 5px 120px;
 	margin: 5px 5px 5px 30px;
@@ -220,7 +246,9 @@
 	/* 	color: rgb(118,129,255); */
 	/* 	font-size:   13px; */
 	/*     font-weight: bolder; */
-	/* } */     
+	/* } */      
+
+
 
 .v-button {
 	border-radius: 4px;
@@ -298,7 +326,8 @@
 	border-radius: 2px;
 	height: 23px;
 	padding: 4px 7px;
-	margin: 4px;
+	margin-top: 4px;
+	margin-bottom: 4px;
 }
 
 .tokenfield .v-button-emphasize,.tokenfield .v-button-emphasize:focus {
@@ -312,8 +341,20 @@
 /* input */
 .tokentextfield .v-filterselect {
 	margin-bottom: 4px;
-	background: #ddd none;
+	margin-top: 4px;
+	float: left;
+	background: #dddddd none;
 	border-radius: 2px;
+}
+/* .tokenfield .v-slot.v-slot-link { */
+.tokentextfield .v-csslayout.v-layout.v-widget {
+	float: left;
+	background: #dddddd none;
+	border-radius: 5px;
+	margin-bottom: 4px;
+	margin-top: 4px;
+	border: medium;
+	border-color: #000000;
 }
 
 .tokentextfield  .v-filterselect .v-filterselect-input {
@@ -336,4 +377,3 @@
 	border-radius: 10px 4px;
 	border: solid 2px;
 }
-
