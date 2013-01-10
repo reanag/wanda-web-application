@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.flowsoft.entities.WandaUser;
+import com.flowsoft.domain.WandaUser;
 
 @Service("userDao")
 public class WandaUserDaoImpl implements WandaUserDao {
@@ -36,7 +36,9 @@ public class WandaUserDaoImpl implements WandaUserDao {
 			Query query = em.createQuery(
 					"SELECT e FROM WandaUser e where username = :username")
 					.setParameter("username", username);
-			return (WandaUser) query.getSingleResult();
+			return WandaUtil
+					.convertWandaUserToDomain((com.flowsoft.entity.WandaUser) query
+							.getSingleResult());
 
 		} else {
 			return null;
@@ -47,16 +49,17 @@ public class WandaUserDaoImpl implements WandaUserDao {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public WandaUser createUser(String username, String password,
 			String firstname, String lastname) {
-		WandaUser w = new WandaUser(username, password, firstname, lastname);
+		com.flowsoft.entity.WandaUser w = new com.flowsoft.entity.WandaUser(
+				username, password, firstname, lastname);
 		em.persist(w);
 		em.flush();
-		return w;
+		return WandaUtil.convertWandaUserToDomain(w);
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public WandaUser createUser(WandaUser w) {
-		em.persist(w);
+		em.persist(WandaUtil.convertWandaUserToEntity(w));
 		em.flush();
 		return w;
 	}
@@ -64,16 +67,16 @@ public class WandaUserDaoImpl implements WandaUserDao {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<WandaUser> findAllUser() {
-		return em.createQuery("Select e From WandaUser e").getResultList();
+		return WandaUtil.convertWandaUserListToDomain(em.createQuery(
+				"Select e From WandaUser e").getResultList());
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Boolean exist(String username) {
-		if (findUserByName(username).getFirstName() != null) {
+		if (findUserByName(username) != null) {
 			return true;
 		}
 		return false;
 	}
-
 }
