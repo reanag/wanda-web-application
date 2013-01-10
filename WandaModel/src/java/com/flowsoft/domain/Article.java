@@ -22,7 +22,7 @@ public class Article implements Serializable {
 	@NotNull
 	@Size(max = 100, min = 3)
 	private String title;
-	private Set<String> tagList = new HashSet<String>();
+	private Set<Tag> tagList = new HashSet<Tag>();
 	@NotEmpty
 	private String content;
 	private Date createdTS;
@@ -104,11 +104,11 @@ public class Article implements Serializable {
 		this.id = id;
 	}
 
-	public Set<String> getTagList() {
+	public Set<Tag> getTagList() {
 		return tagList;
 	}
 
-	public void setTagList(Set<String> tagList) {
+	public void setTagList(Set<Tag> tagList) {
 		this.tagList = tagList;
 	}
 
