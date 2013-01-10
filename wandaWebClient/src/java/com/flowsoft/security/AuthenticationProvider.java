@@ -36,6 +36,8 @@ public class AuthenticationProvider implements
 		controller = ss.getUserDetailsServicePort();
 		WandaUser u = controller.findUserByUsername(authentication.getName());
 
+		logger.debug(u.getUsername() + " " + u.getPassword());
+
 		if (authentication.getCredentials().equals(u.getPassword())) {
 			final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			authorities.add(new GrantedAuthorityImpl("ROLE_USER"));
