@@ -86,4 +86,7 @@ public interface UserDetailsService {
 	public List<ArticleHeader> findAllArticleHeader();
 
 	public void commitComment(@WebParam(name = "comment") Comment c);
+
+	public void removeComment(@WebParam(name = "commentID") Integer id);
+
 }

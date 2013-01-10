@@ -233,4 +233,15 @@ public class ArticleDaoImpl implements ArticleDao {
 		}
 		return headerList;
 	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void deleteComment(Integer id) {
+		com.flowsoft.entity.Comment c = em.find(
+				com.flowsoft.entity.Comment.class, id);
+		logger.debug("Remove: " + c.getId());
+		em.remove(c);
+		em.flush();
+
+	}
 }

@@ -49,4 +49,6 @@ public interface ArticleDao {
 
 	List<ArticleHeader> findAllArticle();
 
+	void deleteComment(Integer id);
+
 }

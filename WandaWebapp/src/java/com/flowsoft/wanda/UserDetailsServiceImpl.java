@@ -158,4 +158,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		articleDao.persistComment(c);
 
 	}
+
+	@Override
+	public void removeComment(Integer id) {
+		articleDao.deleteComment(id);
+
+	}
 }
