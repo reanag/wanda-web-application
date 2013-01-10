@@ -1,7 +1,6 @@
 package com.flowsoft.aviews;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import javax.xml.ws.WebServiceRef;
 
@@ -13,7 +12,6 @@ import userdetailsserviceimpl.wanda.flowsoft.com.UserDetailsServiceImplService;
 import com.flowsoft.client.AboutMeView;
 import com.flowsoft.client.AboutSiteView;
 import com.flowsoft.client.WandaVaadinClient;
-import com.flowsoft.domain.Article;
 import com.flowsoft.domain.WandaUser;
 import com.flowsoft.sidebarcomponent.Sidebar;
 import com.flowsoft.wanda.UserDetailsService;
@@ -127,10 +125,11 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 
 	public static void fetchSidebarData() {
 		sidebar.initTagList(controller.getAllTag());
-		// TODO: sidebar.initArticleBlokk(controller.getMostRecentArticle(3));
-		ArrayList<Article> li = new ArrayList<Article>();
-		li.add(new Article(aktUser, "TEst artci", "content"));
-		sidebar.initArticleBlokk(li);
+		// TODO: ws-s
+		sidebar.initArticleBlokk(controller.getRecentArticle(3),
+				controller.getMostPopularArticle(3),
+				controller.getMostRecommendedArticle(3));
+
 		if (aktUser != null) {
 
 			sidebar.initUserCategories(controller.getUserCategories(aktUser

@@ -50,8 +50,11 @@ public class Sidebar extends Panel implements View {
 
 	}
 
-	public void initArticleBlokk(List<Article> mostRecentArticles) {
-		articleRecommender.setMostRencentArticles(mostRecentArticles);
+	public void initArticleBlokk(List<Article> mostRecentArticles,
+			List<Article> mostPopularArticles,
+			List<Article> mostRecommendedArticles) {
+		articleRecommender.setMostRencentArticles(mostRecentArticles,
+				mostPopularArticles, mostRecommendedArticles);
 	}
 
 }

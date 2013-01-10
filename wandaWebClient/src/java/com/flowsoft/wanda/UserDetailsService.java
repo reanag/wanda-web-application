@@ -160,4 +160,25 @@ public interface UserDetailsService {
 	@ResponseWrapper(localName = "removeCommentResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.RemoveCommentResponse")
 	public void removeComment(
 			@WebParam(name = "commentID", targetNamespace = "") java.lang.Integer commentID);
+
+	@WebResult(name = "recentArticles", targetNamespace = "")
+	@RequestWrapper(localName = "getRecentArticle", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.GetRecentArticle")
+	@WebMethod
+	@ResponseWrapper(localName = "getRecentArticleResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.GetRecentArticleResponse")
+	public java.util.List<com.flowsoft.domain.Article> getRecentArticle(
+			@WebParam(name = "articleNumber", targetNamespace = "") java.lang.Integer articleNumber);
+
+	@WebResult(name = "popularArticles", targetNamespace = "")
+	@RequestWrapper(localName = "getMostPopularArticle", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.GetMostPopularArticle")
+	@WebMethod
+	@ResponseWrapper(localName = "getMostPopularArticleResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.GetMostPopularArticleResponse")
+	public java.util.List<com.flowsoft.domain.Article> getMostPopularArticle(
+			@WebParam(name = "articleNumber", targetNamespace = "") java.lang.Integer articleNumber);
+
+	@WebResult(name = "recommendedArticles", targetNamespace = "")
+	@RequestWrapper(localName = "getMostRecommendedArticle", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.GetMostRecommendedArticle")
+	@WebMethod
+	@ResponseWrapper(localName = "getMostRecommendedArticleResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.GetMostRecommendedArticleResponse")
+	public java.util.List<com.flowsoft.domain.Article> getMostRecommendedArticle(
+			@WebParam(name = "articleNumber", targetNamespace = "") java.lang.Integer articleNumber);
 }
