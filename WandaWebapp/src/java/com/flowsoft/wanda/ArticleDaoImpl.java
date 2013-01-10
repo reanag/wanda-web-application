@@ -15,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.flowsoft.domain.Article;
 import com.flowsoft.domain.ArticleHeader;
+import com.flowsoft.domain.Category;
 import com.flowsoft.domain.Comment;
+import com.flowsoft.domain.Tag;
 import com.flowsoft.domain.WandaUser;
 
 @Service("articleDao")
@@ -24,163 +26,209 @@ public class ArticleDaoImpl implements ArticleDao {
 
 	Logger logger = LoggerFactory.getLogger(ArticleDaoImpl.class);
 
-	private com.flowsoft.entities.WandaUser user;
-
 	@PersistenceContext
 	public void setEntityManager(EntityManager em) {
 		this.em = em;
 	}
 
-	public EntityManager getEntityManager() {
-		return this.em;
+	@Override
+	public List<Article> findAllArticle(String username) {
+		Query query = em.createQuery(
+				"SELECT e FROM Article e where username = :username")
+				.setParameter("username", username);
+		return WandaUtil.convertArticleListToDomain(query.getResultList());
+	}
+
+	@Override
+	public List<Comment> findAllCommentFor(Integer articleID) {
+		com.flowsoft.entity.Article actArticle = em.find(
+				com.flowsoft.entity.Article.class, articleID);
+		Query query = em.createQuery(
+				"SELECT e FROM Comment e where commentedArticle = :article")
+				.setParameter("article", actArticle);
+		return WandaUtil.convertCommentListToDomain(query.getResultList());
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void createArticle(WandaUser owner, String c, String title,
-			String content, String[] taglist) {
+	public void persistArticle(Article a) {
+		logger.debug("category value in serverside: " + a);
+		// if (em.find(com.flowsoft.entity.Category.class,
+		// a.getCategory().getId()) != null) {
+		//
+		// em.persist(WandaUtil.convertCategoryToEntity(a.getCategory()));
+		// em.flush();
+		// }
+		em.persist(WandaUtil.convertArticleToEntity(a));
+		em.flush();
+	}
 
-		ArrayList<String> tags = new ArrayList<String>();
-		for (String s : taglist) {
-			tags.add(s);
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void persistCategory(Category c) {
+		em.persist(WandaUtil.convertCategoryToEntity(c));
+		em.flush();
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void persistTag(Tag c) {
+		em.persist(WandaUtil.convertTagToEntity(c));
+		em.flush();
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void persistComment(Comment c) {
+		em.persist(WandaUtil.convertCommentToEntity(c));
+		em.flush();
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Article findArticleByTitle(String title) {
+		Query query = em.createQuery(
+				"SELECT e FROM Article e where title = :title").setParameter(
+				"title", title);
+		return WandaUtil
+				.convertArticleToDomain((com.flowsoft.entity.Article) query
+						.getSingleResult());
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String getArticleContentByTitle(String title) {
+		Query query = em.createQuery(
+				"SELECT e FROM Article e where title = :title").setParameter(
+				"title", title);
+		return ((Article) query.getSingleResult()).getContent();
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void createCategory(WandaUser owner, String name) {
+		com.flowsoft.entity.Category c = new com.flowsoft.entity.Category(
+				WandaUtil.convertWandaUserToEntity(owner), name);
+		em.persist(c);
+		em.flush();
+
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void deleteCategory(String name, String aktuser) {
+		com.flowsoft.entity.Category c = (com.flowsoft.entity.Category) em
+				.createQuery(
+						"SELECT c FROM Category c where categoryName = :name")
+				.setParameter("name", name).getSingleResult();
+		List<com.flowsoft.entity.Article> arc = em
+				.createQuery(
+						"SELECT a FROM Article a where category = :category")
+				.setParameter("category", c).getResultList();
+
+		for (com.flowsoft.entity.Article a : arc) {
+			a.setCategory(null);
+			em.merge(a);
 		}
-
-		com.flowsoft.entities.Category category = findCategoryByName(c);
-
-		com.flowsoft.entities.WandaUser user = new com.flowsoft.entities.WandaUser(
-				owner);
-		if (category == null) {
-			category = new com.flowsoft.entities.Category(user, c);
-			em.persist(category);
-			em.flush();
-			logger.debug("New category created: " + c);
+		em.flush();
+		if (c.getOwner().getUsername().equals(aktuser)) {
+			c.setOwner(null);
+			em.remove(em.merge(c));
 		}
+	}
 
-		com.flowsoft.entities.Article a = new com.flowsoft.entities.Article(
-				user, title, category, content, tags);
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void createArticle(WandaUser owner, String title, String content) {
+		com.flowsoft.entity.Article a = new com.flowsoft.entity.Article(
+				WandaUtil.convertWandaUserToEntity(owner), title, content);
 		em.persist(a);
 		em.flush();
-		logger.debug("New article created: " + title);
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void createArticle(com.flowsoft.domain.Article a) {
-		com.flowsoft.entities.Article art = new com.flowsoft.entities.Article(a);
-		if (findCategoryByName(a.getCategory().getCategoryName()) == null) {
-			em.persist(art.getCategory());
-			em.flush();
-		} else {
-			art.setCategory(findCategoryByName(a.getCategory()
-					.getCategoryName()));
+	public String deleteArticle(String title, String aktUser) {
+		Article article = findArticleByTitle(title);
+		if (article.getOwner().getUsername().equals(aktUser)) {
+			em.remove(article);
+			return "OK";
 		}
+		return "Cannot delete";
 
-		em.persist(art);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void editArticle(String title, String newContent) {
+		Article a = findArticleByTitle(title);
+		a.setContent(newContent);
+		em.merge(WandaUtil.convertArticleToEntity(a));
 		em.flush();
 
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public com.flowsoft.entities.Category findCategoryByName(String categoryName) {
-		logger.debug("findCategory by name start");
-		Query q = em.createQuery(
-				"Select c from Category c where c.categoryName =:categoryName")
-				.setParameter("categoryName", categoryName);
-		logger.debug("findCategory by name done");
-		try {
-			com.flowsoft.entities.Category a = (com.flowsoft.entities.Category) q
-					.getSingleResult();
-			return a;
-		} catch (javax.persistence.NoResultException e) {
-			return null;
-		}
+	public List<Tag> getListTags() {
+		List<com.flowsoft.entity.Tag> tagList = em.createQuery(
+				"SELECT t FROM Tag t").getResultList();
+
+		return WandaUtil.convertTagListToDomain(tagList);
 
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public List<ArticleHeader> listArticleHeaders() {
-		// TODO Auto-generated method stub
-		Query query = em.createQuery("SELECT e FROM Article e ");
-		List<com.flowsoft.entities.Article> articles = query.getResultList();
+	public List<Category> findAllCategory() {
+		// List<com.flowsoft.entity.Category> categoryList = new
+		// ArrayList<com.flowsoft.entity.Category>();
+		// List<com.flowsoft.entity.WandaUser> userList = em.createQuery(
+		// "SELECT w FROM WandaUser w").getResultList();
+		//
+		// for (com.flowsoft.entity.WandaUser w : userList) {
+		// categoryList.addAll(w.getCategories());
+		// }
+
+		List<com.flowsoft.entity.Category> categoryList = em.createQuery(
+				"SELECT c FROM Category c").getResultList();
+		return WandaUtil.convertCategoryListToDomain(categoryList);
+
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<Category> findCategoryBy(Integer userid) {
+		com.flowsoft.entity.WandaUser w = em.find(
+				com.flowsoft.entity.WandaUser.class, userid);
+		if (w != null) {
+			List<com.flowsoft.entity.Category> categoryList = em
+					.createQuery(
+							"SELECT c FROM Category c where c.owner = :owner")
+					.setParameter("owner", w).getResultList();
+			return WandaUtil.convertCategoryListToDomain(categoryList);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Article findArticleById(Integer headerId) {
+		return WandaUtil.convertArticleToDomain(em.find(
+				com.flowsoft.entity.Article.class, headerId));
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<ArticleHeader> findAllArticle() {
+		List<Article> articleList = WandaUtil.convertArticleListToDomain(em
+				.createQuery("select a from Article a").getResultList());
+
 		List<ArticleHeader> headerList = new ArrayList<ArticleHeader>();
-		for (com.flowsoft.entities.Article a : articles) {
-			headerList.add(new ArticleHeader(a.convertToDomain()));
+		for (Article a : articleList) {
+			headerList.add(new ArticleHeader(a));
 		}
 		return headerList;
 	}
-
-	@Override
-	public List<ArticleHeader> getArticlesByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ArticleHeader> getRecommendedArticles(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ArticleHeader> getMostPopularArticles() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
-	public com.flowsoft.domain.Article getArticleByTitle(String title) {
-		Query query = em.createQuery(
-				"SELECT e FROM Article e WHERE e.title =:title").setParameter(
-				"title", title);
-		com.flowsoft.entities.Article a = (com.flowsoft.entities.Article) query
-				.getSingleResult();
-		return a.convertToDomain();
-
-	}
-
-	@Override
-	public List<Article> findAllArticle(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Comment> findAllCommentFor(String article) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void createCategory(String owner, String name) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteCategory(String name) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String deleteArticle(String title) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
-	public List<com.flowsoft.domain.Category> findAllExistingCategory() {
-		Query query = em.createQuery("SELECT c FROM Category c ");
-		List<com.flowsoft.entities.Category> category = query.getResultList();
-		List<com.flowsoft.domain.Category> domainCategory = new ArrayList<com.flowsoft.domain.Category>();
-		for (com.flowsoft.entities.Category c : category) {
-			domainCategory.add(c.convertToDomain());
-		}
-		return domainCategory;
-	}
-
 }
