@@ -69,10 +69,12 @@ public class ArticleView extends GeneralView implements View, Serializable {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-		if (needToRefresh && newComment != null) {
-			commentForm.refreshWith(newComment);
+		if (needToRefresh) {
+			commentList = (controller.findAllCommentFor(article.getId()));
+			commentForm.refreshList(commentList);
 			setNeedToRefresh(false);
 		}
+
 		if (mainLayout.getComponentCount() == 0) {
 			readArticleForm.enter();
 			commentForm.enter();
@@ -81,6 +83,7 @@ public class ArticleView extends GeneralView implements View, Serializable {
 			mainLayout.addComponent(backLink);
 		}
 		newComment = new Comment(aktUser, article, "");
+
 		BeanItem<Comment> item = new BeanItem<Comment>(newComment);
 		binder = new FieldGroup();
 		binder.setItemDataSource(item);
@@ -106,8 +109,17 @@ public class ArticleView extends GeneralView implements View, Serializable {
 		navigator.navigateTo(CreateArticleView.NAME);
 	}
 
+	public static void refreshPage() {
+		navigator.navigateTo(navigator.getState());
+	}
+
 	public Boolean getNeedToRefresh() {
 		return needToRefresh;
+	}
+
+	public static void setNeedToRefresh(boolean b, Integer id) {
+		needToRefresh = b;
+		controller.removeComment(id);
 	}
 
 	public static void setNeedToRefresh(Boolean nf) {

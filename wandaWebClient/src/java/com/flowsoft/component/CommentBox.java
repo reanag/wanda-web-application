@@ -1,7 +1,10 @@
 package com.flowsoft.component;
 
+import com.flowsoft.aviews.ArticleView;
+import com.flowsoft.client.WandaVaadinClient;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
@@ -14,9 +17,12 @@ public class CommentBox extends GridLayout {
 	private Label date;
 	private Button removeButton;
 	private Embedded image;
+	private Integer id;
 
-	public CommentBox(String usernameText, String content, String pdate) {
-		super(4, 4);
+	public CommentBox(Integer id, String usernameText, String content,
+			String pdate) {
+		super(6, 4);
+		this.id = id;
 		this.setStyleName("comment");
 		this.setWidth("450px");
 		username = new Label();
@@ -34,15 +40,36 @@ public class CommentBox extends GridLayout {
 		image = new Embedded("", new ThemeResource("img/line.png"));
 		image.setHeight("2px");
 		// image.setWidth(this.getWidth() - 10, Unit.PIXELS);
-		addComponent(username, 0, 0, 2, 1);
-		addComponent(date, 3, 0);
+
+		if (usernameText.equals(WandaVaadinClient.getHttpSession()
+				.getAttribute("username"))) {
+			removeButton = new Button();
+			removeButton.setCaption("x");
+			removeButton.setStyleName("black");
+			// eltunteti a furcsa kek hatteret..
+			removeButton.setHeight("0px");
+			removeButton.setWidth("0px");
+			removeButton.addClickListener(new Button.ClickListener() {
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+
+					ArticleView.setNeedToRefresh(true, CommentBox.this.id);
+					ArticleView.refreshPage();
+				}
+			});
+			addComponent(removeButton, 5, 0);
+		}
+		addComponent(username, 0, 0, 2, 0);
+		addComponent(date, 3, 0, 4, 0);
 		// addComponent(image);
-		addComponent(commentContent, 1, 2, 3, 2);
+		addComponent(commentContent, 1, 2, 4, 3);
 		// addComponent(image, 0, 2);
-		this.setColumnExpandRatio(1, 1);
-		this.setColumnExpandRatio(2, 1);
-		this.setColumnExpandRatio(3, 1);
-		this.setColumnExpandRatio(4, 1);
+		this.setColumnExpandRatio(1, 5);
+		this.setColumnExpandRatio(2, 5);
+		this.setColumnExpandRatio(3, 5);
+		this.setColumnExpandRatio(4, 5);
+		this.setColumnExpandRatio(5, 1);
 		this.setRowExpandRatio(1, 1);
 
 	}

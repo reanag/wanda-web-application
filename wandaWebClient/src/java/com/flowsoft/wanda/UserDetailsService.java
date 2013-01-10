@@ -154,4 +154,10 @@ public interface UserDetailsService {
 	public java.lang.String deleteArticle(
 			@WebParam(name = "articleTitle", targetNamespace = "") java.lang.String articleTitle,
 			@WebParam(name = "aktUser", targetNamespace = "") java.lang.String aktUser);
+
+	@RequestWrapper(localName = "removeComment", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.RemoveComment")
+	@WebMethod
+	@ResponseWrapper(localName = "removeCommentResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.RemoveCommentResponse")
+	public void removeComment(
+			@WebParam(name = "commentID", targetNamespace = "") java.lang.Integer commentID);
 }

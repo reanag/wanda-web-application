@@ -1,6 +1,5 @@
 package com.flowsoft.forms;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -31,6 +30,7 @@ public class CommentForm extends CssLayout {
 	public CommentForm(List<Comment> commentList) {
 
 		this.list = commentList;
+
 	}
 
 	public void enter() {
@@ -67,8 +67,9 @@ public class CommentForm extends CssLayout {
 
 		if (list != null) {
 			for (Comment c : list) {
-				vl.addComponent(new CommentBox(c.getOwner().getUsername(), c
-						.getCommentContent(), c.getCreatedTS().toLocaleString()));
+				vl.addComponent(new CommentBox(c.getId(), c.getOwner()
+						.getUsername(), c.getCommentContent(), c.getCreatedTS()
+						.toLocaleString()));
 			}
 		}
 		addComponent(vl);
@@ -85,15 +86,22 @@ public class CommentForm extends CssLayout {
 
 	}
 
-	public void refreshWith(Comment newComment) {
-		if (list == null) {
-			list = new ArrayList<Comment>();
-		}
-		list.add(newComment);
-		vl.addComponent(new CommentBox(newComment.getOwner().getUsername(),
-				newComment.getCommentContent(), newComment.getCreatedTS()
-						.toLocaleString()));
+	public void refreshList(List<Comment> cList) {
+		list = cList;
+		vl.removeAllComponents();
+		vl.addComponent(label);
+		vl.addComponent(commentContentTextfield);
 
+		vl.addComponent(submitButton);
+		vl.setComponentAlignment(submitButton, Alignment.BOTTOM_CENTER);
+
+		if (list != null) {
+			for (Comment c : list) {
+				vl.addComponent(new CommentBox(c.getId(), c.getOwner()
+						.getUsername(), c.getCommentContent(), c.getCreatedTS()
+						.toLocaleString()));
+			}
+		}
 	}
 
 }
