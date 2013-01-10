@@ -52,7 +52,7 @@
 
 	</repositories>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
+		<sourceDirectory>src/java</sourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>

@@ -2,6 +2,8 @@ package com.flowsoft.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,8 @@ public class WandaUser extends AbstractEntity implements Serializable {
 	private Boolean enabled;
 	private String role;
 
+	private Set<Article> favoriteArticles = new HashSet<Article>();
+	private Set<Category> favoriteCategories = new HashSet<Category>();
 	// private Date createdTS;
 	// private Date modifiedTS;
 
@@ -170,6 +174,22 @@ public class WandaUser extends AbstractEntity implements Serializable {
 				+ ", emailAdress=" + emailAdress + ", birthDate="
 				+ ", enabled=" + enabled + ", role=" + role + ", createdTS=";
 		// + ", modifiedTS=" + ", articles=" + articles + "]";
+	}
+
+	public Set<Article> getFavoriteArticles() {
+		return favoriteArticles;
+	}
+
+	public void setFavoriteArticles(Set<Article> favoriteArticles) {
+		this.favoriteArticles = favoriteArticles;
+	}
+
+	public Set<Category> getFavoriteCategories() {
+		return favoriteCategories;
+	}
+
+	public void setFavoriteCategories(Set<Category> favoriteCategories) {
+		this.favoriteCategories = favoriteCategories;
 	}
 
 	// public Integer getId() {

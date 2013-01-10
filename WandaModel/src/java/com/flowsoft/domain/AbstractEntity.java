@@ -1,8 +1,9 @@
 package com.flowsoft.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-abstract public class AbstractEntity {
+abstract public class AbstractEntity implements Serializable {
 
 	protected Date createdTS;
 	protected Date modifiedTS;

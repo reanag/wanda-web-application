@@ -10,6 +10,7 @@ public class ArticleHeader implements Serializable {
 	// listLong = true --> return with title + author + createdTS + 2 sentence
 	// from content
 	// listLong = false --> return with title + author
+	private Integer id;
 	private Boolean listLong = true;
 	private final static int headerLength = 100;
 
@@ -17,6 +18,7 @@ public class ArticleHeader implements Serializable {
 	}
 
 	public ArticleHeader(Article a) {
+		this.id = a.getId();
 		this.title = a.getTitle();
 		this.setAuthor(a.getOwner().getUsername());
 		this.content = generateHeaderContent(a.getContent());
@@ -71,6 +73,14 @@ public class ArticleHeader implements Serializable {
 
 	public void setOriginalContent(String originalContent) {
 		this.originalContent = originalContent;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 }
