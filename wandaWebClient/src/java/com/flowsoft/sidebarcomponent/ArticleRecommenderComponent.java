@@ -1,8 +1,11 @@
 package com.flowsoft.sidebarcomponent;
 
+import java.text.SimpleDateFormat;
 import java.util.Hashtable;
+import java.util.List;
 
-import com.flowsoft.client.CreateArticleView;
+import com.flowsoft.aviews.CreateArticleView;
+import com.flowsoft.domain.Article;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.TabSheet;
@@ -17,18 +20,8 @@ public class ArticleRecommenderComponent extends GridLayout {
 
 	public ArticleRecommenderComponent() {
 		articleRecommender = new TabSheet();
+		articleRecommender.setHeight("150px");
 
-		recommendedArticlesList = new CssLinkListComponent(null,
-				demoListCreator("Recommended Article"));
-		recentArticlesList = new CssLinkListComponent(null,
-				demoListCreator("Recent Article"));
-		popularArticlesList = new CssLinkListComponent(null,
-				demoListCreator("Popular Article"));
-
-		articleRecommender.addTab(recentArticlesList, "Recent");
-		articleRecommender.addTab(recommendedArticlesList, "Recommended");
-		articleRecommender.addTab(popularArticlesList, "Popular");
-		addComponent(articleRecommender);
 	}
 
 	// TODO: A: Webservice: getRecommendedArticles --> Hashtable(String,
@@ -42,4 +35,24 @@ public class ArticleRecommenderComponent extends GridLayout {
 		return list;
 	}
 
+	public void setMostRencentArticles(List<Article> mostRecentArticles) {
+		Hashtable<String, ExternalResource> list = new Hashtable<String, ExternalResource>();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("kk:mm dd.MM.yyyy.");
+		for (Article a : mostRecentArticles) {
+			list.put(a.getTitle() + " (" + dateFormat.format(a.getCreatedTS())
+					+ ")", new ExternalResource("#!" + CreateArticleView.NAME));
+		}
+
+		recentArticlesList = new CssLinkListComponent(null, list);
+
+		recommendedArticlesList = new CssLinkListComponent(null,
+				demoListCreator("Recent Article"));
+		popularArticlesList = new CssLinkListComponent(null,
+				demoListCreator("Popular Article"));
+
+		articleRecommender.addTab(recentArticlesList, "Recent");
+		articleRecommender.addTab(recommendedArticlesList, "Recommended");
+		articleRecommender.addTab(popularArticlesList, "Popular");
+		addComponent(articleRecommender);
+	}
 }
