@@ -1,5 +1,6 @@
 package com.flowsoft.forms;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -85,6 +86,9 @@ public class CommentForm extends CssLayout {
 	}
 
 	public void refreshWith(Comment newComment) {
+		if (list == null) {
+			list = new ArrayList<Comment>();
+		}
 		list.add(newComment);
 		vl.addComponent(new CommentBox(newComment.getOwner().getUsername(),
 				newComment.getCommentContent(), newComment.getCreatedTS()

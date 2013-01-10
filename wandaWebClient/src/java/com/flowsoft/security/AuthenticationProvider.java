@@ -34,7 +34,7 @@ public class AuthenticationProvider implements
 
 		UserDetailsServiceImplService ss = new UserDetailsServiceImplService();
 		controller = ss.getUserDetailsServicePort();
-		WandaUser u = controller.findUserByUsername(authentication.getName());
+		WandaUser u = controller.findByUsername(authentication.getName());
 
 		logger.debug(u.getUsername() + " " + u.getPassword());
 

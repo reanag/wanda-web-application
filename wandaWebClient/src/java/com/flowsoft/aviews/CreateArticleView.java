@@ -1,6 +1,5 @@
 package com.flowsoft.aviews;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -48,10 +47,12 @@ public class CreateArticleView extends GeneralView {
 		binder.setItemDataSource(item);
 		binder.bindMemberFields(createForm);
 
-		// TODO:
-		// createForm.setCategoryList(controller.findAllExistingCategory());
+		createForm.setCategoryList(controller.findAllExistingCategory());
+		if (mainLayout.getComponentCount() == 0) {
+			logger.debug("main components: " + mainLayout.getComponentCount());
+			mainLayout.addComponent(createForm);
+		}
 
-		mainLayout.addComponent(createForm);
 		resizeMainLayout();
 	}
 
@@ -67,7 +68,7 @@ public class CreateArticleView extends GeneralView {
 			article.setTagList(createForm.getSelectedTags());
 			binder.commit();
 			logger.debug("category value after set: " + article.getCategory());
-			// TODO: controller.commitArticle(article);
+			controller.commitArticle(article);
 		} catch (CommitException e) {
 			navigator.navigateTo("error");
 			e.printStackTrace();
@@ -85,8 +86,8 @@ public class CreateArticleView extends GeneralView {
 	}
 
 	public static List<Tag> getTagList() {
-		// TODO: return controller.getAllTag();
-		return new ArrayList<Tag>();
+		return controller.getAllTag();
+
 	}
 
 	public static void edit(Article article2) {

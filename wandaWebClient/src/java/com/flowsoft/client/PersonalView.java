@@ -25,7 +25,7 @@ public class PersonalView extends GeneralView implements View {
 		super.enter(event);
 
 		try {
-			WandaUser u = controller.findUserByUsername(author);
+			WandaUser u = controller.findByUsername(author);
 			Label l = new Label(u.getFirstName() + " " + u.getLastName());
 			Label l2 = new Label(u.getEmailAdress());
 			Label l3 = new Label(u.getRole());

@@ -31,7 +31,7 @@ public class ArticleView extends GeneralView implements View, Serializable {
 	private Article article;
 	private CommentForm commentForm;
 	private List<Comment> commentList;
-	private Boolean needToRefresh = false;
+	private static Boolean needToRefresh = false;
 
 	public ArticleView(ArticleHeader a) {
 		initArticle(a);
@@ -57,10 +57,8 @@ public class ArticleView extends GeneralView implements View, Serializable {
 
 	private void initArticle(ArticleHeader a) {
 		logger.debug("search for: " + a.getId());
-		// TODO: article = controller.findArticleByHeader(a.getId());
-		// TODO: commentList = controller.findAllCommentFor(a.getId());
-		logger.debug("commentsize: " + commentList.size());
-
+		article = controller.findArticleByHeader(a.getId());
+		commentList = controller.findAllCommentFor(a.getId());
 	}
 
 	@Override
@@ -95,7 +93,7 @@ public class ArticleView extends GeneralView implements View, Serializable {
 		try {
 			logger.debug("navigator state: " + navigator.getState());
 			binder.commit();
-			// TODO: controller.commitComment(newComment);
+			controller.commitComment(newComment);
 			navigator.navigateTo(navigator.getState());
 		} catch (CommitException e) {
 			navigator.navigateTo("error");
@@ -112,8 +110,8 @@ public class ArticleView extends GeneralView implements View, Serializable {
 		return needToRefresh;
 	}
 
-	public static void setNeedToRefresh(Boolean needToRefresh) {
-		needToRefresh = needToRefresh;
+	public static void setNeedToRefresh(Boolean nf) {
+		needToRefresh = nf;
 	}
 
 }

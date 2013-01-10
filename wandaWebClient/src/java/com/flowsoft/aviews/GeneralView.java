@@ -114,7 +114,7 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	public static void fetchSession() {
 		try {
 			if (WandaVaadinClient.getHttpSession().getAttribute("username") != null) {
-				setAktUser(controller.findUserByUsername(WandaVaadinClient
+				setAktUser(controller.findByUsername(WandaVaadinClient
 						.getHttpSession().getAttribute("username").toString()));
 
 				logger.debug("Aktuser: " + aktUser.getId()
@@ -126,15 +126,15 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	}
 
 	public static void fetchSidebarData() {
-		// TODO sidebar.initTagList(controller.getAllTag());
+		sidebar.initTagList(controller.getAllTag());
 		// TODO: sidebar.initArticleBlokk(controller.getMostRecentArticle(3));
 		ArrayList<Article> li = new ArrayList<Article>();
 		li.add(new Article(aktUser, "TEst artci", "content"));
 		sidebar.initArticleBlokk(li);
 		if (aktUser != null) {
 
-			// TODO:
-			// sidebar.initUserCategories(controller.getUserCategories(aktUser.getId()));
+			sidebar.initUserCategories(controller.getUserCategories(aktUser
+					.getId()));
 		}
 	}
 
@@ -165,6 +165,33 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	}
 
 	public void enter(ViewChangeEvent event) {
+		// if (baseLayout.getComponentCount() > 0) {
+		// baseLayout.removeAllComponents();
+		// mainLayout.removeAllComponents();
+		// }
+
+		// if (mainLayout.getComponentCount() > 1) {
+		// mainLayout.removeAllComponents();
+		// }
+		// if (bodyLayout.getComponentCount() > 2) {
+		// bodyLayout.removeAllComponents();
+		// bodyLayout.addComponent(mainLayout);
+		// bodyLayout
+		// .setComponentAlignment(mainLayout, Alignment.MIDDLE_RIGHT);
+		// bodyLayout.addComponent(sidebar);
+		// bodyLayout
+		// .setComponentAlignment(mainLayout, Alignment.MIDDLE_RIGHT);
+		// }
+		// if (baseLayout.getComponentCount() > 3) {
+		// baseLayout.removeAllComponents();
+		// baseLayout.addComponent(headerLayout);
+		// baseLayout.addComponent(bodyLayout);
+		// baseLayout.addComponent(footerLayout);
+		// }
+		// if (getComponentCount() > 0) {
+		// removeAllComponents();
+		// addComponent(baseLayout);
+		// }
 
 		generateHeader();
 		generateBody();

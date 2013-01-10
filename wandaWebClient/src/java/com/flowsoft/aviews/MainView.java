@@ -44,7 +44,7 @@ public class MainView extends GeneralView {
 			}
 
 		}
-		mainLayout.setHeight(articles.size() * 180, Unit.PIXELS);
+		// mainLayout.setHeight(articles.size() * 180, Unit.PIXELS);
 		resizeMainLayout();
 
 	}
