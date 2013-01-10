@@ -244,4 +244,47 @@ public class ArticleDaoImpl implements ArticleDao {
 		em.flush();
 
 	}
+
+	@Override
+	public List<Article> getMostRecentArticle(Integer numberOfArticles) {
+
+		List<com.flowsoft.entity.Article> result = em.createQuery(
+
+		"select a from Article a order by a.createdTS desc",
+				com.flowsoft.entity.Article.class).getResultList();
+		if (numberOfArticles > result.size()) {
+			return WandaUtil.convertArticleListToDomain(result);
+		} else {
+			return WandaUtil.convertArticleListToDomain(result.subList(0,
+					numberOfArticles));
+		}
+
+	}
+
+	@Override
+	public List<Article> getMostPopularArticle(Integer numberOfArticles) {
+		List<com.flowsoft.entity.Article> result = em.createQuery(
+				"select a from Article a order by a.rank desc",
+				com.flowsoft.entity.Article.class).getResultList();
+		if (numberOfArticles > result.size()) {
+			return WandaUtil.convertArticleListToDomain(result);
+		} else {
+			return WandaUtil.convertArticleListToDomain(result.subList(0,
+					numberOfArticles));
+		}
+
+	}
+
+	@Override
+	public List<Article> getMostRecommendedArticle(Integer numberOfArticles) {
+		List<com.flowsoft.entity.Article> result = em.createQuery(
+				"select a from Article a order by a.rank desc",
+				com.flowsoft.entity.Article.class).getResultList();
+		if (numberOfArticles > result.size()) {
+			return WandaUtil.convertArticleListToDomain(result);
+		} else {
+			return WandaUtil.convertArticleListToDomain(result.subList(0,
+					numberOfArticles));
+		}
+	}
 }

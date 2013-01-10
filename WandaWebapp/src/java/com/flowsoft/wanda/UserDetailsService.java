@@ -26,9 +26,6 @@ public interface UserDetailsService {
 	@WebResult(name = "wandaUser")
 	WandaUser findByUsername(@WebParam(name = "username") String username);
 
-	@WebResult(name = "articleList")
-	List<Article> findAllArticle(@WebParam(name = "username") String username);
-
 	@WebResult(name = "article")
 	Article findArticleByTitle(@WebParam(name = "articleTitle") String title);
 
@@ -88,5 +85,20 @@ public interface UserDetailsService {
 	public void commitComment(@WebParam(name = "comment") Comment c);
 
 	public void removeComment(@WebParam(name = "commentID") Integer id);
+
+	@WebResult(name = "recentArticles")
+	public List<Article> getRecentArticle(
+			@WebParam(name = "articleNumber") Integer numberOfArticles);
+
+	@WebResult(name = "popularArticles")
+	public List<Article> getMostPopularArticle(
+			@WebParam(name = "articleNumber") Integer numberOfArticles);
+
+	@WebResult(name = "recommendedArticles")
+	public List<Article> getMostRecommendedArticle(
+			@WebParam(name = "articleNumber") Integer numberOfArticles);
+
+	@WebResult(name = "articleList")
+	List<Article> findAllArticle(@WebParam(name = "username") String username);
 
 }

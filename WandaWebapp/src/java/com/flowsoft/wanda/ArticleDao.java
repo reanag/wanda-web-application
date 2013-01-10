@@ -51,4 +51,10 @@ public interface ArticleDao {
 
 	void deleteComment(Integer id);
 
+	List<Article> getMostRecentArticle(Integer numberOfArticles);
+
+	List<Article> getMostPopularArticle(Integer numberOfArticles);
+
+	List<Article> getMostRecommendedArticle(Integer numberOfArticles);
+
 }

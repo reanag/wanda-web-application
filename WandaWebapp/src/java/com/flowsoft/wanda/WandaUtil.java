@@ -78,18 +78,14 @@ public class WandaUtil {
 		Article domainObject = new Article();
 		domainObject.setCategory(convertCategoryToDomain(a.getCategory()));
 		domainObject.setContent(a.getContent());
+		domainObject.setRank(a.getRank());
 		domainObject.setCreatedTS(a.getCreatedTS());
 		domainObject.setModifiedTS(a.getModifiedTS());
 		domainObject.setId(a.getId());
 		domainObject.setOwner(convertWandaUserToDomain(a.getOwner()));
 		domainObject.setTitle(a.getTitle());
-		try {
-			if (a.getTagList() != null) {
-				domainObject.setTagList(convertTagListToDomain(a.getTagList()));
-			}
-		} catch (org.hibernate.LazyInitializationException e) {
-			// TODO: error
-		}
+		// domainObject.setTagList(convertTagListToDomain(a.getTagList()));
+
 		return domainObject;
 	}
 
@@ -97,6 +93,7 @@ public class WandaUtil {
 		com.flowsoft.entity.Article entityObject = new com.flowsoft.entity.Article();
 		entityObject.setCategory(convertCategoryToEntity(a.getCategory()));
 		entityObject.setContent(a.getContent());
+		entityObject.setRank(a.getRank());
 		entityObject.setCreatedTS(a.getCreatedTS());
 		entityObject.setModifiedTS(a.getModifiedTS());
 		entityObject.setId(a.getId());
@@ -119,9 +116,6 @@ public class WandaUtil {
 			Map<Integer, com.flowsoft.entity.Tag> tagMap) {
 		Set<Tag> domainSet = new HashSet<Tag>();
 
-		if (tagMap == null || tagMap.isEmpty()) {
-			return domainSet;
-		}
 		for (Entry<Integer, com.flowsoft.entity.Tag> t : tagMap.entrySet()) {
 			domainSet.add(convertTagToDomain(t.getValue()));
 		}

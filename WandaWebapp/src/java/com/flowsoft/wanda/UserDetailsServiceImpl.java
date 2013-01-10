@@ -57,11 +57,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		return userDao.findUserByName(username);
 	}
 
-	@Override
-	public List<Article> findAllArticle(String username) {
-		return articleDao.findAllArticle(username);
-	}
-
 	// @Override
 	// public List<Comment> findAllCommentFor(String articleTitle) {
 	// return articleDao.findAllCommentFor(articleTitle);
@@ -163,5 +158,27 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public void removeComment(Integer id) {
 		articleDao.deleteComment(id);
 
+	}
+
+	@Override
+	public List<Article> getRecentArticle(Integer numberOfArticles) {
+		return articleDao.getMostRecentArticle(numberOfArticles);
+	}
+
+	@Override
+	public List<Article> getMostPopularArticle(Integer numberOfArticles) {
+		return articleDao.getMostPopularArticle(numberOfArticles);
+
+	}
+
+	@Override
+	public List<Article> getMostRecommendedArticle(Integer numberOfArticles) {
+		return articleDao.getMostRecommendedArticle(numberOfArticles);
+
+	}
+
+	@Override
+	public List<Article> findAllArticle(String username) {
+		return articleDao.findAllArticle(username);
 	}
 }
