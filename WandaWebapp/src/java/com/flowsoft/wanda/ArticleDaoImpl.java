@@ -46,6 +46,7 @@ public class ArticleDaoImpl implements ArticleDao {
 		Query query = em.createQuery(
 				"SELECT e FROM Comment e where commentedArticle = :article")
 				.setParameter("article", actArticle);
+
 		return WandaUtil.convertCommentListToDomain(query.getResultList());
 	}
 
@@ -80,6 +81,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void persistComment(Comment c) {
+
 		em.persist(WandaUtil.convertCommentToEntity(c));
 		em.flush();
 	}

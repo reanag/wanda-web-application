@@ -64,7 +64,7 @@ public class WandaUtil {
 	private static Comment convertCommentToDomain(com.flowsoft.entity.Comment a) {
 		Comment c = new Comment();
 		c.setCommentContent(a.getCommentContent());
-		// TODO:
+
 		// c.setCommentedArticle(convertArticleToDomain(a.getCommentedArticle()));
 		c.setCreatedTS(a.getCreatedTS());
 		c.setId(a.getId());
@@ -83,7 +83,13 @@ public class WandaUtil {
 		domainObject.setId(a.getId());
 		domainObject.setOwner(convertWandaUserToDomain(a.getOwner()));
 		domainObject.setTitle(a.getTitle());
-		domainObject.setTagList(convertTagListToDomain(a.getTagList()));
+		try {
+			if (a.getTagList() != null) {
+				domainObject.setTagList(convertTagListToDomain(a.getTagList()));
+			}
+		} catch (org.hibernate.LazyInitializationException e) {
+			// TODO: error
+		}
 		return domainObject;
 	}
 
@@ -112,6 +118,10 @@ public class WandaUtil {
 	private static Set<Tag> convertTagListToDomain(
 			Map<Integer, com.flowsoft.entity.Tag> tagMap) {
 		Set<Tag> domainSet = new HashSet<Tag>();
+
+		if (tagMap == null || tagMap.isEmpty()) {
+			return domainSet;
+		}
 		for (Entry<Integer, com.flowsoft.entity.Tag> t : tagMap.entrySet()) {
 			domainSet.add(convertTagToDomain(t.getValue()));
 		}
