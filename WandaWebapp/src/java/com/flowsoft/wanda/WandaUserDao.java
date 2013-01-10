@@ -2,7 +2,7 @@ package com.flowsoft.wanda;
 
 import java.util.List;
 
-import com.flowsoft.entities.WandaUser;
+import com.flowsoft.domain.WandaUser;
 
 public interface WandaUserDao {
 
