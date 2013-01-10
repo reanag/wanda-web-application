@@ -3,7 +3,7 @@ package com.flowsoft.component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.flowsoft.client.ArticleView;
+import com.flowsoft.aviews.ArticleView;
 import com.flowsoft.client.PersonalView;
 import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.ArticleHeader;
@@ -18,12 +18,14 @@ public class ReadMoreForm extends CssLayout {
 	Logger logger = LoggerFactory.getLogger(ReadMoreForm.class);
 	private LinkLabel linkLabel;
 	private LinkLabel authorLabel;
+	private Integer articleId;
 	protected static Navigator navigator;
 
 	public ReadMoreForm() {
 	}
 
 	public ReadMoreForm(ArticleHeader h, Navigator n) {
+		articleId = h.getId();
 		navigator = n;
 		setCaption(h.getTitle());
 		setStyleName("mydiv");
