@@ -23,8 +23,6 @@ public interface ArticleDao {
 
 	void persistComment(Comment c);
 
-	Article findArticleByTitle(String title);
-
 	String getArticleContentByTitle(String title);
 
 	void createCategory(WandaUser owner, String name);
@@ -33,9 +31,9 @@ public interface ArticleDao {
 
 	void createArticle(WandaUser owner, String title, String content);
 
-	String deleteArticle(String title, String aktUsername);
+	String deleteArticle(Integer id, String aktUsername);
 
-	void editArticle(String title, String newContent);
+	void editArticle(Integer id, String newContent);
 
 	List<Tag> getListTags();
 
@@ -56,5 +54,13 @@ public interface ArticleDao {
 	List<Article> getMostPopularArticle(Integer numberOfArticles);
 
 	List<Article> getMostRecommendedArticle(Integer numberOfArticles);
+
+	List<Article> findArticleByTitle(String title, Boolean isAccurate);
+
+	List<Article> findArticleByAuthor(String username, Boolean isAccurate);
+
+	List<Article> findArticleByCategory(String categoryName, Boolean isAccurate);
+
+	List<Article> findArticleByContent(String contentSegment);
 
 }

@@ -73,11 +73,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	@Override
-	public Article findArticleByTitle(String title) {
-		return articleDao.findArticleByTitle(title);
-	}
-
-	@Override
 	public String getArticleContentByTitle(String title) {
 		return articleDao.getArticleContentByTitle(title);
 	}
@@ -99,14 +94,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	@Override
-	public String deleteArticle(String title, String aktUsername) {
-		return articleDao.deleteArticle(title, aktUsername);
+	public String deleteArticle(Integer id, String aktUsername) {
+		return articleDao.deleteArticle(id, aktUsername);
 
 	}
 
 	@Override
-	public void editArticle(String title, String newContent) {
-		articleDao.editArticle(title, newContent);
+	public void editArticle(Integer id, String newContent) {
+		articleDao.editArticle(id, newContent);
 
 	}
 
@@ -181,4 +176,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public List<Article> findAllArticle(String username) {
 		return articleDao.findAllArticle(username);
 	}
+
+	@Override
+	public List<Article> findArticleByTitle(String title, Boolean isAccurate) {
+		return articleDao.findArticleByTitle(title, isAccurate);
+	}
+
+	@Override
+	public List<Article> findArticleByAuthor(String username, Boolean isAccurate) {
+		return articleDao.findArticleByAuthor(username, isAccurate);
+	}
+
+	@Override
+	public List<Article> findArticleByContent(String content) {
+		return articleDao.findArticleByContent(content);
+	}
+
 }

@@ -81,20 +81,13 @@ public class ArticleDaoImpl implements ArticleDao {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void persistComment(Comment c) {
-
+		if (em.find(com.flowsoft.entity.Article.class, c.getCommentedArticle()
+				.getId()) == null) {
+			em.persist(WandaUtil.convertArticleToEntity(c.getCommentedArticle()));
+			em.flush();
+		}
 		em.persist(WandaUtil.convertCommentToEntity(c));
 		em.flush();
-	}
-
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
-	public Article findArticleByTitle(String title) {
-		Query query = em.createQuery(
-				"SELECT e FROM Article e where title = :title").setParameter(
-				"title", title);
-		return WandaUtil
-				.convertArticleToDomain((com.flowsoft.entity.Article) query
-						.getSingleResult());
 	}
 
 	@Override
@@ -150,8 +143,9 @@ public class ArticleDaoImpl implements ArticleDao {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public String deleteArticle(String title, String aktUser) {
-		Article article = findArticleByTitle(title);
+	public String deleteArticle(Integer id, String aktUser) {
+		com.flowsoft.entity.Article article = em.find(
+				com.flowsoft.entity.Article.class, id);
 		if (article.getOwner().getUsername().equals(aktUser)) {
 			em.remove(article);
 			return "OK";
@@ -162,11 +156,11 @@ public class ArticleDaoImpl implements ArticleDao {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void editArticle(String title, String newContent) {
-		Article a = findArticleByTitle(title);
-		a.setContent(newContent);
-		em.merge(WandaUtil.convertArticleToEntity(a));
-		em.flush();
+	public void editArticle(Integer id, String newContent) {
+		// Article a = findArticleByTitle(title);
+		// a.setContent(newContent);
+		// em.merge(WandaUtil.convertArticleToEntity(a));
+		// em.flush();
 
 	}
 
@@ -264,7 +258,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	@Override
 	public List<Article> getMostPopularArticle(Integer numberOfArticles) {
 		List<com.flowsoft.entity.Article> result = em.createQuery(
-				"select a from Article a order by a.rank desc",
+				"select a from Article a order by a.rank asc",
 				com.flowsoft.entity.Article.class).getResultList();
 		if (numberOfArticles > result.size()) {
 			return WandaUtil.convertArticleListToDomain(result);
@@ -278,7 +272,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	@Override
 	public List<Article> getMostRecommendedArticle(Integer numberOfArticles) {
 		List<com.flowsoft.entity.Article> result = em.createQuery(
-				"select a from Article a order by a.rank desc",
+				"select a from Article a order by a.rank asc",
 				com.flowsoft.entity.Article.class).getResultList();
 		if (numberOfArticles > result.size()) {
 			return WandaUtil.convertArticleListToDomain(result);
@@ -286,5 +280,68 @@ public class ArticleDaoImpl implements ArticleDao {
 			return WandaUtil.convertArticleListToDomain(result.subList(0,
 					numberOfArticles));
 		}
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<Article> findArticleByTitle(String title, Boolean isAccurate) {
+		if (!isAccurate) {
+			Query query = em.createQuery(
+					"SELECT e FROM Article e where title like :title")
+					.setParameter("title", "%" + title + "%");
+			return WandaUtil.convertArticleListToDomain(query.getResultList());
+		} else {
+			Query query = em.createQuery(
+					"SELECT e FROM Article e where title = :title")
+					.setParameter("title", title);
+			return WandaUtil.convertArticleListToDomain(query.getResultList());
+		}
+	}
+
+	@Override
+	public List<Article> findArticleByAuthor(String username, Boolean isAccurate) {
+		if (!isAccurate) {
+			Query query = em.createQuery(
+					"SELECT e FROM WandaUser e where username like :username")
+					.setParameter("username", "%" + username + "%");
+			List<com.flowsoft.entity.WandaUser> userList = query
+					.getResultList();
+
+			List<com.flowsoft.entity.Article> aList = new ArrayList<com.flowsoft.entity.Article>();
+			for (com.flowsoft.entity.WandaUser u : userList) {
+				aList.addAll(em
+						.createQuery(
+								"SELECT e FROM Article e where owner = :owner")
+						.setParameter("owner", u).getResultList());
+			}
+			return WandaUtil.convertArticleListToDomain(aList);
+		} else {
+			Query query = em.createQuery(
+					"SELECT e FROM WandaUser e where username = :username")
+					.setParameter("username", username);
+			com.flowsoft.entity.WandaUser user = (com.flowsoft.entity.WandaUser) query
+					.getSingleResult();
+
+			return WandaUtil
+					.convertArticleListToDomain(em
+							.createQuery(
+									"SELECT e FROM Article e where owner = :owner")
+							.setParameter("owner", user).getResultList());
+		}
+	}
+
+	@Override
+	public List<Article> findArticleByCategory(String categoryName,
+			Boolean isAccurate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Article> findArticleByContent(String contentSegment) {
+		Query query = em.createQuery(
+				"SELECT e FROM Article e where content like :content")
+				.setParameter("content", "%" + contentSegment + "%");
+		return WandaUtil.convertArticleListToDomain(query.getResultList());
 	}
 }

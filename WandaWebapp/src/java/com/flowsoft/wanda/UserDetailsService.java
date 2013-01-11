@@ -26,9 +26,6 @@ public interface UserDetailsService {
 	@WebResult(name = "wandaUser")
 	WandaUser findByUsername(@WebParam(name = "username") String username);
 
-	@WebResult(name = "article")
-	Article findArticleByTitle(@WebParam(name = "articleTitle") String title);
-
 	@WebResult(name = "articleContent")
 	String getArticleContentByTitle(
 			@WebParam(name = "articleTitle") String title);
@@ -53,10 +50,10 @@ public interface UserDetailsService {
 			@WebParam(name = "articleTitle") String title,
 			@WebParam(name = "articleContent") String content);
 
-	String deleteArticle(@WebParam(name = "articleTitle") String title,
+	String deleteArticle(@WebParam(name = "articleId") Integer id,
 			@WebParam(name = "aktUser") String aktuser);
 
-	void editArticle(@WebParam(name = "articleTitle") String title,
+	void editArticle(@WebParam(name = "articleId") Integer id,
 			@WebParam(name = "newContent") String newContent);
 
 	@WebResult(name = "tagList")
@@ -100,5 +97,18 @@ public interface UserDetailsService {
 
 	@WebResult(name = "articleList")
 	List<Article> findAllArticle(@WebParam(name = "username") String username);
+
+	@WebResult(name = "article")
+	List<Article> findArticleByTitle(
+			@WebParam(name = "articleTitleSegment") String title,
+			@WebParam(name = "isAccurateSearch") Boolean isAccurate);
+
+	@WebResult(name = "articles")
+	List<Article> findArticleByAuthor(@WebParam(name = "author") String title,
+			@WebParam(name = "isAccurateSearch") Boolean isAccurate);
+
+	@WebResult(name = "articles")
+	List<Article> findArticleByContent(
+			@WebParam(name = "contentSegment") String content);
 
 }
