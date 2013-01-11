@@ -11,18 +11,18 @@ import com.flowsoft.domain.Article;
 
 /**
  * <p>
- * Java class for findArticleByTitleResponse complex type.
+ * Java class for findArticleByContentResponse complex type.
  * 
  * <p>
  * The following schema fragment specifies the expected content contained within
  * this class.
  * 
  * <pre>
- * &lt;complexType name="findArticleByTitleResponse">
+ * &lt;complexType name="findArticleByContentResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="article" type="{http://wanda.flowsoft.com/}article" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="articles" type="{http://wanda.flowsoft.com/}article" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -32,25 +32,25 @@ import com.flowsoft.domain.Article;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "findArticleByTitleResponse", propOrder = { "article" })
-public class FindArticleByTitleResponse {
+@XmlType(name = "findArticleByContentResponse", propOrder = { "articles" })
+public class FindArticleByContentResponse {
 
-	protected List<Article> article;
+	protected List<Article> articles;
 
 	/**
-	 * Gets the value of the article property.
+	 * Gets the value of the articles property.
 	 * 
 	 * <p>
 	 * This accessor method returns a reference to the live list, not a
 	 * snapshot. Therefore any modification you make to the returned list will
 	 * be present inside the JAXB object. This is why there is not a
-	 * <CODE>set</CODE> method for the article property.
+	 * <CODE>set</CODE> method for the articles property.
 	 * 
 	 * <p>
 	 * For example, to add a new item, do as follows:
 	 * 
 	 * <pre>
-	 * getArticle().add(newItem);
+	 * getArticles().add(newItem);
 	 * </pre>
 	 * 
 	 * 
@@ -59,11 +59,11 @@ public class FindArticleByTitleResponse {
 	 * 
 	 * 
 	 */
-	public List<Article> getArticle() {
-		if (article == null) {
-			article = new ArrayList<Article>();
+	public List<Article> getArticles() {
+		if (articles == null) {
+			articles = new ArrayList<Article>();
 		}
-		return this.article;
+		return this.articles;
 	}
 
 }

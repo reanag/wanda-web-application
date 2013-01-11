@@ -58,13 +58,6 @@ public interface UserDetailsService {
 	public java.util.List<com.flowsoft.domain.Article> findAllArticle(
 			@WebParam(name = "username", targetNamespace = "") java.lang.String username);
 
-	@WebResult(name = "article", targetNamespace = "")
-	@RequestWrapper(localName = "findArticleByTitle", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.domain.FindArticleByTitle")
-	@WebMethod
-	@ResponseWrapper(localName = "findArticleByTitleResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.domain.FindArticleByTitleResponse")
-	public com.flowsoft.domain.Article findArticleByTitle(
-			@WebParam(name = "articleTitle", targetNamespace = "") java.lang.String articleTitle);
-
 	@RequestWrapper(localName = "editArticle", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.domain.EditArticle")
 	@WebMethod
 	@ResponseWrapper(localName = "editArticleResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.domain.EditArticleResponse")
@@ -147,13 +140,20 @@ public interface UserDetailsService {
 	@ResponseWrapper(localName = "getAllTagResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.domain.GetAllTagResponse")
 	public java.util.List<com.flowsoft.domain.Tag> getAllTag();
 
-	@WebResult(name = "return", targetNamespace = "")
-	@RequestWrapper(localName = "deleteArticle", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.domain.DeleteArticle")
+	@WebResult(name = "article", targetNamespace = "")
+	@RequestWrapper(localName = "findArticleByTitle", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.FindArticleByTitle")
 	@WebMethod
-	@ResponseWrapper(localName = "deleteArticleResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.domain.DeleteArticleResponse")
-	public java.lang.String deleteArticle(
-			@WebParam(name = "articleTitle", targetNamespace = "") java.lang.String articleTitle,
-			@WebParam(name = "aktUser", targetNamespace = "") java.lang.String aktUser);
+	@ResponseWrapper(localName = "findArticleByTitleResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.FindArticleByTitleResponse")
+	public java.util.List<com.flowsoft.domain.Article> findArticleByTitle(
+			@WebParam(name = "articleTitleSegment", targetNamespace = "") java.lang.String articleTitleSegment,
+			@WebParam(name = "isAccurateSearch", targetNamespace = "") java.lang.Boolean isAccurateSearch);
+
+	@RequestWrapper(localName = "editArticle", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.EditArticle")
+	@WebMethod
+	@ResponseWrapper(localName = "editArticleResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.EditArticleResponse")
+	public void editArticle(
+			@WebParam(name = "articleId", targetNamespace = "") java.lang.Integer articleId,
+			@WebParam(name = "newContent", targetNamespace = "") java.lang.String newContent);
 
 	@RequestWrapper(localName = "removeComment", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.RemoveComment")
 	@WebMethod
@@ -181,4 +181,27 @@ public interface UserDetailsService {
 	@ResponseWrapper(localName = "getMostRecommendedArticleResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.GetMostRecommendedArticleResponse")
 	public java.util.List<com.flowsoft.domain.Article> getMostRecommendedArticle(
 			@WebParam(name = "articleNumber", targetNamespace = "") java.lang.Integer articleNumber);
+
+	@WebResult(name = "return", targetNamespace = "")
+	@RequestWrapper(localName = "deleteArticle", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.DeleteArticle")
+	@WebMethod
+	@ResponseWrapper(localName = "deleteArticleResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.DeleteArticleResponse")
+	public java.lang.String deleteArticle(
+			@WebParam(name = "articleId", targetNamespace = "") java.lang.Integer articleId,
+			@WebParam(name = "aktUser", targetNamespace = "") java.lang.String aktUser);
+
+	@WebResult(name = "articles", targetNamespace = "")
+	@RequestWrapper(localName = "findArticleByAuthor", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.FindArticleByAuthor")
+	@WebMethod
+	@ResponseWrapper(localName = "findArticleByAuthorResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.FindArticleByAuthorResponse")
+	public java.util.List<com.flowsoft.domain.Article> findArticleByAuthor(
+			@WebParam(name = "author", targetNamespace = "") java.lang.String author,
+			@WebParam(name = "isAccurateSearch", targetNamespace = "") java.lang.Boolean isAccurateSearch);
+
+	@WebResult(name = "articles", targetNamespace = "")
+	@RequestWrapper(localName = "findArticleByContent", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.FindArticleByContent")
+	@WebMethod
+	@ResponseWrapper(localName = "findArticleByContentResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.FindArticleByContentResponse")
+	public java.util.List<com.flowsoft.domain.Article> findArticleByContent(
+			@WebParam(name = "contentSegment", targetNamespace = "") java.lang.String contentSegment);
 }

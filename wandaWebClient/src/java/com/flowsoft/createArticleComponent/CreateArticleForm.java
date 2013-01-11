@@ -267,6 +267,7 @@ public class CreateArticleForm extends GridLayout implements
 	}
 
 	public void refreshForm(Article a) {
+		logger.debug(a.toString());
 		articleTitle.setValue(a.getTitle());
 		articleContent.setValue(a.getContent());
 		selectedCategory = a.getCategory();

@@ -48,6 +48,8 @@ public class CreateArticleView extends GeneralView {
 		binder.bindMemberFields(createForm);
 
 		createForm.setCategoryList(controller.findAllExistingCategory());
+
+		mainLayout.removeAllComponents();
 		if (mainLayout.getComponentCount() == 0) {
 			logger.debug("main components: " + mainLayout.getComponentCount());
 			mainLayout.addComponent(createForm);
@@ -73,8 +75,11 @@ public class CreateArticleView extends GeneralView {
 			navigator.navigateTo("error");
 			e.printStackTrace();
 		}
-		navigator.addView(ArticleView.NAME, new ArticleView(article));
-		navigator.navigateTo(ArticleView.NAME);
+		navigator.addView(
+				ArticleView.NAME + "." + article.getTitle().replace(' ', '.'),
+				new ArticleView(article));
+		navigator.navigateTo(ArticleView.NAME + "."
+				+ article.getTitle().replace(' ', '.'));
 
 	}
 
@@ -90,11 +95,8 @@ public class CreateArticleView extends GeneralView {
 
 	}
 
-	public static void edit(Article article2) {
-		setArticle(article2);
-	}
-
-	private static void setArticle(Article article2) {
+	public static void setArticle(Article article2) {
+		logger.debug("set article: " + article2.toString());
 		article = article2;
 		createForm.refreshForm(article2);
 	}

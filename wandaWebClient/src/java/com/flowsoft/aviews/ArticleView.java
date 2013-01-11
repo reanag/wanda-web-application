@@ -105,10 +105,6 @@ public class ArticleView extends GeneralView implements View, Serializable {
 
 	}
 
-	public static void goToEditPage() {
-		navigator.navigateTo(CreateArticleView.NAME);
-	}
-
 	public static void refreshPage() {
 		navigator.navigateTo(navigator.getState());
 	}
@@ -126,4 +122,11 @@ public class ArticleView extends GeneralView implements View, Serializable {
 		needToRefresh = nf;
 	}
 
+	public static void edit(Article article2) {
+		logger.debug("edit: " + article2.toString());
+		navigator.removeView(CreateArticleView.NAME);
+		navigator.addView(CreateArticleView.NAME, new CreateArticleView());
+		CreateArticleView.setArticle(article2);
+		navigator.navigateTo(CreateArticleView.NAME);
+	}
 }

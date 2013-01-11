@@ -59,7 +59,7 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	}
 
 	protected void generateSideBar() {
-		sidebar = new Sidebar(navigator);
+		sidebar = new Sidebar(navigator, controller);
 		sidebar.setStyleName("myblack");
 		sidebar.setSizeFull();
 
@@ -164,33 +164,6 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	}
 
 	public void enter(ViewChangeEvent event) {
-		// if (baseLayout.getComponentCount() > 0) {
-		// baseLayout.removeAllComponents();
-		// mainLayout.removeAllComponents();
-		// }
-
-		// if (mainLayout.getComponentCount() > 1) {
-		// mainLayout.removeAllComponents();
-		// }
-		// if (bodyLayout.getComponentCount() > 2) {
-		// bodyLayout.removeAllComponents();
-		// bodyLayout.addComponent(mainLayout);
-		// bodyLayout
-		// .setComponentAlignment(mainLayout, Alignment.MIDDLE_RIGHT);
-		// bodyLayout.addComponent(sidebar);
-		// bodyLayout
-		// .setComponentAlignment(mainLayout, Alignment.MIDDLE_RIGHT);
-		// }
-		// if (baseLayout.getComponentCount() > 3) {
-		// baseLayout.removeAllComponents();
-		// baseLayout.addComponent(headerLayout);
-		// baseLayout.addComponent(bodyLayout);
-		// baseLayout.addComponent(footerLayout);
-		// }
-		// if (getComponentCount() > 0) {
-		// removeAllComponents();
-		// addComponent(baseLayout);
-		// }
 
 		generateHeader();
 		generateBody();
@@ -198,18 +171,22 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		generateFooter();
 
 		if (getComponentCount() == 0) {
-			bodyLayout.addStyleName("horizontalright");
-			bodyLayout.addComponent(mainLayout);
-			bodyLayout
-					.setComponentAlignment(mainLayout, Alignment.MIDDLE_RIGHT);
-			bodyLayout.addComponent(sidebar);
-			bodyLayout
-					.setComponentAlignment(mainLayout, Alignment.MIDDLE_RIGHT);
-			baseLayout.addComponent(headerLayout);
-			baseLayout.addComponent(bodyLayout);
-			baseLayout.addComponent(footerLayout);
-			baseLayout.setExpandRatio(bodyLayout, 1);
-			baseLayout.setSizeUndefined();
+			if (bodyLayout.getComponentCount() == 0) {
+				bodyLayout.addStyleName("horizontalright");
+				bodyLayout.addComponent(mainLayout);
+				bodyLayout.setComponentAlignment(mainLayout,
+						Alignment.MIDDLE_RIGHT);
+				bodyLayout.addComponent(sidebar);
+				bodyLayout.setComponentAlignment(mainLayout,
+						Alignment.MIDDLE_RIGHT);
+			}
+			if (baseLayout.getComponentCount() == 0) {
+				baseLayout.addComponent(headerLayout);
+				baseLayout.addComponent(bodyLayout);
+				baseLayout.addComponent(footerLayout);
+				baseLayout.setExpandRatio(bodyLayout, 1);
+				baseLayout.setSizeUndefined();
+			}
 			addComponent(baseLayout);
 
 		}

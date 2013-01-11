@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.slf4j.LoggerFactory;
 
 import com.flowsoft.aviews.ArticleView;
-import com.flowsoft.aviews.CreateArticleView;
 import com.flowsoft.aviews.MainView;
 import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.Article;
@@ -57,10 +56,8 @@ public class ReadArticleForm extends GridLayout {
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-
-					CreateArticleView.edit(article);
-
-					ArticleView.goToEditPage();
+					logger.debug("button click");
+					ArticleView.edit(article);
 
 				}
 			});
