@@ -204,4 +204,18 @@ public interface UserDetailsService {
 	@ResponseWrapper(localName = "findArticleByContentResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.FindArticleByContentResponse")
 	public java.util.List<com.flowsoft.domain.Article> findArticleByContent(
 			@WebParam(name = "contentSegment", targetNamespace = "") java.lang.String contentSegment);
+
+	@WebResult(name = "rank", targetNamespace = "")
+	@RequestWrapper(localName = "getRank", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.GetRank")
+	@WebMethod
+	@ResponseWrapper(localName = "getRankResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.GetRankResponse")
+	public java.lang.Double getRank(
+			@WebParam(name = "articleId", targetNamespace = "") java.lang.Integer articleId);
+
+	@RequestWrapper(localName = "setRank", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.SetRank")
+	@WebMethod
+	@ResponseWrapper(localName = "setRankResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.SetRankResponse")
+	public void setRank(
+			@WebParam(name = "articleId", targetNamespace = "") java.lang.Integer articleId,
+			@WebParam(mode = WebParam.Mode.INOUT, name = "newRank", targetNamespace = "") java.lang.Double newRank);
 }

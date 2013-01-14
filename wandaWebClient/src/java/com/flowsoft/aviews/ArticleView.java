@@ -45,7 +45,7 @@ public class ArticleView extends GeneralView implements View, Serializable {
 	}
 
 	private void generateSurface() {
-		readArticleForm = new ReadArticleForm(article);
+		readArticleForm = new ReadArticleForm(article, controller);
 		readArticleForm.setWidth("550px");
 		readArticleForm.setStyleName("mydiv");
 		commentForm = new CommentForm(commentList);

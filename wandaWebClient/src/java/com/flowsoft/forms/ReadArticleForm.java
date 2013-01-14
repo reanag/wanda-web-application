@@ -9,6 +9,7 @@ import com.flowsoft.aviews.MainView;
 import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.Article;
 import com.flowsoft.domain.Tag;
+import com.flowsoft.wanda.UserDetailsService;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -26,10 +27,12 @@ public class ReadArticleForm extends GridLayout {
 	private ArrayList<Link> tags;
 	private Article article;
 	private Button editButton;
+	private ArticleRatingForm ratingForm;
 
-	public ReadArticleForm(Article a) {
-		super(2, 4);
+	public ReadArticleForm(Article a, UserDetailsService u) {
+		super(3, 5);
 		this.article = a;
+		ratingForm = new ArticleRatingForm(u, article.getId());
 	}
 
 	public void enter() {
@@ -43,7 +46,9 @@ public class ReadArticleForm extends GridLayout {
 				+ article.getOwner().getLastName());
 		auth.setStyleName(Reindeer.LABEL_H2);
 
-		addComponent(title, 0, 0);
+		ratingForm.setSizeUndefined();
+
+		addComponent(title, 0, 0, 2, 0);
 
 		if (article
 				.getOwner()
@@ -63,11 +68,11 @@ public class ReadArticleForm extends GridLayout {
 			});
 			this.setColumnExpandRatio(1, 1);
 			this.setColumnExpandRatio(0, 15);
-			addComponent(editButton, 1, 0);
+			addComponent(editButton, 2, 0);
 
 		}
-		addComponent(auth, 0, 1);
-		addComponent(content, 0, 2, 1, 2);
+		addComponent(auth, 0, 1, 2, 1);
+		addComponent(content, 0, 2, 2, 2);
 		if (article.getTagList() != null) {
 
 			for (Tag s : article.getTagList()) {
@@ -84,7 +89,9 @@ public class ReadArticleForm extends GridLayout {
 				tagsForm.addComponent(l);
 			}
 			addComponent(tagsForm, 0, 3, 1, 3);
+
 		}
+		addComponent(ratingForm, 1, 4, 2, 4);
 
 	}
 }
