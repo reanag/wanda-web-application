@@ -16,6 +16,7 @@
 		<param-value>classpath:context.xml</param-value>
 	</context-param>
 
+
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
@@ -51,7 +52,13 @@
 			<param-name>UI</param-name>
 			<param-value>com.flowsoft.client.WandaVaadinClient</param-value>
 		</init-param>
-		
+		<init-param>
+			<description>Application widgetset</description>
+			<param-name>widgetset</param-name>
+			<param-value>org.vaadin.teemu.ratingstars.gwt.RatingStarsWidgetset</param-value>
+		</init-param>
+
+
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>WandaWebClient Application</servlet-name>
