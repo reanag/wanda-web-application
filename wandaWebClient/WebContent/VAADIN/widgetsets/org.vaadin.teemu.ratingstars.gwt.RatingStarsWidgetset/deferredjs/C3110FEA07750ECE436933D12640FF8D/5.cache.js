@@ -1,0 +1,1 @@
+$wnd.org_vaadin_teemu_ratingstars_gwt_RatingStarsWidgetset.runAsyncCallback5('mpb(1,-1,gwe);_.gC=function Q(){return this.cZ};mpb(618,1,uxe);_.Yb=function eUb(){cUb(this)};lye(lh)(5);\n//@ sourceURL=5.js\n')
