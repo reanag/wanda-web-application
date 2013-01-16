@@ -344,4 +344,22 @@ public class ArticleDaoImpl implements ArticleDao {
 				.setParameter("content", "%" + contentSegment + "%");
 		return WandaUtil.convertArticleListToDomain(query.getResultList());
 	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Double getRank(Integer articleId) {
+		com.flowsoft.entity.Article a = em.find(
+				com.flowsoft.entity.Article.class, articleId);
+		return a.getRank();
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Double setRank(Integer articleId, Double newRank) {
+		com.flowsoft.entity.Article a = em.find(
+				com.flowsoft.entity.Article.class, articleId);
+		a.calculateRank(newRank);
+		em.persist(a);
+		return a.getRank();
+	}
 }

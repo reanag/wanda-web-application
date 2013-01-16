@@ -63,4 +63,8 @@ public interface ArticleDao {
 
 	List<Article> findArticleByContent(String contentSegment);
 
+	Double getRank(Integer articleId);
+
+	Double setRank(Integer articleId, Double newRank);
+
 }

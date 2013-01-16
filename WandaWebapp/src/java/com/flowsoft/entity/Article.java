@@ -21,7 +21,8 @@ public class Article extends AbstractEntity implements Serializable {
 
 	@ManyToOne()
 	private WandaUser owner;
-	private Integer rank;
+	private Double rank;
+	private Integer rankCount;
 
 	@ManyToMany
 	private Map<Integer, Tag> tagList = new HashMap<Integer, Tag>();
@@ -91,12 +92,34 @@ public class Article extends AbstractEntity implements Serializable {
 
 	}
 
-	public Integer getRank() {
+	public Double getRank() {
 		return rank;
 	}
 
-	public void setRank(Integer rank) {
+	public void setRank(Double rank) {
 		this.rank = rank;
+	}
+
+	public void calculateRank(Double rank) {
+		logger.debug("rank: " + rank);
+		if (rankCount == null) {
+			rankCount = 0;
+		}
+		if (this.rank == null) {
+			this.rank = 0.0;
+		}
+		this.rank = (this.rank * rankCount + rank) / (rankCount + 1);
+		logger.debug("new rank: " + rank);
+		this.rankCount++;
+
+	}
+
+	public Integer getRankCount() {
+		return rankCount;
+	}
+
+	public void setRankCount(Integer rankCount) {
+		this.rankCount = rankCount;
 	}
 
 }

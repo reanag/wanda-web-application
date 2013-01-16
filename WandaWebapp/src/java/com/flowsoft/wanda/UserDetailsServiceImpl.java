@@ -192,4 +192,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		return articleDao.findArticleByContent(content);
 	}
 
+	@Override
+	public Double getRank(Integer articleId) {
+		// TODO Auto-generated method stub
+		return articleDao.getRank(articleId);
+	}
+
+	@Override
+	public Double setRank(Integer articleId, Double newRank) {
+		// TODO Auto-generated method stub
+		return articleDao.setRank(articleId, newRank);
+	}
+
 }

@@ -111,4 +111,11 @@ public interface UserDetailsService {
 	List<Article> findArticleByContent(
 			@WebParam(name = "contentSegment") String content);
 
+	@WebResult(name = "rank")
+	Double getRank(@WebParam(name = "articleId") Integer articleId);
+
+	@WebResult(name = "newRank")
+	Double setRank(@WebParam(name = "articleId") Integer articleId,
+			@WebParam(name = "newRank") Double newRank);
+
 }
