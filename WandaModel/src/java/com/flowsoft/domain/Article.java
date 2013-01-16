@@ -18,7 +18,8 @@ public class Article implements Serializable {
 	private WandaUser owner;
 	@NotNull
 	private Category category;
-	private Integer rank;
+	private Double rank;
+	private Integer rankCount;
 
 	@NotNull
 	@Size(max = 100, min = 3)
@@ -113,12 +114,20 @@ public class Article implements Serializable {
 		this.tagList = tagList;
 	}
 
-	public Integer getRank() {
+	public Double getRank() {
 		return rank;
 	}
 
-	public void setRank(Integer rank) {
+	public void setRank(Double rank) {
 		this.rank = rank;
+	}
+
+	public Integer getRankCount() {
+		return rankCount;
+	}
+
+	public void setRankCount(Integer rankCount) {
+		this.rankCount = rankCount;
 	}
 
 }
