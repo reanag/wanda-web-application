@@ -211,7 +211,7 @@ public class CreateArticleForm extends GridLayout implements
 
 	}
 
-	public void setCategoryList(List<Category> existingCategories) {
+	public static void setCategoryList(List<Category> existingCategories) {
 		categoryList = existingCategories;
 		for (Category c : existingCategories) {
 			categorySelectComboBox.addItem(c.getCategoryName());

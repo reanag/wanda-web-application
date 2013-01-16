@@ -17,6 +17,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.Reindeer;
 
 public class CommentForm extends CssLayout {
 	Logger logger = LoggerFactory.getLogger(CommentForm.class);
@@ -28,21 +29,23 @@ public class CommentForm extends CssLayout {
 	private List<Comment> list;
 
 	public CommentForm(List<Comment> commentList) {
-
 		this.list = commentList;
-
+		this.setStyleName("comment");
 	}
 
 	public void enter() {
 		vl = new VerticalLayout();
 		label = new Label();
 		label.setValue("Comments:");
+		label.setStyleName(Reindeer.LABEL_H2);
 
 		commentContentTextfield = new TextArea();
+		commentContentTextfield.setStyleName("comment");
 		commentContentTextfield.setImmediate(true);
 		commentContentTextfield.setWidth("450px");
 
 		submitButton = new Button("Submit");
+		submitButton.setStyleName("comment");
 		submitButton.setImmediate(true);
 		submitButton.addListener(new Button.ClickListener() {
 

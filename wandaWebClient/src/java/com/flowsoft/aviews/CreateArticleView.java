@@ -47,11 +47,12 @@ public class CreateArticleView extends GeneralView {
 		binder.setItemDataSource(item);
 		binder.bindMemberFields(createForm);
 
-		createForm.setCategoryList(controller.findAllExistingCategory());
+		if (createForm.getCategoryList() == null
+				|| createForm.getCategoryList().isEmpty()) {
+			createForm.setCategoryList(controller.findAllExistingCategory());
+		}
 
-		mainLayout.removeAllComponents();
 		if (mainLayout.getComponentCount() == 0) {
-			logger.debug("main components: " + mainLayout.getComponentCount());
 			mainLayout.addComponent(createForm);
 		}
 

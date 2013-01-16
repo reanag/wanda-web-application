@@ -27,21 +27,29 @@ public class CssLinkListComponent extends GridLayout {
 	public void setStyleName(String style) {
 		super.setStyleName(style);
 		if (titleLabel != null) {
-			titleLabel.setStyleName("16-style");
-			titleLabel.setHeight("30");
-
+			titleLabel.setStyleName("title-label-style");
+			titleLabel.setHeight("30px");
+		}
+		if (listElements != null) {
 			for (Link l : listElements) {
 				l.setStyleName(style);
 			}
 		}
+
 	}
 
 	public void setTitle(String string) {
-		if (titleLabel == null) {
-			titleLabel = new Link(string, null);
-			titleLabel.setEnabled(false);
-			titleLabel.setSizeFull();
-			addComponent(titleLabel);
+		if (titleLabel == null && string == null) {
+			return;
+		} else {
+			if (titleLabel == null) {
+				titleLabel = new Link(string, null);
+				titleLabel.setEnabled(false);
+				titleLabel.setSizeFull();
+				addComponent(titleLabel);
+			} else {
+				titleLabel.setCaption(string);
+			}
 		}
 
 	}

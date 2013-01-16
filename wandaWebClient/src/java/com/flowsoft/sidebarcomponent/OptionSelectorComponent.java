@@ -19,11 +19,12 @@ public class OptionSelectorComponent extends GridLayout {
 	private CssLinkListComponent favoriteCategoryGroup;
 	private CssLinkListComponent ownCategoryGroup;
 	private CssLinkComponent settingsLink;
+	private GridLayout layout;
 	static Logger logger = LoggerFactory
 			.getLogger(OptionSelectorComponent.class);
 
 	public OptionSelectorComponent(Navigator navigator) {
-
+		layout = new GridLayout(1, 4);
 		ownCategoryGroup = new CssLinkListComponent();
 		// TODO: A: CreateArticleView design
 		createArticleLink = new CssLinkComponent("Write new article..",
@@ -45,14 +46,15 @@ public class OptionSelectorComponent extends GridLayout {
 		settingsLink = new CssLinkComponent("SETTINGS..", new ExternalResource(
 				"#!" + CreateArticleView.NAME));
 
-		settingsLink.setHeight("30");
-		addComponent(settingsLink);
-		createArticleLink.setHeight("30");
-		addComponent(createArticleLink);
-		createArticleLink.setStyleName("16-style");
-		settingsLink.setStyleName("16-style");
-		addComponent(ownCategoryGroup);
-		addComponent(favoriteCategoryGroup);
+		settingsLink.setHeight("40px");
+		layout.addComponent(settingsLink, 0, 0);
+		createArticleLink.setHeight("40px");
+		layout.addComponent(createArticleLink, 0, 1);
+		createArticleLink.setStyleName("title-style");
+		settingsLink.setStyleName("title-style");
+		layout.addComponent(ownCategoryGroup, 0, 2);
+		layout.addComponent(favoriteCategoryGroup, 0, 3);
+		addComponent(layout);
 
 	}
 

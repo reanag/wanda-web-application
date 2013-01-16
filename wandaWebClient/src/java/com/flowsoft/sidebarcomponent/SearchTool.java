@@ -21,13 +21,16 @@ public class SearchTool extends GridLayout {
 	private Link advancedSearch;
 
 	public SearchTool() {
+
 		super(2, 3);
 		searchField = new TextField();
 		searchField.setWidth("190");
 		searchField.setImmediate(true);
 		searchField.setInputPrompt("Search in title..");
+		searchField.setStyleName("sidebarStyle");
 		submitButton = new Button();
 		submitButton.setCaption("OK");
+		submitButton.setStyleName("sidebarStyle");
 		submitButton.addClickListener(new Button.ClickListener() {
 
 			private static final long serialVersionUID = 3378831040295729624L;
@@ -39,12 +42,15 @@ public class SearchTool extends GridLayout {
 
 			}
 		});
+
 		isAccurateSearch = new CheckBox("Accurate search");
+
+		isAccurateSearch.setStyleName("sidebarStyle");
 		advancedSearch = new Link("Advanced search", new ExternalResource("#!"
 				+ SearchView.NAME));
 
 		advancedSearch.setHeight("30");
-
+		advancedSearch.setStyleName("sidebarStyle");
 		addComponent(searchField, 0, 0);
 		addComponent(submitButton, 1, 0);
 		addComponent(isAccurateSearch, 0, 1);

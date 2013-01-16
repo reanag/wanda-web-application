@@ -9,6 +9,7 @@ import com.flowsoft.domain.Article;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.themes.Reindeer;
 
 public class ArticleRecommenderComponent extends GridLayout {
 
@@ -20,7 +21,8 @@ public class ArticleRecommenderComponent extends GridLayout {
 
 	public ArticleRecommenderComponent() {
 		articleRecommender = new TabSheet();
-		articleRecommender.setHeight("150px");
+		articleRecommender.setStyleName(Reindeer.TABSHEET_MINIMAL);
+		// articleRecommender.setHeight("150px");
 
 	}
 
@@ -62,13 +64,15 @@ public class ArticleRecommenderComponent extends GridLayout {
 		}
 
 		recentArticlesList = new CssLinkListComponent(null, recentList);
+		recentArticlesList.setStyleName("list");
 
 		recommendedArticlesList = new CssLinkListComponent(null,
 				recommendedList);
+		recommendedArticlesList.setStyleName("list");
 		popularArticlesList = new CssLinkListComponent(null, popularList);
-
+		popularArticlesList.setStyleName("list");
 		articleRecommender.addTab(recentArticlesList, "Recent");
-		articleRecommender.addTab(recommendedArticlesList, "Recommended");
+		articleRecommender.addTab(recommendedArticlesList, "Advised");
 		articleRecommender.addTab(popularArticlesList, "Popular");
 		if (getComponentCount() < 1) {
 			addComponent(articleRecommender);

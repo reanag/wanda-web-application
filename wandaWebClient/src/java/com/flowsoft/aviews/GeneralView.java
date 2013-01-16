@@ -19,12 +19,13 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Embedded;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 public abstract class GeneralView extends Panel implements View, Serializable {
@@ -34,40 +35,39 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	public static Logger logger = LoggerFactory.getLogger(MainView.class);
 	protected static VerticalLayout baseLayout;
 	protected static HorizontalLayout headerLayout;
-	protected static HorizontalLayout bodyLayout;
-	protected VerticalLayout mainLayout;
+	protected static GridLayout bodyLayout;
+	protected static VerticalLayout mainLayout = new VerticalLayout();
 	protected static HorizontalLayout footerLayout;
 	protected static Sidebar sidebar;
-	protected TextField usernameLabel;
+	protected static Link usernameLabel;
 	static protected Navigator navigator;
 	public static WandaUser aktUser;
 	@WebServiceRef
 	static protected UserDetailsService controller;
 
-	public void init() {
+	public static void init() {
 		UserDetailsServiceImplService ss = new UserDetailsServiceImplService();
 		controller = ss.getUserDetailsServicePort();
+		baseLayout = new VerticalLayout();
+		// mainLayout = new VerticalLayout();
+		mainLayout.setWidth("600px");
+		resizeMainLayout();
+		bodyLayout = new GridLayout(2, 1);
 	}
 
 	public GeneralView() {
 		init();
-		baseLayout = new VerticalLayout();
-		mainLayout = new VerticalLayout();
-		mainLayout.setWidth("600px");
-		resizeMainLayout();
-		bodyLayout = new HorizontalLayout();
 	}
 
-	protected void generateSideBar() {
+	protected static void generateSideBar() {
 		sidebar = new Sidebar(navigator, controller);
 		sidebar.setStyleName("myblack");
 		sidebar.setSizeFull();
-
 		fetchSidebarData();
 		resizeMainLayout();
 	}
 
-	protected void resizeMainLayout() {
+	protected static void resizeMainLayout() {
 		if (baseLayout != null) {
 			baseLayout.setSizeUndefined();
 		}
@@ -83,23 +83,46 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 
 	}
 
-	public void generateHeader() {
+	public static void generateHeader() {
+
+		// final ThemeResource flashResource = new ThemeResource(
+		// "script/piecemaker.swf");
+		// FileResource flashResource = new FileResource(
+		// new File(
+		// "C://Users//Andika//Desktop//Color-Changeable-Navigation-Menus//4xmlmenusrg.swf"));
+		// // // new File(
+		// "C://Users//Andika//Desktop//wanda//workspace//workspace-sts-cfx-3.1.0.RELEASE//wandaWebClient//WebContent//WEB-INF//script//first.swf"));
+		// final Embedded embedded = new Embedded(null, flashResource);
+
+		// This is the default type, but we set it anyway.
+		// embedded.setType(Embedded.TYPE_OBJECT);
+		// embedded.setWidth("600px");
+
+		// embedded.setStyleName("bordered");
+		// embedded.setHeight("180px");
+		// // This is recorgnized automatically, but set it anyway.
+		// embedded.setMimeType("application/x-shockwave-flash");
 
 		headerLayout = new HorizontalLayout();
 		headerLayout.setHeight("105px");
 		headerLayout.setWidth("100%");
 
-		Label l = new Label(WandaVaadinClient.captions.getString("HeaderTitle"));
-		l.setHeight("80px");
-		l.setStyleName("title");
+		// Label l = new
+		// Label(WandaVaadinClient.captions.getString("HeaderTitle"));
+		// l.setHeight("80px");
+		// l.setStyleName("title");
 
-		usernameLabel = new TextField();
-		usernameLabel.setEnabled(false);
-		usernameLabel.setStyleName("mydiv");
+		usernameLabel = new Link();
+		// usernameLabel.setEnabled(false);
+		usernameLabel.setStyleName("username");
 		usernameLabel.setImmediate(true);
 
-		headerLayout.addComponent(l);
-		headerLayout.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
+		Embedded embedded = new Embedded("", new ThemeResource("img/long.gif"));
+		embedded.setHeight("120px");
+		headerLayout.setHeight("120px");
+		headerLayout.addComponent(embedded);
+		// headerLayout.addComponent(l);
+		// headerLayout.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
 
 		headerLayout.addComponent(usernameLabel);
 		headerLayout.setComponentAlignment(usernameLabel,
@@ -125,19 +148,16 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 
 	public static void fetchSidebarData() {
 		sidebar.initTagList(controller.getAllTag());
-		// TODO: ws-s
 		sidebar.initArticleBlokk(controller.getRecentArticle(3),
 				controller.getMostPopularArticle(3),
 				controller.getMostRecommendedArticle(3));
-
 		if (aktUser != null) {
-
 			sidebar.initUserCategories(controller.getUserCategories(aktUser
 					.getId()));
 		}
 	}
 
-	public void generateFooter() {
+	public static void generateFooter() {
 		footerLayout = new HorizontalLayout();
 		footerLayout.setHeight("85px");
 		footerLayout.setWidth("100%");
@@ -169,16 +189,23 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		generateBody();
 		generateSideBar();
 		generateFooter();
-
+		if (mainLayout.getComponentCount() > 0) {
+			mainLayout.removeAllComponents();
+		}
 		if (getComponentCount() == 0) {
 			if (bodyLayout.getComponentCount() == 0) {
 				bodyLayout.addStyleName("horizontalright");
-				bodyLayout.addComponent(mainLayout);
+				bodyLayout.addComponent(mainLayout, 0, 0);
+				mainLayout.setStyleName("main");
 				bodyLayout.setComponentAlignment(mainLayout,
+						Alignment.MIDDLE_LEFT);
+				sidebar.setStyleName("sidebar");
+				bodyLayout.addComponent(sidebar, 1, 0);
+				sidebar.setWidth("150px");
+				bodyLayout.setComponentAlignment(sidebar,
 						Alignment.MIDDLE_RIGHT);
-				bodyLayout.addComponent(sidebar);
-				bodyLayout.setComponentAlignment(mainLayout,
-						Alignment.MIDDLE_RIGHT);
+				bodyLayout.setColumnExpandRatio(0, 10);
+				bodyLayout.setColumnExpandRatio(1, 1);
 			}
 			if (baseLayout.getComponentCount() == 0) {
 				baseLayout.addComponent(headerLayout);
@@ -192,7 +219,9 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		}
 		logger.debug("GeneralView construct done: " + this.getClass());
 
-		usernameLabel.setValue(aktUser.getUsername());
+		usernameLabel.setCaption(aktUser.getUsername());
+		// TODO:
+		// usernameLabel.setExternalLink
 		// resizeMainLayout();
 	}
 

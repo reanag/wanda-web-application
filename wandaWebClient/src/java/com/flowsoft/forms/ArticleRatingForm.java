@@ -36,6 +36,7 @@ public class ArticleRatingForm extends GridLayout {
 	}
 
 	public ArticleRatingForm(UserDetailsService c, Integer i) {
+		this.setStyleName("rate");
 		controller = c;
 		id = i;
 		table = new Table();
@@ -103,6 +104,7 @@ public class ArticleRatingForm extends GridLayout {
 				controller.setRank(id, value);
 				avgRs.setValue(controller.getRank(id));
 				avgRs.setReadOnly(true);
+				yourRs.setReadOnly(true);
 			}
 		});
 		allRatingStars.add(yourRs);

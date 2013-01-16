@@ -74,16 +74,19 @@ public class LoginView extends Panel implements View, Serializable {
 	}
 
 	public void init() {
+		this.setStyleName("login");
 		mainLayout = new VerticalLayout();
 		loginLayout = new VerticalLayout();
 
 		image = new Embedded("", new ThemeResource("img/logo.gif"));
-		image.setHeight("150px");
-		image.setWidth("156px");
+		image.setHeight("200");
+		image.setWidth("210");
 		tf = new TextField(WandaVaadinClient.captions.getString("username"));
 		tf.setValue("erwin");
+		tf.setStyleName("login");
 		pf = new PasswordField(WandaVaadinClient.captions.getString("password"));
 		pf.setValue("12345");
+		pf.setStyleName("login");
 		addListener(new com.vaadin.ui.Component.Listener() {
 			@Override
 			public void componentEvent(Event event) {
@@ -131,7 +134,7 @@ public class LoginView extends Panel implements View, Serializable {
 									"username", auth.getName());
 							// VaadinServiceSession.getCurrent().setAttribute("username",
 							// auth.getName());
-							navigator.addView(MainView.NAME, new MainView());
+							// navigator.addView(MainView.NAME, new MainView());
 							logger.debug("Set session variable username: "
 									+ auth.getName());
 
@@ -183,12 +186,14 @@ public class LoginView extends Panel implements View, Serializable {
 
 				});
 
+		mainLayout.setStyleName("login");
 		mainLayout.setHeight("500px");
 		mainLayout.addComponent(image);
+		loginLayout.setStyleName("login");
 		loginLayout.addComponent(tf);
 		loginLayout.addComponent(pf);
 		loginLayout.addComponent(b);
-		loginLayout.setHeight("150px");
+		// loginLayout.setHeight("150px");
 		mainLayout.addComponent(loginLayout);
 
 		mainLayout.setComponentAlignment(image, Alignment.TOP_CENTER);

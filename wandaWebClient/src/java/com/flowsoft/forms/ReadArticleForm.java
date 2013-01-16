@@ -36,7 +36,7 @@ public class ReadArticleForm extends GridLayout {
 	}
 
 	public void enter() {
-
+		removeAllComponents();
 		tags = new ArrayList<Link>();
 		Label content = new Label(article.getContent());
 
@@ -48,7 +48,7 @@ public class ReadArticleForm extends GridLayout {
 
 		ratingForm.setSizeUndefined();
 
-		addComponent(title, 0, 0, 2, 0);
+		addComponent(title, 0, 0, 1, 0);
 
 		if (article
 				.getOwner()

@@ -63,11 +63,11 @@ public class SearchResultView extends GeneralView {
 		articles = new Vector<CssLayout>();
 	}
 
-	public UserDetailsService getController() {
-		return this.controller;
+	public static UserDetailsService getController() {
+		return controller;
 	}
 
-	public void setController(UserDetailsService controller) {
-		this.controller = controller;
+	public static void setController(UserDetailsService c) {
+		controller = c;
 	}
 }

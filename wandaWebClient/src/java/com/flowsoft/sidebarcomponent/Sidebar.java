@@ -26,6 +26,7 @@ public class Sidebar extends Panel implements View {
 		this.setWidth("100px");
 		navigator = n;
 		controller = c;
+
 		searchTool = new SearchTool();
 		optionSelector = new OptionSelectorComponent(n);
 		optionSelector.setStyleName("optionSelStyle");

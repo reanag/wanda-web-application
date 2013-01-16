@@ -40,4 +40,12 @@ public class LinkLabel extends Label implements Serializable {
 		return resource;
 	}
 
+	public void setLinkText(String string) {
+		this.linkText = string;
+		setContentMode(ContentMode.HTML);
+		setValue(content + "<a href=\"" + resource.getURL() + " \">" + linkText
+				+ "</a> ");
+
+	}
+
 }
