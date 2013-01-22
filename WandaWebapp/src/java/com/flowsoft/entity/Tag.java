@@ -26,7 +26,7 @@ public class Tag extends AbstractEntity implements Serializable {
 	}
 
 	public Tag(String name) {
-		logger.debug("Create Tag with id: " + name);
+
 		this.tagName = name;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();

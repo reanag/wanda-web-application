@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -21,7 +22,9 @@ public class Article extends AbstractEntity implements Serializable {
 
 	@ManyToOne()
 	private WandaUser owner;
+	@Column(columnDefinition = "double precision default '0'")
 	private Double rank;
+	@Column(columnDefinition = "double precision default '0'")
 	private Integer rankCount;
 
 	@ManyToMany
@@ -45,8 +48,7 @@ public class Article extends AbstractEntity implements Serializable {
 		this.content = content;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();
-		logger.debug("Create Article with id: " + this.title + " by: "
-				+ owner.getUsername());
+
 	}
 
 	public WandaUser getOwner() {
@@ -109,7 +111,7 @@ public class Article extends AbstractEntity implements Serializable {
 			this.rank = 0.0;
 		}
 		this.rank = (this.rank * rankCount + rank) / (rankCount + 1);
-		logger.debug("new rank: " + rank);
+
 		this.rankCount++;
 
 	}

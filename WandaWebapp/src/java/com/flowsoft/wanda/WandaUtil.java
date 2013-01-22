@@ -45,7 +45,7 @@ public class WandaUtil {
 			List<com.flowsoft.entity.Article> resultList) {
 		List<Article> domainList = new ArrayList<Article>();
 		for (com.flowsoft.entity.Article a : resultList) {
-			domainList.add(convertArticleToDomain(a));
+			domainList.add(convertArticleToDomain2(a));
 		}
 
 		return domainList;
@@ -84,7 +84,24 @@ public class WandaUtil {
 		domainObject.setId(a.getId());
 		domainObject.setOwner(convertWandaUserToDomain(a.getOwner()));
 		domainObject.setTitle(a.getTitle());
-		// domainObject.setTagList(convertTagListToDomain(a.getTagList()));
+		if (a.getTagList() != null) {
+			domainObject.setTagList(convertTagListToDomain(a.getTagList()));
+		}
+
+		return domainObject;
+	}
+
+	public static Article convertArticleToDomain2(com.flowsoft.entity.Article a) {
+
+		Article domainObject = new Article();
+		domainObject.setCategory(convertCategoryToDomain(a.getCategory()));
+		domainObject.setContent(a.getContent());
+		domainObject.setRank(a.getRank());
+		domainObject.setCreatedTS(a.getCreatedTS());
+		domainObject.setModifiedTS(a.getModifiedTS());
+		domainObject.setId(a.getId());
+		domainObject.setOwner(convertWandaUserToDomain(a.getOwner()));
+		domainObject.setTitle(a.getTitle());
 
 		return domainObject;
 	}
@@ -115,7 +132,9 @@ public class WandaUtil {
 	private static Set<Tag> convertTagListToDomain(
 			Map<Integer, com.flowsoft.entity.Tag> tagMap) {
 		Set<Tag> domainSet = new HashSet<Tag>();
-
+		if (tagMap == null || tagMap.isEmpty()) {
+			return domainSet;
+		}
 		for (Entry<Integer, com.flowsoft.entity.Tag> t : tagMap.entrySet()) {
 			domainSet.add(convertTagToDomain(t.getValue()));
 		}
@@ -161,7 +180,7 @@ public class WandaUtil {
 		com.flowsoft.entity.WandaUser w = new com.flowsoft.entity.WandaUser();
 		w.setCreatedTS(owner.getCreatedTS());
 		w.setModifiedTS(owner.getModifiedTS());
-		w.setEmailAdress(owner.getEmailAdress());
+		w.setEmailAdress(owner.getEmailAddress());
 		w.setEnabled(owner.isEnabled());
 		// w.setFavoriteArticles(convertArticleSetToEntity(owner
 		// .getFavoriteArticles()));
@@ -207,6 +226,7 @@ public class WandaUtil {
 		w.setPassword(entityObject.getPassword());
 		w.setRole(entityObject.getRole());
 		w.setUsername(entityObject.getUsername());
+		w.setAboutText(entityObject.getAboutText());
 		return w;
 	}
 

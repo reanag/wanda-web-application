@@ -7,6 +7,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -52,16 +54,22 @@ public class ArticleDaoImpl implements ArticleDao {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void persistArticle(Article a) {
-		logger.debug("category value in serverside: " + a);
+	public Article persistArticle(Article a) {
+
 		// if (em.find(com.flowsoft.entity.Category.class,
 		// a.getCategory().getId()) != null) {
 		//
 		// em.persist(WandaUtil.convertCategoryToEntity(a.getCategory()));
 		// em.flush();
 		// }
-		em.persist(WandaUtil.convertArticleToEntity(a));
+		com.flowsoft.entity.Article ent = WandaUtil.convertArticleToEntity(a);
+		if (a.getId() == null) {
+			em.persist(ent);
+		} else {
+			em.merge(ent);
+		}
 		em.flush();
+		return WandaUtil.convertArticleToDomain(ent);
 	}
 
 	@Override
@@ -143,14 +151,13 @@ public class ArticleDaoImpl implements ArticleDao {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public String deleteArticle(Integer id, String aktUser) {
+	public String deleteArticle(Integer id) {
 		com.flowsoft.entity.Article article = em.find(
 				com.flowsoft.entity.Article.class, id);
-		if (article.getOwner().getUsername().equals(aktUser)) {
-			em.remove(article);
-			return "OK";
-		}
-		return "Cannot delete";
+
+		em.remove(article);
+		em.flush();
+		return "OK";
 
 	}
 
@@ -210,6 +217,7 @@ public class ArticleDaoImpl implements ArticleDao {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
+	@Fetch(FetchMode.JOIN)
 	public Article findArticleById(Integer headerId) {
 		return WandaUtil.convertArticleToDomain(em.find(
 				com.flowsoft.entity.Article.class, headerId));
@@ -240,6 +248,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Article> getMostRecentArticle(Integer numberOfArticles) {
 
 		List<com.flowsoft.entity.Article> result = em.createQuery(
@@ -256,6 +265,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Article> getMostPopularArticle(Integer numberOfArticles) {
 		List<com.flowsoft.entity.Article> result = em.createQuery(
 				"select a from Article a order by a.rank asc",
@@ -270,6 +280,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Article> getMostRecommendedArticle(Integer numberOfArticles) {
 		List<com.flowsoft.entity.Article> result = em.createQuery(
 				"select a from Article a order by a.rank asc",
@@ -299,6 +310,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Article> findArticleByAuthor(String username, Boolean isAccurate) {
 		if (!isAccurate) {
 			Query query = em.createQuery(
@@ -331,6 +343,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Article> findArticleByCategory(String categoryName,
 			Boolean isAccurate) {
 		// TODO Auto-generated method stub
@@ -338,6 +351,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Article> findArticleByContent(String contentSegment) {
 		Query query = em.createQuery(
 				"SELECT e FROM Article e where content like :content")
@@ -348,6 +362,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Double getRank(Integer articleId) {
+		logger.debug("Try to getRank with id: " + articleId);
 		com.flowsoft.entity.Article a = em.find(
 				com.flowsoft.entity.Article.class, articleId);
 		return a.getRank();
@@ -361,5 +376,32 @@ public class ArticleDaoImpl implements ArticleDao {
 		a.calculateRank(newRank);
 		em.persist(a);
 		return a.getRank();
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<Article> findArticleByTag(String tagname) {
+		logger.debug(tagname);
+
+		com.flowsoft.entity.Tag tag = (com.flowsoft.entity.Tag) em
+				.createQuery("Select t from Tag t where t.tagName =:tagname")
+				.setParameter("tagname", tagname).getSingleResult();
+		logger.debug(tag.getTagName());
+
+		List<com.flowsoft.entity.Article> arc = em
+				.createQuery(
+						"SELECT a FROM Article a where :tag in elements(a.tagList)")
+				.setParameter("tag", tag).getResultList();
+		logger.debug("Article list size: " + arc.size());
+		return WandaUtil.convertArticleListToDomain(arc);
+
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void persistUser(WandaUser w) {
+		em.persist(WandaUtil.convertWandaUserToEntity(w));
+		em.flush();
+
 	}
 }

@@ -2,6 +2,7 @@ package com.flowsoft.wanda;
 
 import java.util.List;
 
+import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 
@@ -62,15 +63,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	// return articleDao.findAllCommentFor(articleTitle);
 	// }
 
-	@Override
-	public Boolean createUser(String username, String password,
-			String firstName, String lastName) {
-		if (userDao.createUser(username, password, firstName, lastName) != null) {
-			return true;
-		}
-		return false;
-
-	}
+	// @Override
+	// public Boolean createUser(String username, String password,
+	// String firstName, String lastName) {
+	// if (userDao.createUser(username, password, firstName, lastName) != null)
+	// {
+	// return true;
+	// }
+	// return false;
+	//
+	// }
 
 	@Override
 	public String getArticleContentByTitle(String title) {
@@ -94,8 +96,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	@Override
-	public String deleteArticle(Integer id, String aktUsername) {
-		return articleDao.deleteArticle(id, aktUsername);
+	public String deleteArticle(Integer id) {
+		return articleDao.deleteArticle(id);
 
 	}
 
@@ -117,8 +119,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	@Override
-	public void commitArticle(Article a) {
-		articleDao.persistArticle(a);
+	public Article commitArticle(Article a) {
+		return articleDao.persistArticle(a);
 
 	}
 
@@ -202,6 +204,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public Double setRank(Integer articleId, Double newRank) {
 		// TODO Auto-generated method stub
 		return articleDao.setRank(articleId, newRank);
+	}
+
+	@Override
+	@WebResult(name = "articles")
+	public List<Article> findArticleByTag(String tagname) {
+		// TODO Auto-generated method stub
+		return articleDao.findArticleByTag(tagname);
+	}
+
+	@Override
+	public void createUser(@WebParam(name = "wandaUser") WandaUser w) {
+		articleDao.persistUser(w);
+
 	}
 
 }

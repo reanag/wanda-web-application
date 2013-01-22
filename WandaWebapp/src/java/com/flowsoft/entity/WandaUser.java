@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,9 @@ public class WandaUser extends AbstractEntity implements Serializable {
 
 	private String firstName;
 	private String lastName;
+	private Avatar avatar;
+	@Size(max = 1200)
+	private String aboutText;
 
 	@OneToMany(orphanRemoval = true, mappedBy = "owner")
 	private List<Category> categories;
@@ -151,6 +155,14 @@ public class WandaUser extends AbstractEntity implements Serializable {
 		this.role = role;
 	}
 
+	public String getAboutText() {
+		return aboutText;
+	}
+
+	public void setAboutText(String aboutText) {
+		this.aboutText = aboutText;
+	}
+
 	@Override
 	public String toString() {
 		return "WandaUser [username=" + username + ", password=" + password
@@ -158,6 +170,14 @@ public class WandaUser extends AbstractEntity implements Serializable {
 				+ ", emailAdress=" + emailAdress + ", birthDate="
 				+ ", enabled=" + enabled + ", role=" + role + ", createdTS=";
 		// + ", modifiedTS=" + ", articles=" + articles + "]";
+	}
+
+	public Avatar getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(Avatar avatar) {
+		this.avatar = avatar;
 	}
 
 }

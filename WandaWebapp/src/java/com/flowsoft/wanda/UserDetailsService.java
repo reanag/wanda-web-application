@@ -34,11 +34,7 @@ public interface UserDetailsService {
 	// List<Comment> findAllCommentFor(
 	// @WebParam(name = "articleTitle") String articleTitle);
 
-	@WebResult(name = "creationSuccess")
-	Boolean createUser(@WebParam(name = "username") String username,
-			@WebParam(name = "password") String password,
-			@WebParam(name = "firstName") String firstName,
-			@WebParam(name = "lastName") String lastName);
+	void createUser(@WebParam(name = "wandaUser") WandaUser w);
 
 	void createCategory(@WebParam(name = "wandaUser") WandaUser owner,
 			@WebParam(name = "categoryName") String name);
@@ -50,8 +46,7 @@ public interface UserDetailsService {
 			@WebParam(name = "articleTitle") String title,
 			@WebParam(name = "articleContent") String content);
 
-	String deleteArticle(@WebParam(name = "articleId") Integer id,
-			@WebParam(name = "aktUser") String aktuser);
+	String deleteArticle(@WebParam(name = "articleId") Integer id);
 
 	void editArticle(@WebParam(name = "articleId") Integer id,
 			@WebParam(name = "newContent") String newContent);
@@ -62,7 +57,7 @@ public interface UserDetailsService {
 	@WebResult(name = "categoryList")
 	public List<Category> findAllExistingCategory();
 
-	public void commitArticle(@WebParam(name = "article") Article a);
+	public Article commitArticle(@WebParam(name = "article") Article a);
 
 	@WebResult(name = "userCategoryList")
 	public List<Category> getUserCategories(
@@ -118,4 +113,6 @@ public interface UserDetailsService {
 	Double setRank(@WebParam(name = "articleId") Integer articleId,
 			@WebParam(name = "newRank") Double newRank);
 
+	@WebResult(name = "articles")
+	List<Article> findArticleByTag(@WebParam(name = "tagName") String tagname);
 }

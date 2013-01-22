@@ -18,8 +18,10 @@ abstract public class AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	protected Date createdTS;
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	protected Date modifiedTS;
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -15,7 +15,7 @@ public interface ArticleDao {
 
 	// List<Comment> findAllCommentFor(String article);
 
-	void persistArticle(Article a);
+	Article persistArticle(Article a);
 
 	void persistCategory(Category c);
 
@@ -31,7 +31,7 @@ public interface ArticleDao {
 
 	void createArticle(WandaUser owner, String title, String content);
 
-	String deleteArticle(Integer id, String aktUsername);
+	String deleteArticle(Integer id);
 
 	void editArticle(Integer id, String newContent);
 
@@ -66,5 +66,9 @@ public interface ArticleDao {
 	Double getRank(Integer articleId);
 
 	Double setRank(Integer articleId, Double newRank);
+
+	List<Article> findArticleByTag(String tagname);
+
+	void persistUser(WandaUser w);
 
 }
