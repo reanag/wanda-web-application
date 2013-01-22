@@ -46,7 +46,5 @@ public class CssLinkComponent extends CssLayout implements
 
 	public void setRank(Integer value) {
 		link.setStyleName(value + "-style");
-		logger.debug("Style: " + link.getStyleName());
-
 	}
 }

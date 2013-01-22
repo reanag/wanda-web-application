@@ -1,36 +1,33 @@
 package com.flowsoft.client;
 
+import java.io.Serializable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.flowsoft.aviews.GeneralView;
 import com.flowsoft.aviews.MainView;
-import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 
-public class ErrorView extends GeneralView {
-	protected MainView main;
+public class ErrorView extends Panel implements View, Serializable {
 
 	Logger logger = LoggerFactory.getLogger(MainView.class);
 
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "error";
-	private Navigator navigator;
 
-	public ErrorView(Navigator navigator) {
-		this.navigator = navigator;
-
-	}
-
-	@Override
-	public void generateBody() {
-		Label l = new Label("error happened");
+	public ErrorView() {
+		Label l = new Label("Sorry! Some error happened.");
+		l.setHeight("500px");
 		addComponent(l);
+
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		super.enter(event);
+
 	}
+
 }

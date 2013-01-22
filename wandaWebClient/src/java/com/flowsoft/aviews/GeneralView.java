@@ -11,6 +11,7 @@ import userdetailsserviceimpl.wanda.flowsoft.com.UserDetailsServiceImplService;
 
 import com.flowsoft.client.AboutMeView;
 import com.flowsoft.client.AboutSiteView;
+import com.flowsoft.client.PersonalView;
 import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.WandaUser;
 import com.flowsoft.sidebarcomponent.Sidebar;
@@ -21,6 +22,8 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -31,10 +34,11 @@ import com.vaadin.ui.VerticalLayout;
 public abstract class GeneralView extends Panel implements View, Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public static Integer viewId = 0;
 	public static final String NAME = "Footer&Header";
 	public static Logger logger = LoggerFactory.getLogger(MainView.class);
 	protected static VerticalLayout baseLayout;
-	protected static HorizontalLayout headerLayout;
+	protected static GridLayout headerLayout;
 	protected static GridLayout bodyLayout;
 	protected static VerticalLayout mainLayout = new VerticalLayout();
 	protected static HorizontalLayout footerLayout;
@@ -42,6 +46,7 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	protected static Link usernameLabel;
 	static protected Navigator navigator;
 	public static WandaUser aktUser;
+	public static Button logout;
 	@WebServiceRef
 	static protected UserDetailsService controller;
 
@@ -57,6 +62,7 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 
 	public GeneralView() {
 		init();
+		viewId++;
 	}
 
 	protected static void generateSideBar() {
@@ -103,7 +109,7 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		// // This is recorgnized automatically, but set it anyway.
 		// embedded.setMimeType("application/x-shockwave-flash");
 
-		headerLayout = new HorizontalLayout();
+		headerLayout = new GridLayout(3, 1);
 		headerLayout.setHeight("105px");
 		headerLayout.setWidth("100%");
 
@@ -117,6 +123,19 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		usernameLabel.setStyleName("username");
 		usernameLabel.setImmediate(true);
 
+		logout = new Button("Logout");
+		logout.setImmediate(true);
+
+		logout.addClickListener(new Button.ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				logger.debug("EVENT: " + event.getSource().toString());
+
+				WandaVaadinClient.destroySession();
+
+			}
+		});
 		Embedded embedded = new Embedded("", new ThemeResource("img/long.gif"));
 		embedded.setHeight("120px");
 		headerLayout.setHeight("120px");
@@ -126,7 +145,13 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 
 		headerLayout.addComponent(usernameLabel);
 		headerLayout.setComponentAlignment(usernameLabel,
-				Alignment.BOTTOM_RIGHT);
+				Alignment.MIDDLE_RIGHT);
+		// logout.setWidth("40px");
+		headerLayout.setComponentAlignment(logout, Alignment.TOP_RIGHT);
+		headerLayout.addComponent(logout);
+		headerLayout.setColumnExpandRatio(0, 20);
+		headerLayout.setColumnExpandRatio(1, 1);
+		headerLayout.setColumnExpandRatio(1, 1);
 
 	}
 
@@ -152,6 +177,12 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 				controller.getMostPopularArticle(3),
 				controller.getMostRecommendedArticle(3));
 		if (aktUser != null) {
+			PersonalView pv = new PersonalView(aktUser.getUsername());
+			if (!WandaVaadinClient.viewNames.contains(pv.getName())) {
+				WandaVaadinClient.viewNames.add(pv.getName());
+				navigator.addView(pv.getName(), pv);
+			}
+
 			sidebar.initUserCategories(controller.getUserCategories(aktUser
 					.getId()));
 		}
@@ -184,6 +215,7 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	}
 
 	public void enter(ViewChangeEvent event) {
+		removeAllComponents();
 
 		generateHeader();
 		generateBody();
@@ -192,37 +224,39 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		if (mainLayout.getComponentCount() > 0) {
 			mainLayout.removeAllComponents();
 		}
-		if (getComponentCount() == 0) {
-			if (bodyLayout.getComponentCount() == 0) {
-				bodyLayout.addStyleName("horizontalright");
-				bodyLayout.addComponent(mainLayout, 0, 0);
-				mainLayout.setStyleName("main");
-				bodyLayout.setComponentAlignment(mainLayout,
-						Alignment.MIDDLE_LEFT);
-				sidebar.setStyleName("sidebar");
-				bodyLayout.addComponent(sidebar, 1, 0);
-				sidebar.setWidth("150px");
-				bodyLayout.setComponentAlignment(sidebar,
-						Alignment.MIDDLE_RIGHT);
-				bodyLayout.setColumnExpandRatio(0, 10);
-				bodyLayout.setColumnExpandRatio(1, 1);
-			}
-			if (baseLayout.getComponentCount() == 0) {
-				baseLayout.addComponent(headerLayout);
-				baseLayout.addComponent(bodyLayout);
-				baseLayout.addComponent(footerLayout);
-				baseLayout.setExpandRatio(bodyLayout, 1);
-				baseLayout.setSizeUndefined();
-			}
-			addComponent(baseLayout);
 
+		if (bodyLayout.getComponentCount() == 0) {
+			bodyLayout.addStyleName("horizontalright");
+			bodyLayout.addComponent(mainLayout, 0, 0);
+			mainLayout.setStyleName("main");
+			bodyLayout.setComponentAlignment(mainLayout, Alignment.MIDDLE_LEFT);
+			sidebar.setStyleName("sidebar");
+			bodyLayout.addComponent(sidebar, 1, 0);
+			// sidebar.setWidth("150px");
+			bodyLayout.setComponentAlignment(sidebar, Alignment.MIDDLE_RIGHT);
+			bodyLayout.setColumnExpandRatio(0, 10);
+			bodyLayout.setColumnExpandRatio(1, 1);
 		}
-		logger.debug("GeneralView construct done: " + this.getClass());
+		if (baseLayout.getComponentCount() == 0) {
+			baseLayout.addComponent(headerLayout);
+			baseLayout.addComponent(bodyLayout);
+			baseLayout.addComponent(footerLayout);
+			baseLayout.setExpandRatio(bodyLayout, 1);
+			baseLayout.setSizeUndefined();
+		}
+		addComponent(baseLayout);
 
-		usernameLabel.setCaption(aktUser.getUsername());
-		// TODO:
-		// usernameLabel.setExternalLink
-		// resizeMainLayout();
+		logger.debug("GeneralView construct done: " + this.getClass()
+				+ "viewId");
+		if (usernameLabel == null) {
+			usernameLabel = new Link();
+		}
+		if (aktUser != null) {
+			usernameLabel.setCaption(aktUser.getUsername());
+			usernameLabel.setResource(new ExternalResource("#!auth="
+					+ aktUser.getUsername()));
+		}
+
 	}
 
 	public static void setAktUser(WandaUser u) {

@@ -26,11 +26,11 @@ public class ReadArticleForm extends GridLayout {
 			.getLogger(ReadArticleForm.class);
 	private ArrayList<Link> tags;
 	private Article article;
-	private Button editButton;
+	private Button editButton, deleteButton;
 	private ArticleRatingForm ratingForm;
 
 	public ReadArticleForm(Article a, UserDetailsService u) {
-		super(3, 5);
+		super(4, 5);
 		this.article = a;
 		ratingForm = new ArticleRatingForm(u, article.getId());
 	}
@@ -56,8 +56,10 @@ public class ReadArticleForm extends GridLayout {
 				.equals(WandaVaadinClient.getHttpSession().getAttribute(
 						"username"))) {
 			editButton = new Button();
-			editButton.setCaption("Edit / Delete");
+			editButton.setCaption("Edit");
 			editButton.addClickListener(new Button.ClickListener() {
+
+				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void buttonClick(ClickEvent event) {
@@ -66,13 +68,28 @@ public class ReadArticleForm extends GridLayout {
 
 				}
 			});
+			deleteButton = new Button();
+			deleteButton.setCaption("Delete");
+			deleteButton.addClickListener(new Button.ClickListener() {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					logger.debug("button click");
+					ArticleView.delete(article);
+
+				}
+			});
 			this.setColumnExpandRatio(1, 1);
 			this.setColumnExpandRatio(0, 15);
+			this.setColumnExpandRatio(2, 1);
 			addComponent(editButton, 2, 0);
+			addComponent(deleteButton, 3, 0);
 
 		}
 		addComponent(auth, 0, 1, 2, 1);
-		addComponent(content, 0, 2, 2, 2);
+		addComponent(content, 0, 2, 3, 2);
 		if (article.getTagList() != null) {
 
 			for (Tag s : article.getTagList()) {

@@ -290,8 +290,10 @@ public class TagSelectorBox extends CustomField implements Container.Editor,
 	}
 
 	public void setSelectedTags(Set<Tag> tagList) {
+
 		for (Tag t : tagList) {
-			addTokenButton(t.getTagName());
+			logger.debug(t.getTagName() + " is added");
+			onTokenInput(t.getTagName());
 		}
 
 	}

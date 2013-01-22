@@ -82,9 +82,6 @@ public class CreateArticleForm extends GridLayout implements
 			public void addNewItem(String newItemCaption) {
 				if (!categorySelectComboBox.containsId(newItemCaption)) {
 
-					logger.debug("Create window white caption: "
-							+ newItemCaption);
-
 					popupWindow = new PopupWindow();
 
 					binder = new FieldGroup();
@@ -266,34 +263,18 @@ public class CreateArticleForm extends GridLayout implements
 		return tagSelector.getSelectedTags();
 	}
 
-	public void refreshForm(Article a) {
-		logger.debug(a.toString());
-		articleTitle.setValue(a.getTitle());
-		articleContent.setValue(a.getContent());
-		selectedCategory = a.getCategory();
-		logger.warn("s" + a.getCategory());
-		if (find(selectedCategory.getCategoryName()) == null) {
-			categorySelectComboBox.select(null);
-		} else {
-			categorySelectComboBox.select(find(selectedCategory
-					.getCategoryName()));
-		}
-
-		tagSelector.setSelectedTags(a.getTagList());
-	}
-
-	private Object find(String categoryName) {
-		for (Object s : categorySelectComboBox.getItemIds()) {
-			logger.warn(s.toString());
-			if (s.toString().equals(categoryName)) {
-				return s;
-			}
-		}
-		return null;
-	}
-
 	public List<Category> getCategoryList() {
-		// TODO Auto-generated method stub
 		return categoryList;
+	}
+
+	public void setSelectedCategory(Category category) {
+		selectedCategory = category;
+		categorySelectComboBox.select(category.getCategoryName());
+	}
+
+	public void setSelectedTags(Set<Tag> tagList) {
+
+		tagSelector.setSelectedTags(tagList);
+
 	}
 }

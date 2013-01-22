@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.createArticleComponent.CreateArticleForm;
 import com.flowsoft.domain.Article;
 import com.flowsoft.domain.Category;
@@ -27,7 +28,7 @@ public class CreateArticleView extends GeneralView {
 
 	public CreateArticleView() {
 		super();
-		logger.debug("Create Article form done");
+		logger.debug("ID: " + viewId + " - " + this.getClass());
 		setSizeFull();
 		createForm = new CreateArticleForm();
 	}
@@ -36,25 +37,29 @@ public class CreateArticleView extends GeneralView {
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 
-		logger.debug("In create: " + aktUser.toString());
+		if (createForm.getCategoryList() == null
+				|| createForm.getCategoryList().isEmpty()) {
 
+			createForm.setCategoryList(controller.findAllExistingCategory());
+		}
+		if (article != null) {
+			createForm.setSelectedTags(article.getTagList());
+		}
 		binder = new FieldGroup();
-		article = new Article(aktUser, "", "");
-		category = new Category();
-		category.setOwner(aktUser);
-		category.setDescription("");
+		if (article == null || article.getCategory() == null) {
+			article = new Article(aktUser, "", "");
+			category = new Category();
+			category.setOwner(aktUser);
+			category.setDescription("");
+		} else {
+			category = article.getCategory();
+			createForm.setSelectedCategory(article.getCategory());
+		}
 		BeanItem<Article> item = new BeanItem<Article>(article);
 		binder.setItemDataSource(item);
 		binder.bindMemberFields(createForm);
 
-		if (createForm.getCategoryList() == null
-				|| createForm.getCategoryList().isEmpty()) {
-			createForm.setCategoryList(controller.findAllExistingCategory());
-		}
-
-		if (mainLayout.getComponentCount() == 0) {
-			mainLayout.addComponent(createForm);
-		}
+		mainLayout.addComponent(createForm);
 
 		resizeMainLayout();
 	}
@@ -71,16 +76,24 @@ public class CreateArticleView extends GeneralView {
 			article.setTagList(createForm.getSelectedTags());
 			binder.commit();
 			logger.debug("category value after set: " + article.getCategory());
-			controller.commitArticle(article);
+			article = controller.commitArticle(article);
+
 		} catch (CommitException e) {
 			navigator.navigateTo("error");
 			e.printStackTrace();
 		}
-		navigator.addView(
-				ArticleView.NAME + "." + article.getTitle().replace(' ', '.'),
-				new ArticleView(article));
+		if (!WandaVaadinClient.viewNames.contains(ArticleView.NAME + "."
+				+ article.getTitle().replace(' ', '.'))) {
+			WandaVaadinClient.viewNames.add(ArticleView.NAME + "."
+					+ article.getTitle().replace(' ', '.'));
+			navigator.addView(ArticleView.NAME + "."
+					+ article.getTitle().replace(' ', '.'), new ArticleView(
+					article));
+		}
+
 		navigator.navigateTo(ArticleView.NAME + "."
 				+ article.getTitle().replace(' ', '.'));
+		setArticle(null);
 
 	}
 
@@ -97,8 +110,7 @@ public class CreateArticleView extends GeneralView {
 	}
 
 	public static void setArticle(Article article2) {
-		logger.debug("set article: " + article2.toString());
 		article = article2;
-		createForm.refreshForm(article2);
+
 	}
 }

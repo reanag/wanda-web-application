@@ -73,12 +73,14 @@ public class ArticleRatingForm extends GridLayout {
 		avgRs.setMaxValue(5);
 		avgRs.setValue(controller.getRank(id));
 		avgRs.setReadOnly(true);
+
 		allRatingStars.add(avgRs);
 
 		final RatingStars yourRs = new RatingStars();
 		yourRs.setHeight("30px");
 		yourRs.setMaxValue(5);
 		yourRs.setImmediate(true);
+		yourRs.setReadOnly(false);
 		yourRs.setValueCaption(valueCaptions.values().toArray(new String[5]));
 		yourRs.addValueChangeListener(new ValueChangeListener() {
 

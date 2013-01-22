@@ -12,24 +12,26 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.flowsoft.client.AboutMeView;
+import com.flowsoft.client.AboutSiteView;
 import com.flowsoft.client.WandaVaadinClient;
-import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Link;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-@Theme("logintheme")
 public class LoginView extends Panel implements View, Serializable {
 	private final AuthenticationProvider authenticationProvider;
 
@@ -44,6 +46,7 @@ public class LoginView extends Panel implements View, Serializable {
 	private PasswordField pf;
 	private Embedded image;
 	private Navigator navigator;
+	private Link registrationLink;
 
 	public static class LoginEvent extends Event {
 
@@ -101,8 +104,32 @@ public class LoginView extends Panel implements View, Serializable {
 					// event).getAuthentication());
 					SecurityContextHolder.getContext().setAuthentication(
 							((LoginView.LoginEvent) event).getAuthentication());
+					if (!WandaVaadinClient.viewNames.contains(MainView.NAME)) {
+						WandaVaadinClient.viewNames.add(MainView.NAME);
+						navigator.addView(MainView.NAME, new MainView());
+					}
+					if (!WandaVaadinClient.viewNames
+							.contains(CreateArticleView.NAME)) {
+						WandaVaadinClient.viewNames.add(CreateArticleView.NAME);
+						navigator.addView(CreateArticleView.NAME,
+								new CreateArticleView());
+					}
 
-					navigator.addView(MainView.NAME, new MainView());
+					if (!WandaVaadinClient.viewNames
+							.contains(AboutSiteView.NAME)) {
+						WandaVaadinClient.viewNames.add(AboutSiteView.NAME);
+						navigator
+								.addView(AboutSiteView.NAME, new AboutMeView());
+					}
+					if (!WandaVaadinClient.viewNames.contains(AboutMeView.NAME)) {
+						WandaVaadinClient.viewNames.add(AboutMeView.NAME);
+						navigator
+								.addView(AboutMeView.NAME, new AboutSiteView());
+					}
+					if (!WandaVaadinClient.viewNames.contains(SearchView.NAME)) {
+						WandaVaadinClient.viewNames.add(SearchView.NAME);
+						navigator.addView(SearchView.NAME, new SearchView());
+					}
 					navigator.navigateTo(MainView.NAME);
 				}
 			}
@@ -186,6 +213,9 @@ public class LoginView extends Panel implements View, Serializable {
 
 				});
 
+		registrationLink = new Link("Register..", new ExternalResource("#!"
+				+ RegistrationView.NAME));
+
 		mainLayout.setStyleName("login");
 		mainLayout.setHeight("500px");
 		mainLayout.addComponent(image);
@@ -193,6 +223,7 @@ public class LoginView extends Panel implements View, Serializable {
 		loginLayout.addComponent(tf);
 		loginLayout.addComponent(pf);
 		loginLayout.addComponent(b);
+		loginLayout.addComponent(registrationLink);
 		// loginLayout.setHeight("150px");
 		mainLayout.addComponent(loginLayout);
 
@@ -201,6 +232,8 @@ public class LoginView extends Panel implements View, Serializable {
 		loginLayout.setComponentAlignment(tf, Alignment.MIDDLE_CENTER);
 		loginLayout.setComponentAlignment(pf, Alignment.MIDDLE_CENTER);
 		loginLayout.setComponentAlignment(b, Alignment.MIDDLE_CENTER);
+		loginLayout.setComponentAlignment(registrationLink,
+				Alignment.MIDDLE_CENTER);
 		addComponent(mainLayout);
 	}
 

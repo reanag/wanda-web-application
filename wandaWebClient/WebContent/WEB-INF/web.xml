@@ -5,24 +5,20 @@
 
 	id="WebApp_ID" version="2.5">
 	<display-name>WandaWebClient</display-name>
-	<context-param>
-		<description>
-		Vaadin production mode</description>
-		<param-name>productionMode</param-name>
-		<param-value>false</param-value>
-	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.flowsoft.security.MyHttpSessionListener</listener-class>
+	</listener>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:context.xml</param-value>
 	</context-param>
 
-
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	<listener>
-		<listener-class>com.flowsoft.security.MyHttpSessionListener</listener-class>
-	</listener>
 
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -65,6 +61,14 @@
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 
+	
+
+	<context-param>
+		<description>
+		Vaadin production mode</description>
+		<param-name>productionMode</param-name>
+		<param-value>false</param-value>
+	</context-param>
 
 
 </web-app>

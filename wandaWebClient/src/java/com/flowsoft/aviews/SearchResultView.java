@@ -6,6 +6,7 @@ import java.util.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.component.ReadMoreForm;
 import com.flowsoft.domain.Article;
 import com.flowsoft.domain.ArticleHeader;
@@ -24,36 +25,43 @@ public class SearchResultView extends GeneralView {
 	private Vector<CssLayout> articles;
 
 	public SearchResultView(List<Article> a) {
+		logger.debug("ID: " + viewId + " - " + this.getClass());
 		generateArticles(a);
 	}
 
 	private void generateArticles(List<Article> a) {
+
 		noResultLabel = new Label();
 		noResultLabel.setValue("Sorry! No articles found.");
+		noResultLabel.setWidth("550px");
 		if (articles == null) {
 			articles = new Vector<CssLayout>();
 		}
-		if (a.isEmpty()) {
-			mainLayout.addComponent(noResultLabel);
-		}
 		for (Article h : a) {
-			navigator.addView(
-					ArticleView.NAME + "." + h.getTitle().replace(' ', '.'),
-					new ArticleView(h));
+			if (!WandaVaadinClient.viewNames.contains(ArticleView.NAME + "."
+					+ h.getTitle().replace(' ', '.'))) {
+				WandaVaadinClient.viewNames.add(ArticleView.NAME + "."
+						+ h.getTitle().replace(' ', '.'));
+				navigator.addView(ArticleView.NAME + "."
+						+ h.getTitle().replace(' ', '.'), new ArticleView(h));
+			}
 			articles.add(new ReadMoreForm(new ArticleHeader(h), navigator));
-		}
-		for (CssLayout p : articles) {
-
-			mainLayout.addComponent(p);
-			mainLayout.setComponentAlignment(p, Alignment.TOP_CENTER);
 		}
 
 	}
 
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
+		if (articles.isEmpty()) {
+			mainLayout.addComponent(noResultLabel);
+		}
 
-		// mainLayout.setHeight(articles.size() * 180, Unit.PIXELS);
+		for (CssLayout p : articles) {
+
+			mainLayout.addComponent(p);
+			mainLayout.setComponentAlignment(p, Alignment.TOP_CENTER);
+		}
+
 		resizeMainLayout();
 
 	}

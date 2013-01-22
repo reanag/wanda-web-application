@@ -34,6 +34,9 @@ public class CommentForm extends CssLayout {
 	}
 
 	public void enter() {
+		if (getComponentCount() != 0) {
+			removeAllComponents();
+		}
 		vl = new VerticalLayout();
 		label = new Label();
 		label.setValue("Comments:");

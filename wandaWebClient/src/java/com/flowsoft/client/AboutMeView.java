@@ -8,12 +8,17 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 
-//TODO(Gergo): ne legyenek szovegek a kodban
+//
 public class AboutMeView extends GeneralView implements View, Serializable {
 
 	public final static String NAME = "AboutMe";
 	private CssLayout cssLayout;
 	private static final long serialVersionUID = 1L;
+
+	public AboutMeView() {
+		super();
+		logger.debug("ID: " + viewId + " - " + this.getClass());
+	}
 
 	@Override
 	public void generateBody() {

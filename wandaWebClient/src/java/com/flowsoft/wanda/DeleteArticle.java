@@ -1,15 +1,16 @@
-
 package com.flowsoft.wanda;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for deleteArticle complex type.
+ * <p>
+ * Java class for deleteArticle complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="deleteArticle">
@@ -27,61 +28,37 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "deleteArticle", propOrder = {
-    "articleId",
-    "aktUser"
-})
+@XmlType(name = "deleteArticle", propOrder = { "articleId" })
 public class DeleteArticle {
 
-    protected Integer articleId;
-    protected String aktUser;
+	protected Integer articleId;
 
-    /**
-     * Gets the value of the articleId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getArticleId() {
-        return articleId;
-    }
+	/**
+	 * Gets the value of the articleId property.
+	 * 
+	 * @return possible object is {@link Integer }
+	 * 
+	 */
+	public Integer getArticleId() {
+		return articleId;
+	}
 
-    /**
-     * Sets the value of the articleId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setArticleId(Integer value) {
-        this.articleId = value;
-    }
+	/**
+	 * Sets the value of the articleId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Integer }
+	 * 
+	 */
+	public void setArticleId(Integer value) {
+		this.articleId = value;
+	}
 
-    /**
-     * Gets the value of the aktUser property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getAktUser() {
-        return aktUser;
-    }
-
-    /**
-     * Sets the value of the aktUser property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setAktUser(String value) {
-        this.aktUser = value;
-    }
+	/**
+	 * Gets the value of the aktUser property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
 
 }

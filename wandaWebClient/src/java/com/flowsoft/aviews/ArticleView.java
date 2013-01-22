@@ -34,6 +34,8 @@ public class ArticleView extends GeneralView implements View, Serializable {
 	private static Boolean needToRefresh = false;
 
 	public ArticleView(ArticleHeader a) {
+		logger.debug("ID: " + viewId + " - " + this.getClass() + "/"
+				+ a.getTitle());
 		initArticle(a);
 		generateSurface();
 
@@ -56,7 +58,6 @@ public class ArticleView extends GeneralView implements View, Serializable {
 	}
 
 	private void initArticle(ArticleHeader a) {
-		logger.debug("search for: " + a.getId());
 		article = controller.findArticleByHeader(a.getId());
 		commentList = controller.findAllCommentFor(a.getId());
 	}
@@ -94,7 +95,6 @@ public class ArticleView extends GeneralView implements View, Serializable {
 
 	public static void commit() {
 		try {
-			logger.debug("navigator state: " + navigator.getState());
 			binder.commit();
 			controller.commitComment(newComment);
 			navigator.navigateTo(navigator.getState());
@@ -124,9 +124,16 @@ public class ArticleView extends GeneralView implements View, Serializable {
 
 	public static void edit(Article article2) {
 		logger.debug("edit: " + article2.toString());
-		navigator.removeView(CreateArticleView.NAME);
-		navigator.addView(CreateArticleView.NAME, new CreateArticleView());
+		// navigator.removeView(CreateArticleView.NAME);
+		// navigator.addView(CreateArticleView.NAME, new CreateArticleView());
 		CreateArticleView.setArticle(article2);
 		navigator.navigateTo(CreateArticleView.NAME);
+	}
+
+	public static void delete(Article article2) {
+		controller.deleteArticle(article2.getId());
+		navigator.removeView(navigator.getState());
+		navigator.navigateTo(MainView.NAME);
+
 	}
 }

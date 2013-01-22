@@ -39,13 +39,14 @@ public class ReadMoreForm extends CssLayout {
 						+ h.getAuthor(), new ExternalResource("#!auth="
 						+ h.getAuthor())); // +
 
-		PersonalView pv = new PersonalView(h.getAuthor(), navigator);
-
-		logger.debug("Add view to navigator: " + pv.getName());
-		navigator.addView(pv.getName(), pv);
+		PersonalView pv = new PersonalView(h.getAuthor());
+		if (!WandaVaadinClient.viewNames.add(pv.getName())) {
+			WandaVaadinClient.viewNames.add(pv.getName());
+			navigator.addView(pv.getName(), pv);
+		}
 		authorLabel.setStyleName(Reindeer.LABEL_SMALL);
 
-		setWidth("550px");
+		setWidth("570px");
 		addComponent(linkLabel);
 		addComponent(authorLabel);
 	}

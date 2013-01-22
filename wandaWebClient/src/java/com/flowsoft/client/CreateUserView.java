@@ -65,9 +65,9 @@ public class CreateUserView extends Panel implements View {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				controller.createUser(firstname.getValue(),
-						lastname.getValue(), username.getValue(),
-						password.getValue());
+				// controller.createUser(firstname.getValue(),
+				// lastname.getValue(), username.getValue(),
+				// password.getValue());
 				addToTable(firstname.getValue(), lastname.getValue(),
 						username.getValue(), password.getValue());
 				firstname.setValue("");

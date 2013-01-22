@@ -14,6 +14,11 @@ public class AboutSiteView extends GeneralView implements View, Serializable {
 	private CssLayout cssLayout;
 	private static final long serialVersionUID = 1L;
 
+	public AboutSiteView() {
+		super();
+		logger.debug("ID: " + viewId + " - " + this.getClass());
+	}
+
 	@Override
 	public void generateBody() {
 		cssLayout = new CssLayout();

@@ -5,7 +5,10 @@ import java.util.Vector;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.component.ReadMoreForm;
 import com.flowsoft.domain.ArticleHeader;
 import com.flowsoft.wanda.UserDetailsService;
@@ -14,6 +17,8 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.VerticalLayout;
 
+@Component
+@Scope("prototype")
 public class MainView extends GeneralView {
 	Logger logger = LoggerFactory.getLogger(MainView.class);
 
@@ -24,6 +29,8 @@ public class MainView extends GeneralView {
 
 	public MainView() {
 		super();
+		articles = null;
+		logger.debug("ID: " + viewId + " - " + this.getClass());
 		layout = new VerticalLayout();
 		setSizeFull();
 	}
@@ -31,29 +38,30 @@ public class MainView extends GeneralView {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-
 		if (articles == null || articles.isEmpty()) {
 			List<ArticleHeader> w = controller.findAllArticleHeader();
 			if (articles == null) {
 				articles = new Vector<CssLayout>();
 			}
 			for (ArticleHeader h : w) {
-				navigator.addView(ArticleView.NAME + "."
-						+ h.getTitle().replace(' ', '.'), new ArticleView(h));
+				if (!WandaVaadinClient.viewNames.contains(ArticleView.NAME
+						+ "." + h.getTitle().replace(' ', '.'))) {
+					WandaVaadinClient.viewNames.add(ArticleView.NAME + "."
+							+ h.getTitle().replace(' ', '.'));
+					navigator.addView(ArticleView.NAME + "."
+							+ h.getTitle().replace(' ', '.'),
+							new ArticleView(h));
+				}
 				articles.add(new ReadMoreForm(h, navigator));
 			}
 
-			for (CssLayout p : articles) {
-				p.setStyleName("mydiv");
-				layout.addComponent(p);
-				layout.setComponentAlignment(p, Alignment.TOP_CENTER);
-			}
 		}
-		mainLayout.removeAllComponents();
-		if (mainLayout.getComponentCount() == 0) {
-			mainLayout.addComponent(layout);
+		for (CssLayout p : articles) {
+			p.setStyleName("mydiv");
+			layout.addComponent(p);
+			layout.setComponentAlignment(p, Alignment.TOP_CENTER);
 		}
-		resizeMainLayout();
+		mainLayout.addComponent(layout);
 	}
 
 	@Override

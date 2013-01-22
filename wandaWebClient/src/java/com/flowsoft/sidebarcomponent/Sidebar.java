@@ -3,6 +3,7 @@ package com.flowsoft.sidebarcomponent;
 import java.util.List;
 
 import com.flowsoft.aviews.SearchResultView;
+import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.Article;
 import com.flowsoft.domain.Category;
 import com.flowsoft.domain.Tag;
@@ -35,6 +36,7 @@ public class Sidebar extends Panel implements View {
 
 		tagCloud = new TagCloudComponent();
 		tagCloud.setStyleName("tagCloudStyle");
+		TagCloudComponent.setNavigator(navigator);
 		addComponent(searchTool);
 		addComponent(optionSelector);
 		addComponent(articleRecommender);
@@ -48,6 +50,9 @@ public class Sidebar extends Panel implements View {
 	}
 
 	public void initUserCategories(List<Category> categoryList) {
+		if (categoryList == null) {
+			return;
+		}
 		optionSelector.init(categoryList);
 		optionSelector.requestRepaint();
 	}
@@ -65,9 +70,12 @@ public class Sidebar extends Panel implements View {
 	}
 
 	public static void searchByTitle(String s, Boolean b) {
-
-		navigator.addView(SearchResultView.NAME + "." + s,
-				new SearchResultView(controller.findArticleByTitle(s, b)));
+		if (!WandaVaadinClient.viewNames.contains(SearchResultView.NAME + "."
+				+ s)) {
+			WandaVaadinClient.viewNames.add(SearchResultView.NAME + "." + s);
+			navigator.addView(SearchResultView.NAME + "." + s,
+					new SearchResultView(controller.findArticleByTitle(s, b)));
+		}
 		// new SearchResultView(controller.getMostPopularArticle(3)));
 		navigator.navigateTo(SearchResultView.NAME + "." + s);
 

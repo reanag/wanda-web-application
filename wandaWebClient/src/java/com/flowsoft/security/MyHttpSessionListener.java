@@ -15,6 +15,8 @@ public class MyHttpSessionListener implements HttpSessionListener {
 	public void sessionCreated(HttpSessionEvent httpSessionEvent) {
 		logger.debug("Session start");
 		WandaVaadinClient.setHttpSession(httpSessionEvent.getSession());
+		logger.debug("Session: " + httpSessionEvent.getSession().isNew() + " "
+				+ httpSessionEvent.getSession().getId());
 
 		if (WandaVaadinClient.getHttpSession() == null) {
 			logger.debug("Error in sessionCreated method: new Session is null");
@@ -24,6 +26,7 @@ public class MyHttpSessionListener implements HttpSessionListener {
 
 	@Override
 	public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
+
 		String user = (String) httpSessionEvent.getSession().getAttribute(
 				"username");
 
@@ -32,8 +35,10 @@ public class MyHttpSessionListener implements HttpSessionListener {
 						.getSession().getId(), user));
 		if (user != null) {
 			logger.debug("Logout user");
-			// TODO: LOGOUT USER
 		}
+
+		// sessionCreated(new HttpSessionEvent(httpSessionEvent.getSession()));
+		// WandaVaadinClient.setHttpSession(httpSessionEvent.getSession());
 
 	}
 

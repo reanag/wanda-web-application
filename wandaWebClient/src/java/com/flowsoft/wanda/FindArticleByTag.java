@@ -4,22 +4,20 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import com.flowsoft.domain.WandaUser;
-
 /**
  * <p>
- * Java class for createUser complex type.
+ * Java class for findArticleByContent complex type.
  * 
  * <p>
  * The following schema fragment specifies the expected content contained within
  * this class.
  * 
  * <pre>
- * &lt;complexType name="createUser">
+ * &lt;complexType name="findArticleByContent">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="wandaUser" type="{http://wanda.flowsoft.com/}wandaUser" minOccurs="0"/>
+ *         &lt;element name="contentSegment" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,29 +27,30 @@ import com.flowsoft.domain.WandaUser;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "createUser", propOrder = { "wandaUser" })
-public class CreateUser {
+@XmlType(name = "findArticleByTag", propOrder = { "tagName" })
+public class FindArticleByTag {
 
-	protected WandaUser wandaUser;
+	protected String tagName;
 
 	/**
-	 * Gets the value of the wandaUser property.
+	 * Gets the value of the contentSegment property.
 	 * 
-	 * @return possible object is {@link WandaUser }
+	 * @return possible object is {@link String }
 	 * 
 	 */
-	public WandaUser getWandaUser() {
-		return wandaUser;
+	public String getTagName() {
+		return tagName;
 	}
 
 	/**
-	 * Sets the value of the wandaUser property.
+	 * Sets the value of the contentSegment property.
 	 * 
 	 * @param value
-	 *            allowed object is {@link WandaUser }
+	 *            allowed object is {@link String }
 	 * 
 	 */
-	public void setWandaUser(WandaUser value) {
-		this.wandaUser = value;
+	public void setTagName(String value) {
+		this.tagName = value;
 	}
+
 }

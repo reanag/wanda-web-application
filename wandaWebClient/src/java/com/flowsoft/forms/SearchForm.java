@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.flowsoft.aviews.SearchResultView;
 import com.flowsoft.aviews.SearchView;
+import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.sidebarcomponent.SearchTool;
 import com.flowsoft.wanda.UserDetailsService;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -58,39 +59,56 @@ public class SearchForm extends GridLayout {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (articleCheckBox.getValue()) {
-
-					navigator.addView(
-							SearchResultView.NAME + "."
-									+ searchField.getValue(),
-							new SearchResultView(controller.findArticleByTitle(
-									searchField.getValue(),
-									isAccurateSearch.getValue())));
-
+					if (!WandaVaadinClient.viewNames
+							.contains(SearchResultView.NAME + "."
+									+ searchField.getValue())) {
+						WandaVaadinClient.viewNames.add(SearchResultView.NAME
+								+ "." + searchField.getValue());
+						navigator.addView(
+								SearchResultView.NAME + "."
+										+ searchField.getValue(),
+								new SearchResultView(controller
+										.findArticleByTitle(
+												searchField.getValue(),
+												isAccurateSearch.getValue())));
+					}
 					navigator.navigateTo(SearchResultView.NAME + "."
 							+ searchField.getValue());
 
 				}
 				if (contentCheckBox.getValue()) {
-					navigator.addView(
-							SearchResultView.NAME + "."
-									+ searchField.getValue(),
-							new SearchResultView(controller
-									.findArticleByContent(searchField
-											.getValue())));
+					if (!WandaVaadinClient.viewNames
+							.contains(SearchResultView.NAME + ".c="
+									+ searchField.getValue())) {
+						WandaVaadinClient.viewNames.add(SearchResultView.NAME
+								+ ".c=" + searchField.getValue());
+						navigator.addView(
 
-					navigator.navigateTo(SearchResultView.NAME + "."
+								SearchResultView.NAME + ".c="
+										+ searchField.getValue(),
+								new SearchResultView(controller
+										.findArticleByContent(searchField
+												.getValue())));
+					}
+					navigator.navigateTo(SearchResultView.NAME + ".c="
 							+ searchField.getValue());
+
 				}
 				if (authorCheckBox.getValue()) {
-					navigator.addView(
-							SearchResultView.NAME + "."
-									+ searchField.getValue(),
-							new SearchResultView(controller
-									.findArticleByAuthor(
-											searchField.getValue(),
-											isAccurateSearch.getValue())));
-
-					navigator.navigateTo(SearchResultView.NAME + "."
+					if (!WandaVaadinClient.viewNames
+							.contains(SearchResultView.NAME + ".a="
+									+ searchField.getValue())) {
+						WandaVaadinClient.viewNames.add(SearchResultView.NAME
+								+ ".a=" + searchField.getValue());
+						navigator.addView(
+								SearchResultView.NAME + ".a="
+										+ searchField.getValue(),
+								new SearchResultView(controller
+										.findArticleByAuthor(
+												searchField.getValue(),
+												isAccurateSearch.getValue())));
+					}
+					navigator.navigateTo(SearchResultView.NAME + ".a="
 							+ searchField.getValue());
 				}
 

@@ -17,7 +17,8 @@ public class SearchView extends GeneralView {
 	private SearchForm searchForm;
 
 	public SearchView() {
-
+		super();
+		logger.debug("ID: " + viewId + " - " + this.getClass());
 	}
 
 	@Override
