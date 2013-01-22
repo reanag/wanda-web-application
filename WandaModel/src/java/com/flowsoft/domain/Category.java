@@ -32,8 +32,8 @@ public class Category extends AbstractEntity implements Serializable {
 		this.categoryName = name;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();
-		logger.debug("Create Category with id: " + categoryName + " by : "
-				+ owner.getUsername());
+		// logger.debug("Create Category with id: " + categoryName + " by : "
+		// + owner.getUsername());
 	}
 
 	public Category(WandaUser owner, String name, String description) {
@@ -42,8 +42,8 @@ public class Category extends AbstractEntity implements Serializable {
 		this.description = description;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();
-		logger.debug("Create Category with id: " + categoryName + " by : "
-				+ owner.getUsername());
+		// logger.debug("Create Category with id: " + categoryName + " by : "
+		// + owner.getUsername());
 	}
 
 	public String getCategoryName() {
@@ -91,8 +91,8 @@ public class Category extends AbstractEntity implements Serializable {
 	}
 
 	public void setDescription(String description) {
-		logger.debug("New description for category " + categoryName
-				+ " is added: " + description);
+		// logger.debug("New description for category " + categoryName
+		// + " is added: " + description);
 		this.description = description;
 	}
 

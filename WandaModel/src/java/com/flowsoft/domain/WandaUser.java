@@ -5,20 +5,43 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class WandaUser extends AbstractEntity implements Serializable {
 
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
 	private static final long serialVersionUID = 1L;
+	@NotNull
+	@Size(max = 15, min = 5)
 	private String username;
+	@NotNull
+	@Size(min = 6)
+	@Pattern(regexp = "[A-Za-z0-9_]*")
 	private String password;
 	// private Integer id;
-
+	private Avatar avatar;
+	@NotNull
 	private String firstName;
+	@NotNull
 	private String lastName;
+	@NotNull
+	@Email
+	private String emailAddress;
 
-	private String emailAdress;
+	private String aboutText;
 
 	// private Date birthDate;
 
@@ -54,7 +77,7 @@ public class WandaUser extends AbstractEntity implements Serializable {
 		this.password = password;
 		this.enabled = isEnabled;
 		this.role = role;
-		this.emailAdress = email;
+		this.emailAddress = email;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();
 	}
@@ -67,7 +90,7 @@ public class WandaUser extends AbstractEntity implements Serializable {
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.emailAdress = emailAdress;
+		this.emailAddress = emailAdress;
 		this.enabled = enabled;
 		this.role = role;
 		this.createdTS = createdTS;
@@ -106,12 +129,12 @@ public class WandaUser extends AbstractEntity implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public String getEmailAdress() {
-		return emailAdress;
+	public String getEmailAddress() {
+		return emailAddress;
 	}
 
 	public void setEmailAdress(String emailAdress) {
-		this.emailAdress = emailAdress;
+		this.emailAddress = emailAdress;
 	}
 
 	// // @Temporal(TemporalType.DATE)
@@ -171,7 +194,7 @@ public class WandaUser extends AbstractEntity implements Serializable {
 	public String toString() {
 		return "WandaUser [username=" + username + ", password=" + password
 				+ ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", emailAdress=" + emailAdress + ", birthDate="
+				+ ", emailAdress=" + emailAddress + ", birthDate="
 				+ ", enabled=" + enabled + ", role=" + role + ", createdTS=";
 		// + ", modifiedTS=" + ", articles=" + articles + "]";
 	}
@@ -190,6 +213,22 @@ public class WandaUser extends AbstractEntity implements Serializable {
 
 	public void setFavoriteCategories(Set<Category> favoriteCategories) {
 		this.favoriteCategories = favoriteCategories;
+	}
+
+	public String getAboutText() {
+		return aboutText;
+	}
+
+	public void setAboutText(String aboutText) {
+		this.aboutText = aboutText;
+	}
+
+	public Avatar getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(Avatar avatar) {
+		this.avatar = avatar;
 	}
 
 	// public Integer getId() {

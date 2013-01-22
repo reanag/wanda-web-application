@@ -26,8 +26,7 @@ public class Comment extends AbstractEntity implements Serializable {
 		this.commentContent = content;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();
-		logger.debug("Create Comment with id: " + this.getId() + " by :"
-				+ owner.getUsername());
+
 	}
 
 	public WandaUser getOwner() {

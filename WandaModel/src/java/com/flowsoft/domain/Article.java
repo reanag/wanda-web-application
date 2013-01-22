@@ -42,8 +42,8 @@ public class Article implements Serializable {
 		this.content = content;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();
-		logger.debug("Create Article with title: {} by: {}", getTitle(),
-				owner.getUsername());
+		// logger.debug("Create Article with title: {} by: {}", getTitle(),
+		// owner.getUsername());
 	}
 
 	public WandaUser getOwner() {
@@ -68,8 +68,8 @@ public class Article implements Serializable {
 	}
 
 	public void setTitle(String title) {
-		logger.debug("Edit Article with title: {} by: {} new title: {} "
-				+ title, getTitle(), owner.getUsername());
+		// logger.debug("Edit Article with title: {} by: {} new title: {} "
+		// + title, getTitle(), owner.getUsername());
 		this.title = title;
 	}
 
