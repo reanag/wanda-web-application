@@ -223,4 +223,19 @@ public interface UserDetailsService {
 	@WebMethod
 	@ResponseWrapper(localName = "findArticleByTagResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.FindArticleByTagResponse")
 	List<Article> findArticleByTag(@WebParam(name = "tagName") String tagname);
+
+	@WebResult(name = "articles")
+	@RequestWrapper(localName = "findArticleByCategory", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.FindArticleByCategory")
+	@WebMethod
+	@ResponseWrapper(localName = "findArticleByCategoryResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.wanda.FindArticleByCategoryResponse")
+	List<Article> findArticleByCategory(
+			@WebParam(name = "categoryName") String categoryName);
+
+	@WebResult(name = "topCategoryList", targetNamespace = "")
+	@RequestWrapper(localName = "getTopCategories", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.domain.GetTopCategories")
+	@WebMethod
+	@ResponseWrapper(localName = "getTopCategoriesResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.domain.GetTopCategoriesResponse")
+	public java.util.List<com.flowsoft.domain.Category> getTopCategories(
+			@WebParam(name = "count", targetNamespace = "") java.lang.Integer userid);
+
 }

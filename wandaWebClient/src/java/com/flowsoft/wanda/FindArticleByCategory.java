@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlType;
  * this class.
  * 
  * <pre>
- * &lt;complexType name="findArticleByTag">
+ * &lt;complexType name="findArticleByCategory">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -27,10 +27,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "findArticleByTag", propOrder = { "tagName" })
-public class FindArticleByTag {
+@XmlType(name = "findArticleByCategory", propOrder = { "categoryName" })
+public class FindArticleByCategory {
 
-	protected String tagName;
+	protected String categoryName;
 
 	/**
 	 * Gets the value of the contentSegment property.
@@ -38,8 +38,8 @@ public class FindArticleByTag {
 	 * @return possible object is {@link String }
 	 * 
 	 */
-	public String getTagName() {
-		return tagName;
+	public String getCategoryName() {
+		return categoryName;
 	}
 
 	/**
@@ -49,8 +49,7 @@ public class FindArticleByTag {
 	 *            allowed object is {@link String }
 	 * 
 	 */
-	public void setTagName(String value) {
-		this.tagName = value;
+	public void setCategoryName(String value) {
+		this.categoryName = value;
 	}
-
 }

@@ -10,7 +10,6 @@ import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.component.ReadMoreForm;
 import com.flowsoft.domain.Article;
 import com.flowsoft.domain.ArticleHeader;
-import com.flowsoft.wanda.UserDetailsService;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CssLayout;
@@ -20,12 +19,12 @@ public class SearchResultView extends GeneralView {
 	Logger logger = LoggerFactory.getLogger(MainView.class);
 
 	private static final long serialVersionUID = 1L;
-	public static final String NAME = "searchResult";
 	private Label noResultLabel;
 	private Vector<CssLayout> articles;
 
-	public SearchResultView(List<Article> a) {
-		logger.debug("ID: " + viewId + " - " + this.getClass());
+	public SearchResultView(String name, List<Article> a) {
+		// logger.debug("ID: " + viewId + " - " + this.getClass());
+		this.NAME = "searchResult." + name;
 		generateArticles(a);
 	}
 
@@ -38,13 +37,11 @@ public class SearchResultView extends GeneralView {
 			articles = new Vector<CssLayout>();
 		}
 		for (Article h : a) {
-			if (!WandaVaadinClient.viewNames.contains(ArticleView.NAME + "."
-					+ h.getTitle().replace(' ', '.'))) {
-				WandaVaadinClient.viewNames.add(ArticleView.NAME + "."
-						+ h.getTitle().replace(' ', '.'));
-				navigator.addView(ArticleView.NAME + "."
-						+ h.getTitle().replace(' ', '.'), new ArticleView(h));
-			}
+
+			ArticleView articleView = new ArticleView(h);
+
+			((WandaVaadinClient) WandaVaadinClient.getCurrent())
+					.initView(articleView);
 			articles.add(new ReadMoreForm(new ArticleHeader(h), navigator));
 		}
 
@@ -71,11 +68,4 @@ public class SearchResultView extends GeneralView {
 		articles = new Vector<CssLayout>();
 	}
 
-	public static UserDetailsService getController() {
-		return controller;
-	}
-
-	public static void setController(UserDetailsService c) {
-		controller = c;
-	}
 }

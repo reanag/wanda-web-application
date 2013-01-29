@@ -2,13 +2,21 @@ package com.flowsoft.aviews;
 
 import java.sql.Timestamp;
 
+import javax.xml.ws.WebServiceRef;
+
+import userdetailsserviceimpl.wanda.flowsoft.com.UserDetailsServiceImplService;
+
+import com.flowsoft.component.PictureUpload;
+import com.flowsoft.domain.Avatar;
 import com.flowsoft.domain.WandaUser;
 import com.flowsoft.util.ValidatorUtils;
+import com.flowsoft.wanda.UserDetailsService;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -22,6 +30,8 @@ import com.vaadin.ui.TextField;
 public class RegistrationForm extends GridLayout implements BlurListener {
 
 	private static final long serialVersionUID = 1L;
+	@WebServiceRef
+	protected UserDetailsService controller;
 	private Button submit;
 	@PropertyId("firstName")
 	private TextField firstName;
@@ -40,11 +50,16 @@ public class RegistrationForm extends GridLayout implements BlurListener {
 			aboutMeTextL, passwordL, passwordAgainL;
 	private FieldGroup binder;
 	private WandaUser wandaUser;
+	private PictureUpload pictureUpload;
+	private Navigator navigator;
 
-	public RegistrationForm(FieldGroup binder, WandaUser w) {
-		super(2, 8);
+	public RegistrationForm(Navigator n, FieldGroup binder, WandaUser w) {
+		super(2, 9);
+		UserDetailsServiceImplService ss = new UserDetailsServiceImplService();
+		controller = ss.getUserDetailsServicePort();
 		this.binder = binder;
 		this.wandaUser = w;
+		this.navigator = n;
 		initFields();
 	}
 
@@ -90,6 +105,7 @@ public class RegistrationForm extends GridLayout implements BlurListener {
 			}
 		});
 
+		pictureUpload = new PictureUpload();
 		addComponent(usernameL, 0, 0);
 		addComponent(username, 1, 0);
 		username.setWidth("300px");
@@ -111,7 +127,8 @@ public class RegistrationForm extends GridLayout implements BlurListener {
 		addComponent(aboutMeTextL, 0, 6);
 		addComponent(aboutMeText, 1, 6);
 		aboutMeText.setWidth("300px");
-		addComponent(submit, 0, 7, 1, 7);
+		addComponent(pictureUpload, 0, 7, 1, 7);
+		addComponent(submit, 0, 8, 1, 8);
 		setWidth("600px");
 
 		ValidatorUtils.table.put(username, "username");
@@ -150,10 +167,13 @@ public class RegistrationForm extends GridLayout implements BlurListener {
 			wandaUser.setEnabled(true);
 			wandaUser.setRole("ROLE_USER");
 			wandaUser.setAboutText(getAboutText());
+			Avatar a = new Avatar();
+			a.setImage(pictureUpload.getPicture());
+			wandaUser.setAvatar(a);
 
 			binder.commit();
-			RegistrationView.controller.createUser(wandaUser);
-			RegistrationView.navigator.navigateTo(LoginView.NAME);
+			controller.createUser(wandaUser);
+			navigator.navigateTo(LoginView.NAME);
 		} catch (CommitException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -170,7 +190,7 @@ public class RegistrationForm extends GridLayout implements BlurListener {
 
 		ValidatorUtils.installSingleValidator(event.getComponent(),
 				WandaUser.class);
-		if (!RegistrationView.binder.isValid()) {
+		if (!binder.isValid()) {
 			submit.setEnabled(false);
 		} else {
 			submit.setEnabled(true);

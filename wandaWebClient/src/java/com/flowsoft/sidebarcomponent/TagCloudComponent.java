@@ -48,20 +48,12 @@ public class TagCloudComponent extends GridLayout {
 		if (firstTime) {
 			for (Tag t : list) {
 
-				// TODO: A: View for tags
-
-				String n = t.getTagName();
-				if (n.contains(" ")) {
-					n = n.replace(' ', '.');
-				}
-
 				TagView v = new TagView(t.getTagName());
+				((WandaVaadinClient) WandaVaadinClient.getCurrent())
+						.initView(v);
 				CssLinkComponent cssLink = new CssLinkComponent(t.getTagName(),
-						new ExternalResource("#!" + n));
-				if (!WandaVaadinClient.viewNames.contains(n)) {
-					WandaVaadinClient.viewNames.add(n);
-					navigator.addView(n, v);
-				}
+						new ExternalResource("#!" + v.NAME));
+
 				cssLink.setRank(t.getRank());
 				tags.add(cssLink);
 

@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.flowsoft.aviews.CreateArticleView;
-import com.flowsoft.aviews.MainView;
+import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.Article;
 import com.flowsoft.domain.Category;
 import com.flowsoft.domain.Tag;
@@ -60,9 +60,10 @@ public class CreateArticleForm extends GridLayout implements
 	private static List<Category> categoryList;
 	private static Category selectedCategory;
 	private static String lastInserted;
+	private CreateArticleView createArticleView;
 
-	public CreateArticleForm() {
-
+	public CreateArticleForm(CreateArticleView v) {
+		this.createArticleView = v;
 		// ------------TITLELABEL------------
 		title = new Label();
 		addComponent(title);
@@ -85,10 +86,10 @@ public class CreateArticleForm extends GridLayout implements
 					popupWindow = new PopupWindow();
 
 					binder = new FieldGroup();
-					CreateArticleView.getCategoryBean().setCategoryName(
+					createArticleView.getCategoryBean().setCategoryName(
 							newItemCaption);
 					BeanItem<Category> item = new BeanItem<Category>(
-							CreateArticleView.getCategoryBean());
+							createArticleView.getCategoryBean());
 					binder.setItemDataSource(item);
 					binder.bindMemberFields(popupWindow);
 
@@ -120,6 +121,7 @@ public class CreateArticleForm extends GridLayout implements
 				});
 		addComponent(categorySelectComboBox);
 		categorySelectComboBox.setWidth(componentWidth);
+		categorySelectComboBox.setImmediate(true);
 
 		articleTitle = new TextField("Title:");
 
@@ -133,7 +135,7 @@ public class CreateArticleForm extends GridLayout implements
 		tagSelector = new TagSelectorBox();
 		// HashSet<Tag> temp = new HashSet<Tag>();
 
-		tagSelector.setTagList(CreateArticleView.getTagList());
+		tagSelector.setTagList(createArticleView.getTagList());
 		submitButton = new Button("Submit");
 		submitButton.setImmediate(true);
 		submitButton.addClickListener(new Button.ClickListener() {
@@ -153,7 +155,7 @@ public class CreateArticleForm extends GridLayout implements
 			}
 		});
 
-		backLink = new Link("Back", new ExternalResource("#!" + MainView.NAME));
+		backLink = new Link("Back", new ExternalResource("#!main"));
 
 		addComponent(articleTitle);
 
@@ -182,7 +184,7 @@ public class CreateArticleForm extends GridLayout implements
 
 	protected void commit() {
 		try {
-			CreateArticleView.commit();
+			createArticleView.commit();
 			clearFields();
 		} catch (InvalidValueException e) {
 			logger.debug("Validation example: " + e);
@@ -236,7 +238,9 @@ public class CreateArticleForm extends GridLayout implements
 	}
 
 	public static void createNewSelected() {
-		selectedCategory = new Category(CreateArticleView.aktUser,
+		selectedCategory = new Category(
+				((WandaVaadinClient) WandaVaadinClient.getCurrent())
+						.getAktUser(),
 				categorySelectComboBox.getValue().toString());
 		categoryList.add(selectedCategory);
 
@@ -252,7 +256,7 @@ public class CreateArticleForm extends GridLayout implements
 		}
 		ValidatorUtils.installSingleValidator(event.getComponent(),
 				Article.class);
-		if (!CreateArticleView.binder.isValid()) {
+		if (!createArticleView.binder.isValid()) {
 			submitButton.setEnabled(false);
 		} else {
 			submitButton.setEnabled(true);

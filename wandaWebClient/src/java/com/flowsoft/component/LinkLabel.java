@@ -48,4 +48,12 @@ public class LinkLabel extends Label implements Serializable {
 
 	}
 
+	public void setResource(ExternalResource externalResource, String content) {
+		setContentMode(ContentMode.HTML);
+		this.linkText = "You are logged in: <b>" + content + "</b>";
+		this.resource = externalResource;
+		setValue("You are logged in: <b>" + content + "</b><a href=\""
+				+ externalResource.getURL() + " \">" + linkText + "</a> ");
+	}
+
 }

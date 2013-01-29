@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Hashtable;
 import java.util.List;
 
-import com.flowsoft.aviews.CreateArticleView;
 import com.flowsoft.domain.Article;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.GridLayout;
@@ -30,10 +29,10 @@ public class ArticleRecommenderComponent extends GridLayout {
 	// Resource)
 	public Hashtable<String, ExternalResource> demoListCreator(String content) {
 		Hashtable<String, ExternalResource> list = new Hashtable<String, ExternalResource>();
-		list.put(content + " 1", new ExternalResource("#!"
-				+ CreateArticleView.NAME));
-		list.put(content + " 2", new ExternalResource("#!"
-				+ CreateArticleView.NAME));
+		// list.put(content + " 1", new ExternalResource("#!"
+		// + CreateArticleView.NAME));
+		// list.put(content + " 2", new ExternalResource("#!"
+		// + CreateArticleView.NAME));
 		return list;
 	}
 
@@ -45,22 +44,43 @@ public class ArticleRecommenderComponent extends GridLayout {
 		Hashtable<String, ExternalResource> popularList = new Hashtable<String, ExternalResource>();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("kk:mm dd.MM.yyyy.");
 		for (Article a : mostRecentArticles) {
+			String s;
+			if (a.getTitle().length() > 20) {
+				s = a.getTitle().substring(0, 17) + "...";
+			} else {
+				s = a.getTitle();
+			}
+
 			recentList.put(
-					a.getTitle() + " (" + dateFormat.format(a.getCreatedTS())
-							+ ")", new ExternalResource("#!"
-							+ CreateArticleView.NAME));
+					s + " (" + dateFormat.format(a.getCreatedTS()) + ")",
+					new ExternalResource("#!articleView."
+							+ a.getTitle().replace(' ', '.')));
 		}
 		for (Article a : mostRecommendedArticles) {
-			recommendedList.put(
-					a.getTitle() + " (" + dateFormat.format(a.getCreatedTS())
-							+ ")", new ExternalResource("#!"
-							+ CreateArticleView.NAME));
+			String s;
+			if (a.getTitle().length() > 20) {
+				s = a.getTitle().substring(0, 17) + "...";
+			} else {
+				s = a.getTitle();
+			}
+
+			recommendedList.put(s + " (" + dateFormat.format(a.getCreatedTS())
+					+ ")", new ExternalResource("#!articleView."
+					+ a.getTitle().replace(' ', '.')));
 		}
 		for (Article a : mostPopularArticles) {
+			String s;
+			if (a.getTitle().length() > 20) {
+				s = a.getTitle().substring(0, 17) + "...";
+			} else {
+				s = a.getTitle();
+			}
+
 			popularList.put(
-					a.getTitle() + " (" + dateFormat.format(a.getCreatedTS())
-							+ ")", new ExternalResource("#!"
-							+ CreateArticleView.NAME));
+
+			s + " (" + dateFormat.format(a.getCreatedTS()) + ")",
+					new ExternalResource("#!articleView."
+							+ a.getTitle().replace(' ', '.')));
 		}
 
 		recentArticlesList = new CssLinkListComponent(null, recentList);
@@ -78,5 +98,4 @@ public class ArticleRecommenderComponent extends GridLayout {
 			addComponent(articleRecommender);
 		}
 	}
-
 }

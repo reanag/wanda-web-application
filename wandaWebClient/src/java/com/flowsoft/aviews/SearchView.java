@@ -12,13 +12,13 @@ import com.vaadin.ui.Link;
 public class SearchView extends GeneralView {
 	Logger logger = LoggerFactory.getLogger(SearchView.class);
 	private static final long serialVersionUID = 1L;
-	public static final String NAME = "search";
 
 	private SearchForm searchForm;
 
 	public SearchView() {
 		super();
-		logger.debug("ID: " + viewId + " - " + this.getClass());
+		this.NAME = "search";
+		// logger.debug("ID: " + viewId + " - " + this.getClass());
 	}
 
 	@Override
@@ -33,8 +33,8 @@ public class SearchView extends GeneralView {
 			searchForm = new SearchForm(navigator, controller);
 			mainLayout.addComponent(searchForm);
 			mainLayout.setComponentAlignment(searchForm, Alignment.MIDDLE_LEFT);
-			mainLayout.addComponent(new Link("Back", new ExternalResource("#!"
-					+ MainView.NAME)));
+			mainLayout.addComponent(new Link("Back", new ExternalResource(
+					"#!main")));
 		}
 		resizeMainLayout();
 	}

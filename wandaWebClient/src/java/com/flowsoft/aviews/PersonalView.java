@@ -1,6 +1,11 @@
-package com.flowsoft.client;
+package com.flowsoft.aviews;
 
-import com.flowsoft.aviews.GeneralView;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 import com.flowsoft.domain.WandaUser;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -13,12 +18,13 @@ import com.vaadin.ui.themes.Reindeer;
 public class PersonalView extends GeneralView implements View {
 
 	private static final long serialVersionUID = 1L;
-	public final String NAME;
+
 	private GridLayout cssLayout;
 	private String author;
 
 	public PersonalView(String author) {
-		logger.debug("ID: " + viewId + " - " + this.getClass() + "/" + author);
+		// logger.debug("ID: " + viewId + " - " + this.getClass() + "/" +
+		// author);
 		NAME = "auth=" + author;
 		this.author = author;
 	}
@@ -39,6 +45,21 @@ public class PersonalView extends GeneralView implements View {
 		Embedded ee = null;
 		if (u.getAvatar() == null) {
 			ee = new Embedded("", new ThemeResource("img/default_avatar.png"));
+		} else {
+
+			try {
+				OutputStream out = new FileOutputStream(new File("/avatar.png"));
+				out.write(u.getAvatar().getImage());
+				out.close();
+
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 
 		cssLayout = new GridLayout(3, 4);
@@ -60,10 +81,6 @@ public class PersonalView extends GeneralView implements View {
 	@Override
 	public void generateBody() {
 
-	}
-
-	public String getName() {
-		return NAME;
 	}
 
 }

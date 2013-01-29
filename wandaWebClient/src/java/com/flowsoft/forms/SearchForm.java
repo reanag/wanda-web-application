@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.flowsoft.aviews.SearchResultView;
-import com.flowsoft.aviews.SearchView;
 import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.sidebarcomponent.SearchTool;
 import com.flowsoft.wanda.UserDetailsService;
@@ -58,65 +57,50 @@ public class SearchForm extends GridLayout {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+
+				SearchResultView sv = null;
+
 				if (articleCheckBox.getValue()) {
-					if (!WandaVaadinClient.viewNames
-							.contains(SearchResultView.NAME + "."
-									+ searchField.getValue())) {
-						WandaVaadinClient.viewNames.add(SearchResultView.NAME
-								+ "." + searchField.getValue());
-						navigator.addView(
-								SearchResultView.NAME + "."
-										+ searchField.getValue(),
-								new SearchResultView(controller
-										.findArticleByTitle(
-												searchField.getValue(),
-												isAccurateSearch.getValue())));
-					}
-					navigator.navigateTo(SearchResultView.NAME + "."
-							+ searchField.getValue());
+
+					sv = new SearchResultView(searchField.getValue(),
+							controller.findArticleByTitle(
+									searchField.getValue(),
+									isAccurateSearch.getValue()));
+
+					((WandaVaadinClient) WandaVaadinClient.getCurrent())
+							.initView(sv);
 
 				}
-				if (contentCheckBox.getValue()) {
-					if (!WandaVaadinClient.viewNames
-							.contains(SearchResultView.NAME + ".c="
-									+ searchField.getValue())) {
-						WandaVaadinClient.viewNames.add(SearchResultView.NAME
-								+ ".c=" + searchField.getValue());
-						navigator.addView(
 
-								SearchResultView.NAME + ".c="
-										+ searchField.getValue(),
-								new SearchResultView(controller
-										.findArticleByContent(searchField
-												.getValue())));
-					}
-					navigator.navigateTo(SearchResultView.NAME + ".c="
-							+ searchField.getValue());
+				if (contentCheckBox.getValue()) {
+
+					sv = new SearchResultView("c=" + searchField.getValue(),
+							controller.findArticleByContent(searchField
+									.getValue()));
+
+					((WandaVaadinClient) WandaVaadinClient.getCurrent())
+							.initView(sv);
 
 				}
 				if (authorCheckBox.getValue()) {
-					if (!WandaVaadinClient.viewNames
-							.contains(SearchResultView.NAME + ".a="
-									+ searchField.getValue())) {
-						WandaVaadinClient.viewNames.add(SearchResultView.NAME
-								+ ".a=" + searchField.getValue());
-						navigator.addView(
-								SearchResultView.NAME + ".a="
-										+ searchField.getValue(),
-								new SearchResultView(controller
-										.findArticleByAuthor(
-												searchField.getValue(),
-												isAccurateSearch.getValue())));
-					}
-					navigator.navigateTo(SearchResultView.NAME + ".a="
-							+ searchField.getValue());
-				}
+					sv = new SearchResultView(".a=" + searchField.getValue(),
+							controller.findArticleByAuthor(
+									searchField.getValue(),
+									isAccurateSearch.getValue()));
 
+					((WandaVaadinClient) WandaVaadinClient.getCurrent())
+							.initView(sv);
+
+				}
+				navigator.navigateTo(sv.NAME);
 			}
+
 		});
 		isAccurateSearch = new CheckBox("Accurate search");
-		advancedSearch = new Link("Advanced search", new ExternalResource("#!"
-				+ SearchView.NAME));
+
+		advancedSearch = new Link("Advanced search", new ExternalResource(
+				"#!search"));
+		// + SearchView.NAME));
 
 		advancedSearch.setHeight("30");
 

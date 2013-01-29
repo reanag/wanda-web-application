@@ -66,7 +66,7 @@ public class TagSelectorBox extends CustomField implements Container.Editor,
 				if (isReadOnly()) {
 					throw new Property.ReadOnlyException();
 				}
-				logger.debug("new item: " + tokenId);
+				// logger.debug("new item: " + tokenId);
 				onTokenInput(tokenId);
 				selectorField.focus();
 			}
@@ -119,7 +119,7 @@ public class TagSelectorBox extends CustomField implements Container.Editor,
 		mainLayout.addComponent(selectorField);
 
 		for (Button b2 : tags.values()) {
-			logger.debug("Add tag: " + b2.getCaption());
+			// logger.debug("Add tag: " + b2.getCaption());
 			tagField.addComponent(b2);
 		}
 		mainLayout.addComponent(tagField);
@@ -292,7 +292,7 @@ public class TagSelectorBox extends CustomField implements Container.Editor,
 	public void setSelectedTags(Set<Tag> tagList) {
 
 		for (Tag t : tagList) {
-			logger.debug(t.getTagName() + " is added");
+			// logger.debug(t.getTagName() + " is added");
 			onTokenInput(t.getTagName());
 		}
 

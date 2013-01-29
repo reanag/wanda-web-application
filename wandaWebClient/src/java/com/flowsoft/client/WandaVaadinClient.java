@@ -10,13 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 import com.flowsoft.aviews.GeneralView;
 import com.flowsoft.aviews.LoginView;
 import com.flowsoft.aviews.RegistrationView;
+import com.flowsoft.domain.WandaUser;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
@@ -26,14 +25,16 @@ import com.vaadin.ui.UI;
 
 @Theme("vaadinclienttheme")
 @PreserveOnRefresh
-@Component
-@Scope("prototype")
 public class WandaVaadinClient extends UI implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	private static HttpSession httpSession;
-	static Navigator navigator;
+	private LoginView loginView;
+	private HttpSession httpSession;
+	private Navigator navigator;
+	private WandaUser aktUser;
+	public Vector<String> existingViewNames;
 	static public ResourceBundle captions;
-	public static Vector<String> viewNames = new Vector<String>();
+	// public Vector<String> viewNames = new Vector<String>();
 
 	@Autowired
 	private transient ApplicationContext applicationContext;
@@ -45,26 +46,21 @@ public class WandaVaadinClient extends UI implements Serializable {
 	public void init(VaadinRequest request) {
 		logger.debug("Init UI request: " + request.getRequestPathInfo());
 		captions = ResourceBundle.getBundle("i18n/Messages", getLocale());
-
+		existingViewNames = new Vector<String>();
 		// Navigator navigator = new DiscoveryNavigator(this, this);
 
 		initNavigator(this);
 	}
 
-	public static HttpSession getHttpSession() {
+	public HttpSession getHttpSession() {
 		return httpSession;
 	}
 
-	public static void setHttpSession(HttpSession httpSession) {
-		WandaVaadinClient.httpSession = httpSession;
+	public void setHttpSession(HttpSession httpSession) {
+		((WandaVaadinClient) WandaVaadinClient.getCurrent()).httpSession = httpSession;
 	}
 
-	public static void fetchSession() {
-		GeneralView.fetchSession();
-
-	}
-
-	public static void destroySession() {
+	public void destroySession() {
 		navigator.navigateTo(LoginView.NAME);
 
 		SecurityContextHolder.clearContext();
@@ -75,21 +71,43 @@ public class WandaVaadinClient extends UI implements Serializable {
 
 	}
 
-	private static void initNavigator(UI ui) {
+	private void initNavigator(UI ui) {
 		navigator = new Navigator(ui, ui.getContent());
-		viewNames = new Vector<String>();
-		GeneralView.setNavigator(navigator);
 
-		viewNames.add(LoginView.NAME);
-		navigator.addView(LoginView.NAME, new LoginView(navigator));
-		if (!viewNames.contains(RegistrationView.NAME)) {
-			viewNames.add(RegistrationView.NAME);
-			navigator.addView(RegistrationView.NAME, new RegistrationView());
-			RegistrationView.setNavigator(navigator);
-		}
+		GeneralView.setNavigator(navigator);
+		loginView = new LoginView(navigator);
+
+		navigator.addView(LoginView.NAME, loginView);
+		RegistrationView r = new RegistrationView();
+		navigator.addView(RegistrationView.NAME, r);
+		r.setNavigator(navigator);
 
 		navigator.navigateTo(LoginView.NAME);
 		navigator.setErrorView(new ErrorView());
 
 	}
+
+	public void initView(GeneralView view) {
+		if (((WandaVaadinClient) WandaVaadinClient.getCurrent()).existingViewNames
+				.contains(view.getNAME())) {
+
+		} else {
+			logger.debug("Add view: " + view.getNAME());
+			navigator.addView(view.getNAME(), view);
+			existingViewNames.add(view.getNAME());
+		}
+	}
+
+	public WandaUser getAktUser() {
+		return aktUser;
+	}
+
+	public void setAktUser(WandaUser aktUser) {
+		this.aktUser = aktUser;
+	}
+
+	public LoginView getLoginView() {
+		return loginView;
+	}
+
 }

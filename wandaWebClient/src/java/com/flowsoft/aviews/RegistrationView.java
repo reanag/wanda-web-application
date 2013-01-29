@@ -2,15 +2,10 @@ package com.flowsoft.aviews;
 
 import java.io.Serializable;
 
-import javax.xml.ws.WebServiceRef;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import userdetailsserviceimpl.wanda.flowsoft.com.UserDetailsServiceImplService;
-
 import com.flowsoft.domain.WandaUser;
-import com.flowsoft.wanda.UserDetailsService;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.navigator.Navigator;
@@ -28,18 +23,15 @@ public class RegistrationView extends Panel implements View, Serializable {
 	protected static Logger logger = LoggerFactory
 			.getLogger(RegistrationView.class);
 	public static final String NAME = "registration";
-	static Navigator navigator;
+	public Navigator navigator;
 	private GridLayout mainLayout;
 	private Label title, info;
-	private static RegistrationForm regForm;
-	public static FieldGroup binder;
+	private RegistrationForm regForm;
+	public FieldGroup binder;
 	public WandaUser wandaUser;
-	@WebServiceRef
-	static protected UserDetailsService controller;
 
 	public RegistrationView() {
-		UserDetailsServiceImplService ss = new UserDetailsServiceImplService();
-		controller = ss.getUserDetailsServicePort();
+
 		mainLayout = new GridLayout();
 		title = new Label("Sign up");
 		title.setStyleName(Reindeer.LABEL_H2);
@@ -47,17 +39,17 @@ public class RegistrationView extends Panel implements View, Serializable {
 				"This is a simple registration page. Please fill the following form to registrate.");
 		info.setStyleName(Reindeer.LABEL_SMALL);
 		wandaUser = new WandaUser();
-		wandaUser.setUsername("");
+		wandaUser.setUsername("sanyika");
 		wandaUser.setAboutText("");
-		wandaUser.setEmailAdress("");
-		wandaUser.setFirstName("");
-		wandaUser.setLastName("");
-		wandaUser.setPassword("");
+		wandaUser.setEmailAdress("sanyi@sanyi.sb");
+		wandaUser.setFirstName("Sanyi");
+		wandaUser.setLastName("Sandor");
+		wandaUser.setPassword("123456");
 		binder = new FieldGroup();
 		BeanItem<WandaUser> item = new BeanItem<WandaUser>(wandaUser);
 		binder.setItemDataSource(item);
 
-		regForm = new RegistrationForm(binder, wandaUser);
+		regForm = new RegistrationForm(navigator, binder, wandaUser);
 
 		binder.bindMemberFields(regForm);
 		mainLayout.addComponent(title);
@@ -67,12 +59,12 @@ public class RegistrationView extends Panel implements View, Serializable {
 		mainLayout.setComponentAlignment(regForm, Alignment.MIDDLE_CENTER);
 	}
 
-	public static Navigator getNavigator() {
-		return navigator;
+	public Navigator getNavigator() {
+		return this.navigator;
 	}
 
-	public static void setNavigator(Navigator navigator) {
-		RegistrationView.navigator = navigator;
+	public void setNavigator(Navigator navigator) {
+		this.navigator = navigator;
 	}
 
 	@Override

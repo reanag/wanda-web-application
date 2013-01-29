@@ -1,5 +1,6 @@
 package com.flowsoft.aviews;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,32 +14,32 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.Reindeer;
 
-public class TagView extends GeneralView {
+public class CategoryView extends GeneralView {
 
 	private static final long serialVersionUID = -8116691770439511775L;
 
 	public static Logger logger = LoggerFactory.getLogger(TagView.class);
-	private Label l, l2;
+	private Label l, l2, l3;
 	private GridLayout layout;
 	private List<Article> aList;
 
-	public TagView(String tagName) {
+	public CategoryView(String categoryName) {
 		super();
-		this.NAME = "tagView." + tagName;
-		initTagForm(tagName);
+
+		this.NAME += "categoryView." + categoryName;
+		initCategoryForm(categoryName);
 
 	}
 
-	private void initTagForm(String tagName) {
-
+	private void initCategoryForm(String categoryName) {
 		layout = new GridLayout(1, 50);
 		layout.setWidth("550px");
 		l = new Label();
-		l.setValue(tagName);
+		l.setValue(categoryName);
 		l.setStyleName(Reindeer.LABEL_H1);
 		l2 = new Label();
-		l2.setValue("Articles tagged by " + tagName + ": ");
-
+		l2.setValue("Articles belongs to  " + categoryName + ": ");
+		l3 = new Label();
 	}
 
 	@Override
@@ -46,11 +47,12 @@ public class TagView extends GeneralView {
 		super.enter(event);
 		layout.removeAllComponents();
 
-		aList = controller.findArticleByTag(l.getValue());
-
+		aList = controller.findArticleByCategory(l.getValue());
+		// logger.debug("Article by category size: " + aList.size());
 		l2.setHeight("50px");
 		layout.addComponent(l, 0, 0);
-		layout.addComponent(l2, 0, 1);
+		layout.addComponent(l3, 0, 1);
+		layout.addComponent(l2, 0, 2);
 
 		if (aList != null) {
 			for (Article a : aList) {
@@ -68,6 +70,23 @@ public class TagView extends GeneralView {
 
 	@Override
 	public void generateBody() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setDescriptionText(String description) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setCategoryOwnerText(String username) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setCreatedTSText(Date createdTS) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

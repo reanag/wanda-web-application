@@ -9,9 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import userdetailsserviceimpl.wanda.flowsoft.com.UserDetailsServiceImplService;
 
-import com.flowsoft.client.AboutMeView;
-import com.flowsoft.client.AboutSiteView;
-import com.flowsoft.client.PersonalView;
 import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.WandaUser;
 import com.flowsoft.sidebarcomponent.Sidebar;
@@ -33,39 +30,52 @@ import com.vaadin.ui.VerticalLayout;
 
 public abstract class GeneralView extends Panel implements View, Serializable {
 
+	public String getNAME() {
+		return NAME;
+	}
+
+	public void setNAME(String nAME) {
+		NAME = nAME;
+	}
+
 	private static final long serialVersionUID = 1L;
 	public static Integer viewId = 0;
-	public static final String NAME = "Footer&Header";
+	public String NAME = "Footer&Header";
 	public static Logger logger = LoggerFactory.getLogger(MainView.class);
-	protected static VerticalLayout baseLayout;
-	protected static GridLayout headerLayout;
-	protected static GridLayout bodyLayout;
-	protected static VerticalLayout mainLayout = new VerticalLayout();
-	protected static HorizontalLayout footerLayout;
-	protected static Sidebar sidebar;
-	protected static Link usernameLabel;
-	static protected Navigator navigator;
-	public static WandaUser aktUser;
-	public static Button logout;
+	protected VerticalLayout baseLayout;
+	protected GridLayout headerLayout;
+	protected GridLayout bodyLayout;
+	protected VerticalLayout mainLayout = new VerticalLayout();
+	protected HorizontalLayout footerLayout;
+	protected Sidebar sidebar;
+	protected Link usernameLabel;
+	protected static Navigator navigator;
+	public WandaUser aktUser;
+	public Button logout;
 	@WebServiceRef
-	static protected UserDetailsService controller;
+	protected UserDetailsService controller;
 
-	public static void init() {
-		UserDetailsServiceImplService ss = new UserDetailsServiceImplService();
-		controller = ss.getUserDetailsServicePort();
+	public void init() {
+		if (controller == null) {
+			UserDetailsServiceImplService ss = new UserDetailsServiceImplService();
+			controller = ss.getUserDetailsServicePort();
+		}
+
 		baseLayout = new VerticalLayout();
-		// mainLayout = new VerticalLayout();
-		mainLayout.setWidth("600px");
 		resizeMainLayout();
 		bodyLayout = new GridLayout(2, 1);
 	}
 
 	public GeneralView() {
 		init();
+		fetchSession();
+		if (usernameLabel != null) {
+			usernameLabel.setCaption(aktUser.getUsername());
+		}
 		viewId++;
 	}
 
-	protected static void generateSideBar() {
+	protected void generateSideBar() {
 		sidebar = new Sidebar(navigator, controller);
 		sidebar.setStyleName("myblack");
 		sidebar.setSizeFull();
@@ -73,7 +83,7 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		resizeMainLayout();
 	}
 
-	protected static void resizeMainLayout() {
+	protected void resizeMainLayout() {
 		if (baseLayout != null) {
 			baseLayout.setSizeUndefined();
 		}
@@ -89,37 +99,13 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 
 	}
 
-	public static void generateHeader() {
-
-		// final ThemeResource flashResource = new ThemeResource(
-		// "script/piecemaker.swf");
-		// FileResource flashResource = new FileResource(
-		// new File(
-		// "C://Users//Andika//Desktop//Color-Changeable-Navigation-Menus//4xmlmenusrg.swf"));
-		// // // new File(
-		// "C://Users//Andika//Desktop//wanda//workspace//workspace-sts-cfx-3.1.0.RELEASE//wandaWebClient//WebContent//WEB-INF//script//first.swf"));
-		// final Embedded embedded = new Embedded(null, flashResource);
-
-		// This is the default type, but we set it anyway.
-		// embedded.setType(Embedded.TYPE_OBJECT);
-		// embedded.setWidth("600px");
-
-		// embedded.setStyleName("bordered");
-		// embedded.setHeight("180px");
-		// // This is recorgnized automatically, but set it anyway.
-		// embedded.setMimeType("application/x-shockwave-flash");
+	public void generateHeader() {
 
 		headerLayout = new GridLayout(3, 1);
-		headerLayout.setHeight("105px");
+		headerLayout.setHeight("145px");
 		headerLayout.setWidth("100%");
 
-		// Label l = new
-		// Label(WandaVaadinClient.captions.getString("HeaderTitle"));
-		// l.setHeight("80px");
-		// l.setStyleName("title");
-
 		usernameLabel = new Link();
-		// usernameLabel.setEnabled(false);
 		usernameLabel.setStyleName("username");
 		usernameLabel.setImmediate(true);
 
@@ -130,26 +116,23 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				logger.debug("EVENT: " + event.getSource().toString());
+				// logger.debug("EVENT: " + event.getSource().toString());
 
-				WandaVaadinClient.destroySession();
+				((WandaVaadinClient) (WandaVaadinClient.getCurrent()))
+						.destroySession();
 
 			}
 		});
 		Embedded embedded = new Embedded("", new ThemeResource("img/long.gif"));
-		embedded.setHeight("120px");
-		headerLayout.setHeight("120px");
-		headerLayout.addComponent(embedded);
-		// headerLayout.addComponent(l);
-		// headerLayout.setComponentAlignment(l, Alignment.MIDDLE_LEFT);
+		embedded.setHeight("100px");
 
+		headerLayout.addComponent(embedded);
 		headerLayout.addComponent(usernameLabel);
-		headerLayout.setComponentAlignment(usernameLabel,
-				Alignment.MIDDLE_RIGHT);
-		// logout.setWidth("40px");
+		headerLayout.setComponentAlignment(embedded, Alignment.TOP_LEFT);
+		headerLayout.setComponentAlignment(usernameLabel, Alignment.TOP_RIGHT);
 		headerLayout.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 		headerLayout.addComponent(logout);
-		headerLayout.setColumnExpandRatio(0, 20);
+		headerLayout.setColumnExpandRatio(0, 1000);
 		headerLayout.setColumnExpandRatio(1, 1);
 		headerLayout.setColumnExpandRatio(1, 1);
 
@@ -157,53 +140,52 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 
 	public abstract void generateBody();
 
-	public static void fetchSession() {
+	public void fetchSession() {
 		try {
-			if (WandaVaadinClient.getHttpSession().getAttribute("username") != null) {
-				setAktUser(controller.findByUsername(WandaVaadinClient
-						.getHttpSession().getAttribute("username").toString()));
+			setAktUser(((WandaVaadinClient) (WandaVaadinClient.getCurrent()))
+					.getAktUser());
 
-				logger.debug("Aktuser: " + aktUser.getId()
-						+ aktUser.getUsername());
-			}
+			// logger.debug("Aktuser: " + aktUser.getId() +
+			// aktUser.getUsername());
+
 		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 
 	}
 
-	public static void fetchSidebarData() {
+	public void fetchSidebarData() {
 		sidebar.initTagList(controller.getAllTag());
 		sidebar.initArticleBlokk(controller.getRecentArticle(3),
 				controller.getMostPopularArticle(3),
 				controller.getMostRecommendedArticle(3));
 		if (aktUser != null) {
-			PersonalView pv = new PersonalView(aktUser.getUsername());
-			if (!WandaVaadinClient.viewNames.contains(pv.getName())) {
-				WandaVaadinClient.viewNames.add(pv.getName());
-				navigator.addView(pv.getName(), pv);
-			}
+
+			((WandaVaadinClient) WandaVaadinClient.getCurrent())
+					.initView(new PersonalView(aktUser.getUsername()));
 
 			sidebar.initUserCategories(controller.getUserCategories(aktUser
 					.getId()));
+			sidebar.initTopCategories(controller.getTopCategories(4));
 		}
 	}
 
-	public static void generateFooter() {
+	public void generateFooter() {
 		footerLayout = new HorizontalLayout();
 		footerLayout.setHeight("85px");
 		footerLayout.setWidth("100%");
 
 		Link lnk = new Link(
 				WandaVaadinClient.captions.getString("footer.home"),
-				new ExternalResource("#!" + MainView.NAME));
+				new ExternalResource("#!main"));
 
 		Link lnk2 = new Link(
 				WandaVaadinClient.captions.getString("footer.about.site"),
-				new ExternalResource("#!" + AboutMeView.NAME));
+				new ExternalResource("#!AboutSite"));
 
 		Link lnk3 = new Link(
 				WandaVaadinClient.captions.getString("footer.about.me"),
-				new ExternalResource("#!" + AboutSiteView.NAME));
+				new ExternalResource("#!AboutMe"));
 
 		footerLayout.addComponent(lnk);
 		footerLayout.addComponent(lnk2);
@@ -216,7 +198,6 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 
 	public void enter(ViewChangeEvent event) {
 		removeAllComponents();
-
 		generateHeader();
 		generateBody();
 		generateSideBar();
@@ -229,11 +210,10 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 			bodyLayout.addStyleName("horizontalright");
 			bodyLayout.addComponent(mainLayout, 0, 0);
 			mainLayout.setStyleName("main");
-			bodyLayout.setComponentAlignment(mainLayout, Alignment.MIDDLE_LEFT);
+			bodyLayout.setComponentAlignment(mainLayout, Alignment.TOP_LEFT);
 			sidebar.setStyleName("sidebar");
 			bodyLayout.addComponent(sidebar, 1, 0);
-			// sidebar.setWidth("150px");
-			bodyLayout.setComponentAlignment(sidebar, Alignment.MIDDLE_RIGHT);
+			bodyLayout.setComponentAlignment(sidebar, Alignment.TOP_LEFT);
 			bodyLayout.setColumnExpandRatio(0, 10);
 			bodyLayout.setColumnExpandRatio(1, 1);
 		}
@@ -246,8 +226,6 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		}
 		addComponent(baseLayout);
 
-		logger.debug("GeneralView construct done: " + this.getClass()
-				+ "viewId");
 		if (usernameLabel == null) {
 			usernameLabel = new Link();
 		}
@@ -256,16 +234,22 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 			usernameLabel.setResource(new ExternalResource("#!auth="
 					+ aktUser.getUsername()));
 		}
-
 	}
 
-	public static void setAktUser(WandaUser u) {
+	public void setAktUser(WandaUser u) {
 		aktUser = u;
-		logger.debug("Aktuser: " + aktUser.toString());
 	}
 
 	public static void setNavigator(Navigator n) {
 		navigator = n;
 
+	}
+
+	public UserDetailsService getController() {
+		return controller;
+	}
+
+	public void setController(UserDetailsService c) {
+		controller = c;
 	}
 }

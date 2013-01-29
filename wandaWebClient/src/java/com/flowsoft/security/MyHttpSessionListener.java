@@ -1,5 +1,6 @@
 package com.flowsoft.security;
 
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
@@ -10,18 +11,21 @@ import com.flowsoft.client.WandaVaadinClient;
 
 public class MyHttpSessionListener implements HttpSessionListener {
 	Logger logger = LoggerFactory.getLogger(getClass());
+	private HttpSession session;
 
 	@Override
 	public void sessionCreated(HttpSessionEvent httpSessionEvent) {
 		logger.debug("Session start");
-		WandaVaadinClient.setHttpSession(httpSessionEvent.getSession());
 		logger.debug("Session: " + httpSessionEvent.getSession().isNew() + " "
 				+ httpSessionEvent.getSession().getId());
+		this.session = httpSessionEvent.getSession();
+		WandaVaadinClient.setCurrent(new WandaVaadinClient());
+		setSession();
+	}
 
-		if (WandaVaadinClient.getHttpSession() == null) {
-			logger.debug("Error in sessionCreated method: new Session is null");
-		}
-
+	public void setSession() {
+		((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.setHttpSession(session);
 	}
 
 	@Override

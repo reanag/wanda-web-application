@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.component.ReadMoreForm;
 import com.flowsoft.domain.ArticleHeader;
-import com.flowsoft.wanda.UserDetailsService;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CssLayout;
@@ -23,14 +22,15 @@ public class MainView extends GeneralView {
 	Logger logger = LoggerFactory.getLogger(MainView.class);
 
 	private static final long serialVersionUID = 1L;
-	public static final String NAME = "main";
+
 	private static Vector<CssLayout> articles;
 	private static VerticalLayout layout;
 
 	public MainView() {
 		super();
+		NAME = "main";
 		articles = null;
-		logger.debug("ID: " + viewId + " - " + this.getClass());
+		// logger.debug("ID: " + viewId + " - " + this.getClass());
 		layout = new VerticalLayout();
 		setSizeFull();
 	}
@@ -44,14 +44,11 @@ public class MainView extends GeneralView {
 				articles = new Vector<CssLayout>();
 			}
 			for (ArticleHeader h : w) {
-				if (!WandaVaadinClient.viewNames.contains(ArticleView.NAME
-						+ "." + h.getTitle().replace(' ', '.'))) {
-					WandaVaadinClient.viewNames.add(ArticleView.NAME + "."
-							+ h.getTitle().replace(' ', '.'));
-					navigator.addView(ArticleView.NAME + "."
-							+ h.getTitle().replace(' ', '.'),
-							new ArticleView(h));
-				}
+
+				ArticleView articleView = new ArticleView(h);
+				((WandaVaadinClient) WandaVaadinClient.getCurrent())
+						.initView(articleView);
+
 				articles.add(new ReadMoreForm(h, navigator));
 			}
 
@@ -68,11 +65,4 @@ public class MainView extends GeneralView {
 	public void generateBody() {
 	}
 
-	public static UserDetailsService getController() {
-		return controller;
-	}
-
-	public static void setController(UserDetailsService c) {
-		controller = c;
-	}
 }

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.flowsoft.aviews.ArticleView;
 import com.flowsoft.component.CommentBox;
 import com.flowsoft.domain.Comment;
+import com.flowsoft.wanda.UserDetailsService;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.ui.Alignment;
@@ -20,6 +21,8 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
 
 public class CommentForm extends CssLayout {
+
+	private static final long serialVersionUID = 1L;
 	Logger logger = LoggerFactory.getLogger(CommentForm.class);
 	@PropertyId("commentContent")
 	private TextArea commentContentTextfield;
@@ -27,9 +30,14 @@ public class CommentForm extends CssLayout {
 	private Label label;
 	private VerticalLayout vl;
 	private List<Comment> list;
+	private ArticleView parent;
+	private UserDetailsService controller;
 
-	public CommentForm(List<Comment> commentList) {
+	public CommentForm(ArticleView parent, List<Comment> commentList,
+			UserDetailsService c) {
+		this.controller = c;
 		this.list = commentList;
+		this.parent = parent;
 		this.setStyleName("comment");
 	}
 
@@ -75,7 +83,7 @@ public class CommentForm extends CssLayout {
 			for (Comment c : list) {
 				vl.addComponent(new CommentBox(c.getId(), c.getOwner()
 						.getUsername(), c.getCommentContent(), c.getCreatedTS()
-						.toLocaleString()));
+						.toLocaleString(), controller));
 			}
 		}
 		addComponent(vl);
@@ -84,7 +92,7 @@ public class CommentForm extends CssLayout {
 	protected void commit() {
 		try {
 			ArticleView.setNeedToRefresh(true);
-			ArticleView.commit();
+			parent.commit();
 
 		} catch (InvalidValueException e) {
 
@@ -105,7 +113,7 @@ public class CommentForm extends CssLayout {
 			for (Comment c : list) {
 				vl.addComponent(new CommentBox(c.getId(), c.getOwner()
 						.getUsername(), c.getCommentContent(), c.getCreatedTS()
-						.toLocaleString()));
+						.toLocaleString(), controller));
 			}
 		}
 	}

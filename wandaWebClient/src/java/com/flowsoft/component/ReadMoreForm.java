@@ -3,8 +3,7 @@ package com.flowsoft.component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.flowsoft.aviews.ArticleView;
-import com.flowsoft.client.PersonalView;
+import com.flowsoft.aviews.PersonalView;
 import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.ArticleHeader;
 import com.vaadin.navigator.Navigator;
@@ -31,7 +30,7 @@ public class ReadMoreForm extends CssLayout {
 		setStyleName("mydiv");
 		linkLabel = new LinkLabel(h.getContent(),
 				WandaVaadinClient.captions.getString("more.link.text"),
-				new ExternalResource("#!" + ArticleView.NAME + "."
+				new ExternalResource("#!articleView."
 						+ h.getTitle().replace(' ', '.')));
 
 		authorLabel = new LinkLabel("",
@@ -39,11 +38,9 @@ public class ReadMoreForm extends CssLayout {
 						+ h.getAuthor(), new ExternalResource("#!auth="
 						+ h.getAuthor())); // +
 
-		PersonalView pv = new PersonalView(h.getAuthor());
-		if (!WandaVaadinClient.viewNames.add(pv.getName())) {
-			WandaVaadinClient.viewNames.add(pv.getName());
-			navigator.addView(pv.getName(), pv);
-		}
+		((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.initView(new PersonalView(h.getAuthor()));
+
 		authorLabel.setStyleName(Reindeer.LABEL_SMALL);
 
 		setWidth("570px");

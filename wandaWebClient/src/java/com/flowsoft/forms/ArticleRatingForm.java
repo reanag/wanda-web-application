@@ -21,14 +21,14 @@ public class ArticleRatingForm extends GridLayout {
 	private static final long serialVersionUID = 1L;
 	private CheckBox animatedCheckBox;
 	private Set<RatingStars> allRatingStars = new HashSet<RatingStars>();
-	protected static UserDetailsService controller;
+	protected UserDetailsService controller;
 	protected Integer id;
 	private Table table;
 	private static Map<Integer, String> valueCaptions = new HashMap<Integer, String>(
 			5);
 
 	static {
-		valueCaptions.put(1, "Epic Fail");
+		valueCaptions.put(1, "Horrible");
 		valueCaptions.put(2, "Poor");
 		valueCaptions.put(3, "OK");
 		valueCaptions.put(4, "Good");

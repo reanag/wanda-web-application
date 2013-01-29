@@ -6,11 +6,11 @@ import com.vaadin.ui.Button;
 public class SnippetButton extends Button {
 
 	private static final long serialVersionUID = 1L;
-	private Integer id;
 
-	public SnippetButton(Integer i) {
+	public SnippetButton(final String source) {
 		super();
-		this.id = i;
+		// this.setHeight("10px");
+		// this.setWidth("10px");
 		this.setIcon(new ThemeResource("img/icon.png"));
 		this.addClickListener(new ClickListener() {
 
@@ -19,7 +19,7 @@ public class SnippetButton extends Button {
 			@Override
 			public void buttonClick(ClickEvent event) {
 
-				SnippetButton.this.getUI().addWindow(new SnippetWindow(id));
+				SnippetButton.this.getUI().addWindow(new SnippetWindow(source));
 			}
 		});
 	}

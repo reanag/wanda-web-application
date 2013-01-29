@@ -31,7 +31,7 @@ public class PopupWindow extends Window implements BlurListener {
 	public PopupWindow() {
 		nameField = new TextField("Category name");
 
-		logger.debug("In namefield: " + nameField.getValue());
+		// logger.debug("In namefield: " + nameField.getValue());
 		setPositionX(180);
 		setPositionY(230);
 

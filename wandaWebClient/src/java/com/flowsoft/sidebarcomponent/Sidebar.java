@@ -2,8 +2,6 @@ package com.flowsoft.sidebarcomponent;
 
 import java.util.List;
 
-import com.flowsoft.aviews.SearchResultView;
-import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.Article;
 import com.flowsoft.domain.Category;
 import com.flowsoft.domain.Tag;
@@ -20,15 +18,15 @@ public class Sidebar extends Panel implements View {
 	private OptionSelectorComponent optionSelector;
 	private ArticleRecommenderComponent articleRecommender;
 	private TagCloudComponent tagCloud;
-	private static Navigator navigator;
-	private static UserDetailsService controller;
+	private Navigator navigator;
+	private UserDetailsService controller;
 
 	public Sidebar(Navigator n, UserDetailsService c) {
 		this.setWidth("100px");
 		navigator = n;
 		controller = c;
 
-		searchTool = new SearchTool();
+		searchTool = new SearchTool(navigator, controller);
 		optionSelector = new OptionSelectorComponent(n);
 		optionSelector.setStyleName("optionSelStyle");
 		articleRecommender = new ArticleRecommenderComponent();
@@ -53,7 +51,15 @@ public class Sidebar extends Panel implements View {
 		if (categoryList == null) {
 			return;
 		}
-		optionSelector.init(categoryList);
+		optionSelector.initOwnCategoryList(categoryList);
+		optionSelector.requestRepaint();
+	}
+
+	public void initTopCategories(List<Category> topCategories) {
+		if (topCategories == null) {
+			return;
+		}
+		optionSelector.initTopCategoryList(topCategories);
 		optionSelector.requestRepaint();
 	}
 
@@ -69,15 +75,4 @@ public class Sidebar extends Panel implements View {
 				mostPopularArticles, mostRecommendedArticles);
 	}
 
-	public static void searchByTitle(String s, Boolean b) {
-		if (!WandaVaadinClient.viewNames.contains(SearchResultView.NAME + "."
-				+ s)) {
-			WandaVaadinClient.viewNames.add(SearchResultView.NAME + "." + s);
-			navigator.addView(SearchResultView.NAME + "." + s,
-					new SearchResultView(controller.findArticleByTitle(s, b)));
-		}
-		// new SearchResultView(controller.getMostPopularArticle(3)));
-		navigator.navigateTo(SearchResultView.NAME + "." + s);
-
-	}
 }

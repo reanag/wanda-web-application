@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.slf4j.LoggerFactory;
 
 import com.flowsoft.aviews.ArticleView;
-import com.flowsoft.aviews.MainView;
+import com.flowsoft.aviews.TagView;
 import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.Article;
 import com.flowsoft.domain.Tag;
@@ -28,9 +28,11 @@ public class ReadArticleForm extends GridLayout {
 	private Article article;
 	private Button editButton, deleteButton;
 	private ArticleRatingForm ratingForm;
+	private ArticleView articleView;
 
-	public ReadArticleForm(Article a, UserDetailsService u) {
+	public ReadArticleForm(ArticleView v, Article a, UserDetailsService u) {
 		super(4, 5);
+		this.articleView = v;
 		this.article = a;
 		ratingForm = new ArticleRatingForm(u, article.getId());
 	}
@@ -53,8 +55,8 @@ public class ReadArticleForm extends GridLayout {
 		if (article
 				.getOwner()
 				.getUsername()
-				.equals(WandaVaadinClient.getHttpSession().getAttribute(
-						"username"))) {
+				.equals(((WandaVaadinClient) WandaVaadinClient.getCurrent())
+						.getAktUser().getUsername())) {
 			editButton = new Button();
 			editButton.setCaption("Edit");
 			editButton.addClickListener(new Button.ClickListener() {
@@ -63,8 +65,8 @@ public class ReadArticleForm extends GridLayout {
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-					logger.debug("button click");
-					ArticleView.edit(article);
+					// logger.debug("button click");
+					articleView.edit(article);
 
 				}
 			});
@@ -77,7 +79,7 @@ public class ReadArticleForm extends GridLayout {
 				@Override
 				public void buttonClick(ClickEvent event) {
 					logger.debug("button click");
-					ArticleView.delete(article);
+					articleView.delete(article);
 
 				}
 			});
@@ -93,9 +95,10 @@ public class ReadArticleForm extends GridLayout {
 		if (article.getTagList() != null) {
 
 			for (Tag s : article.getTagList()) {
-
-				Link l = new Link(s.getTagName(), new ExternalResource("#!"
-						+ MainView.NAME));
+				((WandaVaadinClient) WandaVaadinClient.getCurrent())
+						.initView(new TagView(s.getTagName()));
+				Link l = new Link(s.getTagName(), new ExternalResource(
+						"#!tagView." + s.getTagName()));
 				tags.add(l);
 			}
 		}

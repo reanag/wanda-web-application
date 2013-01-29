@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
@@ -12,9 +11,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.flowsoft.client.AboutMeView;
-import com.flowsoft.client.AboutSiteView;
 import com.flowsoft.client.WandaVaadinClient;
+import com.flowsoft.codesnippet.SnippetButton;
+import com.flowsoft.security.AuthenticationProvider;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -25,6 +24,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Embedded;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
@@ -33,12 +33,12 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 public class LoginView extends Panel implements View, Serializable {
-	private final AuthenticationProvider authenticationProvider;
+	private AuthenticationProvider authenticationProvider;
 
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "login";
 	Logger logger = LoggerFactory.getLogger(LoginView.class);
-	protected VerticalLayout mainLayout;
+	protected GridLayout mainLayout;
 	protected VerticalLayout loginLayout;
 
 	private Button b;
@@ -66,6 +66,12 @@ public class LoginView extends Panel implements View, Serializable {
 
 	public LoginView(Navigator n) {
 		navigator = n;
+		try {
+			this.authenticationProvider = new com.flowsoft.security.AuthenticationProvider();
+		} catch (RuntimeException re) {
+			logger.debug("Runtime error");
+
+		}
 		this.authenticationProvider = new com.flowsoft.security.AuthenticationProvider();
 		init();
 
@@ -76,9 +82,23 @@ public class LoginView extends Panel implements View, Serializable {
 
 	}
 
+	private void generatePages() {
+
+		((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.initView(new MainView());
+		((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.initView(new AboutMeView());
+		((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.initView(new AboutSiteView());
+		((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.initView(new SearchView());
+
+		navigator.navigateTo("main");
+	}
+
 	public void init() {
 		this.setStyleName("login");
-		mainLayout = new VerticalLayout();
+		mainLayout = new GridLayout(1, 2);
 		loginLayout = new VerticalLayout();
 
 		image = new Embedded("", new ThemeResource("img/logo.gif"));
@@ -100,37 +120,9 @@ public class LoginView extends Panel implements View, Serializable {
 										.getAuthentication() + "]");
 					}
 
-					// setUser(((LoginView.LoginEvent)
-					// event).getAuthentication());
 					SecurityContextHolder.getContext().setAuthentication(
 							((LoginView.LoginEvent) event).getAuthentication());
-					if (!WandaVaadinClient.viewNames.contains(MainView.NAME)) {
-						WandaVaadinClient.viewNames.add(MainView.NAME);
-						navigator.addView(MainView.NAME, new MainView());
-					}
-					if (!WandaVaadinClient.viewNames
-							.contains(CreateArticleView.NAME)) {
-						WandaVaadinClient.viewNames.add(CreateArticleView.NAME);
-						navigator.addView(CreateArticleView.NAME,
-								new CreateArticleView());
-					}
-
-					if (!WandaVaadinClient.viewNames
-							.contains(AboutSiteView.NAME)) {
-						WandaVaadinClient.viewNames.add(AboutSiteView.NAME);
-						navigator
-								.addView(AboutSiteView.NAME, new AboutMeView());
-					}
-					if (!WandaVaadinClient.viewNames.contains(AboutMeView.NAME)) {
-						WandaVaadinClient.viewNames.add(AboutMeView.NAME);
-						navigator
-								.addView(AboutMeView.NAME, new AboutSiteView());
-					}
-					if (!WandaVaadinClient.viewNames.contains(SearchView.NAME)) {
-						WandaVaadinClient.viewNames.add(SearchView.NAME);
-						navigator.addView(SearchView.NAME, new SearchView());
-					}
-					navigator.navigateTo(MainView.NAME);
+					generatePages();
 				}
 			}
 
@@ -153,25 +145,32 @@ public class LoginView extends Panel implements View, Serializable {
 									+ auth.getName() + "' "
 									+ auth.getCredentials());
 
-							if (WandaVaadinClient.getHttpSession() == null) {
+							if (((WandaVaadinClient) WandaVaadinClient
+									.getCurrent()).getHttpSession() == null) {
 								logger.debug("HTTP SESSION NULL");
 								// WandaVaadinClient.fetchSession();
 							}
-							WandaVaadinClient.getHttpSession().setAttribute(
-									"username", auth.getName());
-							// VaadinServiceSession.getCurrent().setAttribute("username",
+							// ((WandaVaadinClient)
+							// WandaVaadinClient.getCurrent())
+							// .getHttpSession().setAttribute("username",
 							// auth.getName());
-							// navigator.addView(MainView.NAME, new MainView());
-							logger.debug("Set session variable username: "
-									+ auth.getName());
 
 							Authentication returned = authenticationProvider
 									.authenticate(auth);
+							((WandaVaadinClient) WandaVaadinClient.getCurrent())
+									.setAktUser(authenticationProvider
+											.getUser());
 
 							logger.debug("Authentication for user '"
 									+ auth.getName() + "' succeeded");
-							WandaVaadinClient.fetchSession();
-							fireEvent(new LoginEvent(LoginView.this, returned));
+
+							// ((WandaVaadinClient)
+							// WandaVaadinClient.getCurrent())
+							// .fetchSession();
+							fireEvent(new LoginEvent(
+									((WandaVaadinClient) WandaVaadinClient
+											.getCurrent()).getLoginView(),
+									returned));
 
 						} catch (BadCredentialsException e) {
 							logger.debug(
@@ -216,19 +215,25 @@ public class LoginView extends Panel implements View, Serializable {
 		registrationLink = new Link("Register..", new ExternalResource("#!"
 				+ RegistrationView.NAME));
 
+		SnippetButton snip = new SnippetButton(
+				SnippetReader.read("loginSnippet.snip"));
+
 		mainLayout.setStyleName("login");
-		mainLayout.setHeight("500px");
-		mainLayout.addComponent(image);
+		mainLayout.addComponent(snip);
+		loginLayout.addComponent(image);
 		loginLayout.setStyleName("login");
 		loginLayout.addComponent(tf);
 		loginLayout.addComponent(pf);
 		loginLayout.addComponent(b);
 		loginLayout.addComponent(registrationLink);
-		// loginLayout.setHeight("150px");
+
 		mainLayout.addComponent(loginLayout);
 
-		mainLayout.setComponentAlignment(image, Alignment.TOP_CENTER);
-		mainLayout.setComponentAlignment(loginLayout, Alignment.TOP_CENTER);
+		mainLayout.setRowExpandRatio(0, 30);
+		mainLayout.setRowExpandRatio(1, 100);
+		mainLayout.setSizeFull();
+		mainLayout.setHeight("500px");
+		loginLayout.setComponentAlignment(image, Alignment.MIDDLE_CENTER);
 		loginLayout.setComponentAlignment(tf, Alignment.MIDDLE_CENTER);
 		loginLayout.setComponentAlignment(pf, Alignment.MIDDLE_CENTER);
 		loginLayout.setComponentAlignment(b, Alignment.MIDDLE_CENTER);
@@ -236,5 +241,4 @@ public class LoginView extends Panel implements View, Serializable {
 				Alignment.MIDDLE_CENTER);
 		addComponent(mainLayout);
 	}
-
 }

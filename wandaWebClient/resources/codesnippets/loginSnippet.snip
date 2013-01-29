@@ -1,0 +1,82 @@
+	
+	
+public class LoginView extends Panel implements View, Serializable {
+	private AuthenticationProvider authenticationProvider;
+	
+	public LoginView(Navigator n) {
+	...
+
+	}
+	
+	public static class LoginEvent extends Event {
+
+		private static final long serialVersionUID = 1L;
+		private final Authentication authentication;
+		Logger logger = LoggerFactory.getLogger(LoginEvent.class);
+
+		public LoginEvent(LoginView source, Authentication authentication) {
+			super(source);
+			this.authentication = authentication;
+		}
+
+		public Authentication getAuthentication() {
+			return authentication;
+		}
+	}
+	
+	...
+	
+	public void init() {
+	
+	...
+	
+	loginButton = new Button(WandaVaadinClient.captions.getString("loginButtonText"), 
+		new Button.ClickListener() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+
+				Authentication auth = new UsernamePasswordAuthenticationToken(
+							usernameTextField.getValue(), passwordField.getValue());
+
+				try {
+						
+					Authentication returned = authenticationProvider.authenticate(auth);
+					
+					...
+							
+					fireEvent(new LoginEvent(((WandaVaadinClient) WandaVaadinClient
+								.getCurrent()).getLoginView(),returned));
+									
+					} catch (BadCredentialsException e) { 
+		
+						new Notification(WandaVaadinClient.captions
+									.getString("badCredentialsMessage"))
+									.show(Page.getCurrent());
+
+					} catch (DisabledException e) {
+
+						new Notification(WandaVaadinClient.captions
+									.getString("loginDisabledTitle")).show(Page
+									.getCurrent());
+
+					} catch (LockedException e) {
+
+						new Notification(WandaVaadinClient.captions
+									.getString("loginLockedTitle")).show(Page
+									.getCurrent());
+
+					} catch (Exception e) {
+		
+						new Notification(WandaVaadinClient.captions
+									.getString("noSuchUserTitle")).show(Page
+									.getCurrent());
+						}
+					}
+				});
+	
+	}
+	
+}

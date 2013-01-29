@@ -23,6 +23,7 @@ public class AuthenticationProvider implements
 		Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private WandaUser user;
 
 	protected UserDetailsService controller;
 	static Logger logger = LoggerFactory
@@ -34,15 +35,15 @@ public class AuthenticationProvider implements
 
 		UserDetailsServiceImplService ss = new UserDetailsServiceImplService();
 		controller = ss.getUserDetailsServicePort();
-		WandaUser u = controller.findByUsername(authentication.getName());
+		user = controller.findByUsername(authentication.getName());
 
-		logger.debug(u.getUsername() + " " + u.getPassword());
+		logger.debug(user.getUsername() + " " + user.getPassword());
 
-		if (authentication.getCredentials().equals(u.getPassword())) {
+		if (authentication.getCredentials().equals(user.getPassword())) {
 			final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			authorities.add(new GrantedAuthorityImpl("ROLE_USER"));
 			UsernamePasswordAuthenticationToken t = new UsernamePasswordAuthenticationToken(
-					u.getUsername(), u.getPassword(), authorities);
+					user.getUsername(), user.getPassword(), authorities);
 			logger.debug(t.toString());
 			return t;
 		} else {
@@ -56,6 +57,10 @@ public class AuthenticationProvider implements
 		return (UsernamePasswordAuthenticationToken.class
 				.isAssignableFrom(authentication));
 
+	}
+
+	public WandaUser getUser() {
+		return user;
 	}
 
 }
