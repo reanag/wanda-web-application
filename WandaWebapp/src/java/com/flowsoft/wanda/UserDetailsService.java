@@ -115,4 +115,16 @@ public interface UserDetailsService {
 
 	@WebResult(name = "articles")
 	List<Article> findArticleByTag(@WebParam(name = "tagName") String tagname);
+
+	// @WebResult(name = "description")
+	// String getCategoryDescriptionByName(
+	// @WebParam(name = "categoryName") String categoryName);
+
+	@WebResult(name = "articles")
+	List<Article> findArticleByCategory(
+			@WebParam(name = "categoryName") String categoryName);
+
+	@WebResult(name = "topCategoryList")
+	public java.util.List<Category> getTopCategories(
+			@WebParam(name = "count") Integer userid);
 }

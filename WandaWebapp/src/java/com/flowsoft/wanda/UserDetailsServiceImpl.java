@@ -219,4 +219,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	}
 
+	// @Override
+	// public String getCategoryDescriptionByName(String categoryName) {
+	// return articleDao.findCategoryByName(categoryName);
+	// }
+
+	@Override
+	public List<Article> findArticleByCategory(String categoryName) {
+		return articleDao.findArticleByCategory(categoryName, true);
+	}
+
+	@Override
+	@WebResult(name = "topCategoryList")
+	public List<Category> getTopCategories(
+			@WebParam(name = "count") Integer count) {
+		return articleDao.findTopCategories(count);
+
+	}
+
 }

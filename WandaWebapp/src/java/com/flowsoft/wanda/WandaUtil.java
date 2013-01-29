@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.flowsoft.domain.Article;
+import com.flowsoft.domain.Avatar;
 import com.flowsoft.domain.Category;
 import com.flowsoft.domain.Comment;
 import com.flowsoft.domain.Tag;
@@ -193,6 +194,9 @@ public class WandaUtil {
 		w.setPassword(owner.getPassword());
 		w.setRole(owner.getRole());
 		w.setUsername(owner.getUsername());
+		if (owner.getAvatar() != null) {
+			w.setAvatar(convertAvatarToEntity(owner.getAvatar()));
+		}
 		return w;
 	}
 
@@ -227,7 +231,23 @@ public class WandaUtil {
 		w.setRole(entityObject.getRole());
 		w.setUsername(entityObject.getUsername());
 		w.setAboutText(entityObject.getAboutText());
+		if (entityObject.getAvatar() != null) {
+			w.setAvatar(convertAvatarToDomain(entityObject.getAvatar()));
+		}
 		return w;
+	}
+
+	public static Avatar convertAvatarToDomain(com.flowsoft.entity.Avatar avatar) {
+		Avatar a = new Avatar();
+		a.setImage(avatar.getImage());
+		return a;
+	}
+
+	public static com.flowsoft.entity.Avatar convertAvatarToEntity(Avatar avatar) {
+		com.flowsoft.entity.Avatar a = new com.flowsoft.entity.Avatar();
+
+		a.setImage(avatar.getImage());
+		return a;
 	}
 
 	private static Set<Category> convertCategorySetToDomain(

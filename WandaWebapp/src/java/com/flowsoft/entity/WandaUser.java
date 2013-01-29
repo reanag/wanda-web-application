@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -22,6 +23,7 @@ public class WandaUser extends AbstractEntity implements Serializable {
 
 	private String firstName;
 	private String lastName;
+	@Embedded
 	private Avatar avatar;
 	@Size(max = 1200)
 	private String aboutText;

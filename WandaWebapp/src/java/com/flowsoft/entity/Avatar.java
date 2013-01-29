@@ -2,45 +2,32 @@ package com.flowsoft.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
+import javax.persistence.Lob;
+import javax.validation.constraints.Size;
 
+@Embeddable
 public class Avatar implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(unique = true, nullable = false)
-	private Integer id;
-	private Byte[] image;
+	@Lob
+	@Size(max = 15000)
+	private byte[] image;
 
 	public Avatar() {
 	}
 
-	public Avatar(Integer i, Byte[] im) {
-		this.id = i;
+	public Avatar(byte[] im) {
+
 		this.image = im;
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Byte[] getImage() {
+	public byte[] getImage() {
 		return image;
 	}
 
-	public void setImage(Byte[] image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 

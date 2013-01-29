@@ -152,13 +152,17 @@ public class ArticleDaoImpl implements ArticleDao {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public String deleteArticle(Integer id) {
+		List<Comment> list = findAllCommentFor(id);
+		for (Comment c : list) {
+			deleteComment(c.getId());
+		}
+		em.flush();
 		com.flowsoft.entity.Article article = em.find(
 				com.flowsoft.entity.Article.class, id);
 
 		em.remove(article);
 		em.flush();
 		return "OK";
-
 	}
 
 	@Override
@@ -346,8 +350,22 @@ public class ArticleDaoImpl implements ArticleDao {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Article> findArticleByCategory(String categoryName,
 			Boolean isAccurate) {
-		// TODO Auto-generated method stub
-		return null;
+		if (isAccurate) {
+			Query query = em.createQuery(
+					"SELECT C FROM Category C where categoryName = :name")
+					.setParameter("name", categoryName);
+			com.flowsoft.entity.Category category = (com.flowsoft.entity.Category) query
+					.getSingleResult();
+
+			return WandaUtil
+					.convertArticleListToDomain(em
+							.createQuery(
+									"SELECT e FROM Article e where category = :category")
+							.setParameter("category", category).getResultList());
+		} else {
+			// TODO:
+			return null;
+		}
 	}
 
 	@Override
@@ -400,8 +418,25 @@ public class ArticleDaoImpl implements ArticleDao {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void persistUser(WandaUser w) {
+
 		em.persist(WandaUtil.convertWandaUserToEntity(w));
 		em.flush();
 
+	}
+
+	@Override
+	public String findCategoryByName(String categoryName) {
+		com.flowsoft.entity.Category c = (com.flowsoft.entity.Category) em
+				.createQuery(
+						"SELECT c FROM Category c where categoryName = :name")
+				.setParameter("name", categoryName).getSingleResult();
+		return c.getDescription();
+	}
+
+	@Override
+	public List<Category> findTopCategories(Integer count) {
+		List<com.flowsoft.entity.Category> categoryList = em.createQuery(
+				"SELECT c FROM Category c").getResultList();
+		return WandaUtil.convertCategoryListToDomain(categoryList);
 	}
 }
