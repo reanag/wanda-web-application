@@ -5,9 +5,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.flowsoft.component.ReadMoreForm;
+import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.Article;
 import com.flowsoft.domain.ArticleHeader;
+import com.flowsoft.forms.ReadMoreForm;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
@@ -20,11 +21,17 @@ public class TagView extends GeneralView {
 	public static Logger logger = LoggerFactory.getLogger(TagView.class);
 	private Label l, l2;
 	private GridLayout layout;
+	private String tagName;
 	private List<Article> aList;
 
-	public TagView(String tagName) {
+	public TagView(String t) {
 		super();
-		this.NAME = "tagView." + tagName;
+		tagName = t;
+		String s = tagName;
+		if (tagName.contains(" ")) {
+			s = tagName.replace(" ", ".");
+		}
+		this.NAME = "tagView." + s;
 		initTagForm(tagName);
 
 	}
@@ -46,7 +53,8 @@ public class TagView extends GeneralView {
 		super.enter(event);
 		layout.removeAllComponents();
 
-		aList = controller.findArticleByTag(l.getValue());
+		aList = ((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.getController().findArticleByTag(l.getValue());
 
 		l2.setHeight("50px");
 		layout.addComponent(l, 0, 0);
@@ -54,8 +62,7 @@ public class TagView extends GeneralView {
 
 		if (aList != null) {
 			for (Article a : aList) {
-				ReadMoreForm rmf = new ReadMoreForm(new ArticleHeader(a),
-						navigator);
+				ReadMoreForm rmf = new ReadMoreForm(new ArticleHeader(a));
 				layout.addComponent(rmf);
 			}
 		} else {
@@ -68,6 +75,10 @@ public class TagView extends GeneralView {
 
 	@Override
 	public void generateBody() {
+	}
+
+	public String getTagName() {
+		return tagName;
 	}
 
 }

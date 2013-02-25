@@ -9,9 +9,11 @@ import org.slf4j.LoggerFactory;
 import com.flowsoft.aviews.CategoryView;
 import com.flowsoft.aviews.CreateArticleView;
 import com.flowsoft.client.WandaVaadinClient;
+import com.flowsoft.codesnippet.SnippetButton;
+import com.flowsoft.codesnippet.SnippetReader;
 import com.flowsoft.domain.Category;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.server.ExternalResource;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
 
 public class OptionSelectorComponent extends GridLayout {
@@ -24,24 +26,25 @@ public class OptionSelectorComponent extends GridLayout {
 	private GridLayout layout;
 	static Logger logger = LoggerFactory
 			.getLogger(OptionSelectorComponent.class);
-	private Navigator navigator;
 
-	public OptionSelectorComponent(Navigator n) {
-		this.navigator = n;
-		layout = new GridLayout(1, 4);
+	public OptionSelectorComponent() {
+
+		layout = new GridLayout(2, 4);
 		ownCategoryGroup = new CssLinkListComponent();
 		topCategoryGroup = new CssLinkListComponent();
 		CreateArticleView c = new CreateArticleView();
 		((WandaVaadinClient) WandaVaadinClient.getCurrent()).initView(c);
 		createArticleLink = new CssLinkComponent("Write new article..",
 				new ExternalResource("#!" + c.NAME));
-
+		SnippetButton snip = new SnippetButton(
+				SnippetReader.read("category.snip"));
 		createArticleLink.setHeight("40px");
-		layout.addComponent(createArticleLink, 0, 1);
+		layout.addComponent(createArticleLink, 0, 1, 1, 1);
 		createArticleLink.setStyleName("title-style");
-
+		layout.addComponent(snip, 1, 2);
 		layout.addComponent(ownCategoryGroup, 0, 2);
 		layout.addComponent(topCategoryGroup, 0, 3);
+		layout.setComponentAlignment(snip, Alignment.TOP_RIGHT);
 		addComponent(layout);
 
 	}
@@ -63,12 +66,10 @@ public class OptionSelectorComponent extends GridLayout {
 		// logger.debug("Init category list: " + categoryList.size());
 		Hashtable<String, ExternalResource> list = new Hashtable<String, ExternalResource>();
 		for (Category c : categoryList) {
-			// TODO: create category page
-			CategoryView cv = new CategoryView(c.getCategoryName());
-			cv.setDescriptionText(c.getDescription());
-			cv.setCategoryOwnerText(c.getOwner().getUsername());
-			cv.setCreatedTSText(c.getCreatedTS());
-			navigator.addView(cv.NAME, cv);
+
+			CategoryView cv = new CategoryView(c);
+			((WandaVaadinClient) WandaVaadinClient.getCurrent()).initView(cv);
+
 			list.put(c.getCategoryName(), new ExternalResource("#!" + cv.NAME));
 		}
 
@@ -83,17 +84,14 @@ public class OptionSelectorComponent extends GridLayout {
 	public void initTopCategoryList(List<Category> topCategories) {
 		Hashtable<String, ExternalResource> list = new Hashtable<String, ExternalResource>();
 		for (Category c : topCategories) {
-			// TODO: create category page
-			CategoryView cv = new CategoryView(c.getCategoryName());
-			cv.setDescriptionText(c.getDescription());
-			cv.setCategoryOwnerText(c.getOwner().getUsername());
-			cv.setCreatedTSText(c.getCreatedTS());
-			navigator.addView(cv.NAME, cv);
+
+			CategoryView cv = new CategoryView(c);
+			((WandaVaadinClient) WandaVaadinClient.getCurrent()).initView(cv);
+
 			list.put(c.getCategoryName(), new ExternalResource("#!" + cv.NAME));
 		}
 
-		// ownCategoryGroup = new CssLinkListComponent("Own categories:", list);
-		topCategoryGroup.setTitle("TOP categories");
+		topCategoryGroup.setTitle("Categories");
 		topCategoryGroup.setList(list);
 		topCategoryGroup.setStyleName(this.getStyleName());
 		topCategoryGroup.requestRepaintAll();

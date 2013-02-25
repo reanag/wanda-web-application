@@ -9,10 +9,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.flowsoft.client.WandaVaadinClient;
-import com.flowsoft.component.ReadMoreForm;
+import com.flowsoft.component.ArticlePanel;
 import com.flowsoft.domain.ArticleHeader;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.VerticalLayout;
 
@@ -33,32 +32,46 @@ public class MainView extends GeneralView {
 		// logger.debug("ID: " + viewId + " - " + this.getClass());
 		layout = new VerticalLayout();
 		setSizeFull();
+
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-		if (articles == null || articles.isEmpty()) {
-			List<ArticleHeader> w = controller.findAllArticleHeader();
-			if (articles == null) {
-				articles = new Vector<CssLayout>();
-			}
-			for (ArticleHeader h : w) {
+		// if (articles == null || articles.isEmpty()) {
+		List<ArticleHeader> w = ((WandaVaadinClient) WandaVaadinClient
+				.getCurrent()).getController().findAllArticleHeader();
+		logger.debug("article headers: " + w.size());
 
-				ArticleView articleView = new ArticleView(h);
-				((WandaVaadinClient) WandaVaadinClient.getCurrent())
-						.initView(articleView);
+		ArticlePanel panel = new ArticlePanel(w);
 
-				articles.add(new ReadMoreForm(h, navigator));
-			}
-
-		}
-		for (CssLayout p : articles) {
-			p.setStyleName("mydiv");
-			layout.addComponent(p);
-			layout.setComponentAlignment(p, Alignment.TOP_CENTER);
-		}
+		mainLayout.addComponent(panel);
+		// if (articles == null) {
+		// articles = new Vector<CssLayout>();
+		// }
+		// for (ArticleHeader h : w) {
+		//
+		// ArticleView articleView = new ArticleView(h);
+		// ((WandaVaadinClient) WandaVaadinClient.getCurrent())
+		// .initView(articleView);
+		//
+		// articles.add(new ReadMoreForm(h));
+		// }
+		//
+		// }
+		// for (CssLayout p : articles) {
+		// p.setStyleName("mydiv");
+		// layout.addComponent(p);
+		// layout.setComponentAlignment(p, Alignment.TOP_CENTER);
+		// }
 		mainLayout.addComponent(layout);
+
+		((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.initView(new AboutMeView());
+		((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.initView(new AboutSiteView());
+		((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.initView(new SearchView());
 	}
 
 	@Override

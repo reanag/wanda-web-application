@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.vaadin.teemu.ratingstars.RatingStars;
 
-import com.flowsoft.wanda.UserDetailsService;
+import com.flowsoft.client.WandaVaadinClient;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -21,11 +21,12 @@ public class ArticleRatingForm extends GridLayout {
 	private static final long serialVersionUID = 1L;
 	private CheckBox animatedCheckBox;
 	private Set<RatingStars> allRatingStars = new HashSet<RatingStars>();
-	protected UserDetailsService controller;
 	protected Integer id;
 	private Table table;
 	private static Map<Integer, String> valueCaptions = new HashMap<Integer, String>(
 			5);
+	final RatingStars avgRs = new RatingStars();
+	final RatingStars yourRs = new RatingStars();
 
 	static {
 		valueCaptions.put(1, "Horrible");
@@ -35,17 +36,13 @@ public class ArticleRatingForm extends GridLayout {
 		valueCaptions.put(5, "Excellent");
 	}
 
-	public ArticleRatingForm(UserDetailsService c, Integer i) {
+	public ArticleRatingForm(Integer i) {
 		this.setStyleName("rate");
-		controller = c;
 		id = i;
 		table = new Table();
 		table.addContainerProperty("Average rating", RatingStars.class, null);
 		table.addContainerProperty("Rate the article", RatingStars.class, null);
 		table.setHeight("60px");
-		// table.setWidth("300px");
-		// table.setPageLength(table.getItemIds().size());
-		// tab
 
 		populateTable(4.2);
 		addComponent(table);
@@ -68,15 +65,15 @@ public class ArticleRatingForm extends GridLayout {
 	}
 
 	private void populateTable(Double rate) {
-		final RatingStars avgRs = new RatingStars();
+
 		avgRs.setHeight("30px");
 		avgRs.setMaxValue(5);
-		avgRs.setValue(controller.getRank(id));
+		// avgRs.setValue(((WandaVaadinClient) WandaVaadinClient.getCurrent())
+		// .getController().getRank(id));
 		avgRs.setReadOnly(true);
 
 		allRatingStars.add(avgRs);
 
-		final RatingStars yourRs = new RatingStars();
 		yourRs.setHeight("30px");
 		yourRs.setMaxValue(5);
 		yourRs.setImmediate(true);
@@ -98,13 +95,14 @@ public class ArticleRatingForm extends GridLayout {
 				changedRs.setValueCaption(valueCaptions.values().toArray(
 						new String[5]));
 				// set "Your Rating" caption
-				changedRs.setValueCaption((int) Math.round(value),
-						"Your Rating");
+				changedRs.setValueCaption((int) Math.round(value), "");
 
 				// dummy logic to calculate "average" value
 				avgRs.setReadOnly(false);
-				controller.setRank(id, value);
-				avgRs.setValue(controller.getRank(id));
+				((WandaVaadinClient) WandaVaadinClient.getCurrent())
+						.getController().setRank(id, value);
+				avgRs.setValue(((WandaVaadinClient) WandaVaadinClient
+						.getCurrent()).getController().getRank(id));
 				avgRs.setReadOnly(true);
 				yourRs.setReadOnly(true);
 			}
@@ -116,5 +114,12 @@ public class ArticleRatingForm extends GridLayout {
 		i.getItemProperty("Rate the article").setValue(yourRs);
 		i.getItemProperty("Average rating").setValue(avgRs);
 
+	}
+
+	public void refreshAverage() {
+		avgRs.setReadOnly(false);
+		avgRs.setValue(((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.getController().getRank(id));
+		avgRs.setReadOnly(true);
 	}
 }

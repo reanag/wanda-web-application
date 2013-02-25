@@ -1,4 +1,4 @@
-package com.flowsoft.client;
+package com.flowsoft.component;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -11,6 +11,10 @@ import javax.imageio.ImageIO;
 import com.vaadin.server.StreamResource.StreamSource;
 
 public class ImageResource implements StreamSource {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ByteArrayOutputStream imagebuffer = null;
 	int reloads = 0;
 

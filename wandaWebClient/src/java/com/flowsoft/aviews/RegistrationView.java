@@ -6,9 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.flowsoft.domain.WandaUser;
+import com.flowsoft.forms.RegistrationForm;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
@@ -23,7 +23,7 @@ public class RegistrationView extends Panel implements View, Serializable {
 	protected static Logger logger = LoggerFactory
 			.getLogger(RegistrationView.class);
 	public static final String NAME = "registration";
-	public Navigator navigator;
+
 	private GridLayout mainLayout;
 	private Label title, info;
 	private RegistrationForm regForm;
@@ -39,17 +39,17 @@ public class RegistrationView extends Panel implements View, Serializable {
 				"This is a simple registration page. Please fill the following form to registrate.");
 		info.setStyleName(Reindeer.LABEL_SMALL);
 		wandaUser = new WandaUser();
-		wandaUser.setUsername("sanyika");
+		wandaUser.setUsername("");
 		wandaUser.setAboutText("");
-		wandaUser.setEmailAdress("sanyi@sanyi.sb");
-		wandaUser.setFirstName("Sanyi");
-		wandaUser.setLastName("Sandor");
-		wandaUser.setPassword("123456");
+		wandaUser.setEmailAdress("");
+		wandaUser.setFirstName("");
+		wandaUser.setLastName("");
+		wandaUser.setPassword("");
 		binder = new FieldGroup();
 		BeanItem<WandaUser> item = new BeanItem<WandaUser>(wandaUser);
 		binder.setItemDataSource(item);
 
-		regForm = new RegistrationForm(navigator, binder, wandaUser);
+		regForm = new RegistrationForm(binder, wandaUser);
 
 		binder.bindMemberFields(regForm);
 		mainLayout.addComponent(title);
@@ -57,14 +57,6 @@ public class RegistrationView extends Panel implements View, Serializable {
 		mainLayout.addComponent(regForm);
 		mainLayout.setSizeFull();
 		mainLayout.setComponentAlignment(regForm, Alignment.MIDDLE_CENTER);
-	}
-
-	public Navigator getNavigator() {
-		return this.navigator;
-	}
-
-	public void setNavigator(Navigator navigator) {
-		this.navigator = navigator;
 	}
 
 	@Override

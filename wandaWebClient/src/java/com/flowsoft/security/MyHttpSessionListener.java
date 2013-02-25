@@ -7,8 +7,6 @@ import javax.servlet.http.HttpSessionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.flowsoft.client.WandaVaadinClient;
-
 public class MyHttpSessionListener implements HttpSessionListener {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	private HttpSession session;
@@ -19,13 +17,12 @@ public class MyHttpSessionListener implements HttpSessionListener {
 		logger.debug("Session: " + httpSessionEvent.getSession().isNew() + " "
 				+ httpSessionEvent.getSession().getId());
 		this.session = httpSessionEvent.getSession();
-		WandaVaadinClient.setCurrent(new WandaVaadinClient());
+		// WandaVaadinClient.setCurrent(new WandaVaadinClient());
 		setSession();
 	}
 
 	public void setSession() {
-		((WandaVaadinClient) WandaVaadinClient.getCurrent())
-				.setHttpSession(session);
+
 	}
 
 	@Override

@@ -16,6 +16,10 @@ import com.vaadin.ui.Upload;
 
 public class PictureUpload extends CustomComponent implements
 		Upload.SucceededListener, Upload.FailedListener, Upload.Receiver {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public File file;
 	public Panel root;
 	Panel imagePanel;
@@ -84,13 +88,14 @@ public class PictureUpload extends CustomComponent implements
 			fin = new FileInputStream(file);
 			byte fileContent[] = new byte[(int) file.length()];
 			fin.read(fileContent);
+			fin.close();
 			return fileContent;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 			return null;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 			return null;
 		}

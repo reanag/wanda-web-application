@@ -32,6 +32,13 @@
 	border-color: #F0F8FF;
 }
 
+.v-tabsheet .v-panel {
+	background:transparent;
+}
+.v-tabsheet .v-panel-content {
+	background:transparent;
+}
+
 .v-caption {
 	color: #D5E3F9;
 	font-size: 13px;
@@ -387,8 +394,8 @@
 	margin-bottom: 7px;
 	margin-top: 7px;
 	margin-left: 3px;
-	margin-right: 1px;
-	padding-left: 1px;
+	margin-right: 9px;
+	padding-left: 11px;
 	font-weight: bolder;
 	text-decoration: none;
 	font-size: 12px;

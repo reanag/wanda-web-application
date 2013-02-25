@@ -3,7 +3,7 @@ package com.flowsoft.codesnippet;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
 
-//@ClientWidget(VCodeLabel.class)
+
 @SuppressWarnings("serial")
 public class CodeLabel extends Label {
 

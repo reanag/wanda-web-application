@@ -11,7 +11,7 @@ public class SnippetButton extends Button {
 		super();
 		// this.setHeight("10px");
 		// this.setWidth("10px");
-		this.setIcon(new ThemeResource("img/icon.png"));
+		this.setIcon(new ThemeResource("img/ico4n.png"));
 		this.addClickListener(new ClickListener() {
 
 			private static final long serialVersionUID = 1L;

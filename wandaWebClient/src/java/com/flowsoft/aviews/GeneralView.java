@@ -2,18 +2,14 @@ package com.flowsoft.aviews;
 
 import java.io.Serializable;
 
-import javax.xml.ws.WebServiceRef;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import userdetailsserviceimpl.wanda.flowsoft.com.UserDetailsServiceImplService;
-
 import com.flowsoft.client.WandaVaadinClient;
+import com.flowsoft.codesnippet.SnippetButton;
+import com.flowsoft.codesnippet.SnippetReader;
 import com.flowsoft.domain.WandaUser;
 import com.flowsoft.sidebarcomponent.Sidebar;
-import com.flowsoft.wanda.UserDetailsService;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;
@@ -49,17 +45,11 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	protected HorizontalLayout footerLayout;
 	protected Sidebar sidebar;
 	protected Link usernameLabel;
-	protected static Navigator navigator;
+
 	public WandaUser aktUser;
 	public Button logout;
-	@WebServiceRef
-	protected UserDetailsService controller;
 
 	public void init() {
-		if (controller == null) {
-			UserDetailsServiceImplService ss = new UserDetailsServiceImplService();
-			controller = ss.getUserDetailsServicePort();
-		}
 
 		baseLayout = new VerticalLayout();
 		resizeMainLayout();
@@ -76,7 +66,7 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	}
 
 	protected void generateSideBar() {
-		sidebar = new Sidebar(navigator, controller);
+		sidebar = new Sidebar();
 		sidebar.setStyleName("myblack");
 		sidebar.setSizeFull();
 		fetchSidebarData();
@@ -101,18 +91,25 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 
 	public void generateHeader() {
 
-		headerLayout = new GridLayout(3, 1);
+		headerLayout = new GridLayout(4, 1);
 		headerLayout.setHeight("145px");
 		headerLayout.setWidth("100%");
 
 		usernameLabel = new Link();
 		usernameLabel.setStyleName("username");
 		usernameLabel.setImmediate(true);
+		SnippetButton snip = new SnippetButton(
+				SnippetReader.read("wandaUser.snip"));
 
 		logout = new Button("Logout");
 		logout.setImmediate(true);
 
 		logout.addClickListener(new Button.ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -127,14 +124,21 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		embedded.setHeight("100px");
 
 		headerLayout.addComponent(embedded);
+
 		headerLayout.addComponent(usernameLabel);
+		headerLayout.addComponent(snip);
+		headerLayout.addComponent(logout);
+
 		headerLayout.setComponentAlignment(embedded, Alignment.TOP_LEFT);
+
 		headerLayout.setComponentAlignment(usernameLabel, Alignment.TOP_RIGHT);
 		headerLayout.setComponentAlignment(logout, Alignment.TOP_RIGHT);
-		headerLayout.addComponent(logout);
+
+		headerLayout.setComponentAlignment(snip, Alignment.TOP_RIGHT);
 		headerLayout.setColumnExpandRatio(0, 1000);
 		headerLayout.setColumnExpandRatio(1, 1);
-		headerLayout.setColumnExpandRatio(1, 1);
+		headerLayout.setColumnExpandRatio(2, 1);
+		headerLayout.setColumnExpandRatio(3, 1);
 
 	}
 
@@ -155,18 +159,17 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	}
 
 	public void fetchSidebarData() {
-		sidebar.initTagList(controller.getAllTag());
-		sidebar.initArticleBlokk(controller.getRecentArticle(3),
-				controller.getMostPopularArticle(3),
-				controller.getMostRecommendedArticle(3));
+
 		if (aktUser != null) {
 
 			((WandaVaadinClient) WandaVaadinClient.getCurrent())
 					.initView(new PersonalView(aktUser.getUsername()));
 
-			sidebar.initUserCategories(controller.getUserCategories(aktUser
-					.getId()));
-			sidebar.initTopCategories(controller.getTopCategories(4));
+			sidebar.initUserCategories(((WandaVaadinClient) WandaVaadinClient
+					.getCurrent()).getController().getUserCategories(
+					aktUser.getId()));
+			sidebar.initTopCategories(((WandaVaadinClient) WandaVaadinClient
+					.getCurrent()).getController().getTopCategories(4));
 		}
 	}
 
@@ -240,16 +243,4 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		aktUser = u;
 	}
 
-	public static void setNavigator(Navigator n) {
-		navigator = n;
-
-	}
-
-	public UserDetailsService getController() {
-		return controller;
-	}
-
-	public void setController(UserDetailsService c) {
-		controller = c;
-	}
 }

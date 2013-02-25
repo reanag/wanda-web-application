@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.WandaUser;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -33,13 +34,17 @@ public class PersonalView extends GeneralView implements View {
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 
-		WandaUser u = controller.findByUsername(author);
+		WandaUser u = ((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.getController().findByUsername(author);
 		Label l = new Label(u.getFirstName() + " " + u.getLastName());
 		l.setStyleName(Reindeer.LABEL_H1);
 		Label l2 = new Label("Username: " + u.getUsername());
 		Label l3 = new Label("Email address: " + u.getEmailAddress());
-		Label l35 = new Label("About " + u.getUsername() + ": "
-				+ u.getAboutText());
+		String aboutText = "";
+		if (u.getAboutText() != null) {
+			aboutText = u.getAboutText();
+		}
+		Label l35 = new Label("About " + u.getUsername() + ": " + aboutText);
 		Label l4 = new Label("Role: " + u.getRole());
 
 		Embedded ee = null;
@@ -53,10 +58,10 @@ public class PersonalView extends GeneralView implements View {
 				out.close();
 
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 

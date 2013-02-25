@@ -5,8 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import com.flowsoft.aviews.SearchResultView;
 import com.flowsoft.client.WandaVaadinClient;
-import com.flowsoft.wanda.UserDetailsService;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -22,14 +20,11 @@ public class SearchTool extends GridLayout {
 	private CheckBox isAccurateSearch;
 	private Button submitButton;
 	private Link advancedSearch;
-	private UserDetailsService controller;
-	private Navigator navigator;
 
-	public SearchTool(Navigator n, UserDetailsService c) {
+	public SearchTool() {
 
 		super(2, 3);
-		navigator = n;
-		controller = c;
+
 		searchField = new TextField();
 		searchField.setWidth("190");
 		searchField.setImmediate(true);
@@ -67,10 +62,11 @@ public class SearchTool extends GridLayout {
 
 	protected void searchByTitle(String value, Boolean b) {
 		SearchResultView sv = new SearchResultView(value,
-				controller.findArticleByTitle(value, b));
+				((WandaVaadinClient) WandaVaadinClient.getCurrent())
+						.getController().findArticleByTitle(value, b));
 		((WandaVaadinClient) WandaVaadinClient.getCurrent()).initView(sv);
-
-		navigator.navigateTo(sv.NAME);
+		((WandaVaadinClient) WandaVaadinClient.getCurrent()).getNavigator()
+				.navigateTo(sv.NAME);
 
 	}
 }

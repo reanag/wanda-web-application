@@ -5,10 +5,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.flowsoft.createArticleComponent.CreateArticleForm;
+import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.Article;
 import com.flowsoft.domain.Category;
 import com.flowsoft.domain.Tag;
+import com.flowsoft.forms.CreateArticleForm;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.BeanItem;
@@ -46,7 +47,11 @@ public class CreateArticleView extends GeneralView {
 		if (createForm.getCategoryList() == null
 				|| createForm.getCategoryList().isEmpty()) {
 
-			createForm.setCategoryList(controller.findAllExistingCategory());
+			CreateArticleForm
+					.setCategoryList(((WandaVaadinClient) WandaVaadinClient
+							.getCurrent()).getController()
+							.findAllExistingCategory());
+			createForm.initCategoryField();
 		}
 		if (article != null) {
 			createForm.setSelectedTags(article.getTagList());
@@ -54,6 +59,7 @@ public class CreateArticleView extends GeneralView {
 		}
 		binder = new FieldGroup();
 		if (article == null || article.getCategory() == null) {
+			createForm.setComponentErrors();
 			article = new Article(aktUser, "", "");
 			category = new Category();
 			category.setOwner(aktUser);
@@ -80,30 +86,25 @@ public class CreateArticleView extends GeneralView {
 		try {
 
 			article.setCategory(createForm.getSelectedCategory());
+			((WandaVaadinClient) WandaVaadinClient.getCurrent())
+					.initView(new CategoryView(article.getCategory()));
+
 			article.setTagList(createForm.getSelectedTags());
 			binder.commit();
-			// logger.debug("category value after set: " +
-			// article.getCategory());
-			article = controller.commitArticle(article);
+			article = ((WandaVaadinClient) WandaVaadinClient.getCurrent())
+					.getController().commitArticle(article);
 
 		} catch (CommitException e) {
-			navigator.navigateTo("error");
+			((WandaVaadinClient) WandaVaadinClient.getCurrent())
+					.goToErrorPage();
 			e.printStackTrace();
 		}
-		// if (!((WandaVaadinClient) WandaVaadinClient.getCurrent()).viewNames
-		// .contains(ArticleView.NAME + "."
-		// + article.getTitle().replace(' ', '.'))) {
-		// ((WandaVaadinClient) WandaVaadinClient.getCurrent()).viewNames
-		// c .add(ArticleView.NAME + "."
-		// + article.getTitle().replace(' ', '.'));
-		ArticleView articleView = new ArticleView(article);
-		navigator.addView(
-				articleView.NAME + "." + article.getTitle().replace(' ', '.'),
-				articleView);
-		// }
 
-		navigator.navigateTo(articleView.NAME + "."
-				+ article.getTitle().replace(' ', '.'));
+		ArticleView articleView = new ArticleView(article);
+		((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.initView(articleView);
+		((WandaVaadinClient) WandaVaadinClient.getCurrent()).getNavigator()
+				.navigateTo(articleView.getNAME());
 		setArticle(null);
 
 	}
@@ -116,7 +117,8 @@ public class CreateArticleView extends GeneralView {
 	}
 
 	public List<Tag> getTagList() {
-		return controller.getAllTag();
+		return ((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.getController().getAllTag();
 
 	}
 

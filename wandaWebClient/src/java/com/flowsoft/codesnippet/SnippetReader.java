@@ -1,4 +1,4 @@
-package com.flowsoft.aviews;
+package com.flowsoft.codesnippet;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,25 +18,20 @@ public class SnippetReader {
 
 		try {
 
-			BufferedReader br = new BufferedReader(
-					new FileReader(
-							new File(
-									"C:/Users/Andika/Desktop/wanda/workspace/workspace-sts-cfx-3.1.0.RELEASE/wandaWebClient/resources/codesnippets/"
-											+ string)));
-
-			// BufferedReader br = new BufferedReader(new FileReader(new File(
-			// "/wandaWebClient/resources/codesnippets/" + string)));
+			BufferedReader br = new BufferedReader(new FileReader(new File(
+					"codesnippets/" + string)));
 
 			while (br.ready()) {
 
 				builder.append(br.readLine());
 				builder.append(System.getProperty("line.separator"));
 			}
+			br.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		return builder.toString();

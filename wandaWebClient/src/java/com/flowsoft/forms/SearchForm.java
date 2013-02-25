@@ -6,10 +6,8 @@ import org.slf4j.LoggerFactory;
 import com.flowsoft.aviews.SearchResultView;
 import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.sidebarcomponent.SearchTool;
-import com.flowsoft.wanda.UserDetailsService;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -31,15 +29,10 @@ public class SearchForm extends GridLayout {
 	private CheckBox contentCheckBox;
 	private CheckBox authorCheckBox;
 
-	protected static Navigator navigator;
-	protected static UserDetailsService controller;
-
-	public SearchForm(Navigator n, UserDetailsService u) {
+	public SearchForm() {
 		super(3, 8);
 		this.setWidth("500px");
 		this.setHeight("300px");
-		navigator = n;
-		controller = u;
 		generateSurface();
 
 	}
@@ -62,10 +55,12 @@ public class SearchForm extends GridLayout {
 
 				if (articleCheckBox.getValue()) {
 
-					sv = new SearchResultView(searchField.getValue(),
-							controller.findArticleByTitle(
-									searchField.getValue(),
-									isAccurateSearch.getValue()));
+					sv = new SearchResultView(
+							searchField.getValue(),
+							((WandaVaadinClient) WandaVaadinClient.getCurrent())
+									.getController().findArticleByTitle(
+											searchField.getValue(),
+											isAccurateSearch.getValue()));
 
 					((WandaVaadinClient) WandaVaadinClient.getCurrent())
 							.initView(sv);
@@ -74,25 +69,31 @@ public class SearchForm extends GridLayout {
 
 				if (contentCheckBox.getValue()) {
 
-					sv = new SearchResultView("c=" + searchField.getValue(),
-							controller.findArticleByContent(searchField
-									.getValue()));
+					sv = new SearchResultView(
+							"c=" + searchField.getValue(),
+							((WandaVaadinClient) WandaVaadinClient.getCurrent())
+									.getController().findArticleByContent(
+											searchField.getValue()));
 
 					((WandaVaadinClient) WandaVaadinClient.getCurrent())
 							.initView(sv);
 
 				}
 				if (authorCheckBox.getValue()) {
-					sv = new SearchResultView(".a=" + searchField.getValue(),
-							controller.findArticleByAuthor(
-									searchField.getValue(),
-									isAccurateSearch.getValue()));
+					sv = new SearchResultView(
+							".a=" + searchField.getValue(),
+							((WandaVaadinClient) WandaVaadinClient.getCurrent())
+									.getController().findArticleByAuthor(
+											searchField.getValue(),
+											isAccurateSearch.getValue()));
 
 					((WandaVaadinClient) WandaVaadinClient.getCurrent())
 							.initView(sv);
 
 				}
-				navigator.navigateTo(sv.NAME);
+				((WandaVaadinClient) WandaVaadinClient.getCurrent())
+						.getNavigator().navigateTo(sv.getNAME());
+
 			}
 
 		});
@@ -113,6 +114,11 @@ public class SearchForm extends GridLayout {
 		articleCheckBox.setValue(true);
 		articleCheckBox.addValueChangeListener(new ValueChangeListener() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				if (articleCheckBox.getValue()) {
@@ -127,6 +133,11 @@ public class SearchForm extends GridLayout {
 		contentCheckBox.setImmediate(true);
 		contentCheckBox.addValueChangeListener(new ValueChangeListener() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				if (contentCheckBox.getValue()) {
@@ -140,6 +151,11 @@ public class SearchForm extends GridLayout {
 		authorCheckBox = new CheckBox("Author");
 		authorCheckBox.setImmediate(true);
 		authorCheckBox.addValueChangeListener(new ValueChangeListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {

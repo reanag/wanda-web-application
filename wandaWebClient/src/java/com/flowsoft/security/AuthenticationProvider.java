@@ -13,10 +13,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 
-import userdetailsserviceimpl.wanda.flowsoft.com.UserDetailsServiceImplService;
+import userdetailsserviceimpl.wanda.flowsoft.com.WandaServiceImplService;
 
 import com.flowsoft.domain.WandaUser;
-import com.flowsoft.wanda.UserDetailsService;
+import com.flowsoft.wanda.WandaService;
 
 public class AuthenticationProvider implements
 		org.springframework.security.authentication.AuthenticationProvider,
@@ -25,26 +25,27 @@ public class AuthenticationProvider implements
 	private static final long serialVersionUID = 1L;
 	private WandaUser user;
 
-	protected UserDetailsService controller;
 	static Logger logger = LoggerFactory
 			.getLogger(AuthenticationProvider.class);
 
 	@Override
 	public Authentication authenticate(Authentication authentication)
 			throws AuthenticationException {
+		logger.debug("authenticate start:");
 
-		UserDetailsServiceImplService ss = new UserDetailsServiceImplService();
-		controller = ss.getUserDetailsServicePort();
+		WandaServiceImplService ss = new WandaServiceImplService();
+		WandaService controller = ss.getWandaServicePort();
 		user = controller.findByUsername(authentication.getName());
-
-		logger.debug(user.getUsername() + " " + user.getPassword());
+		logger.debug("authenticate ws call done:");
+		// logger.debug(user.getUsername() + " " + user.getPassword());
 
 		if (authentication.getCredentials().equals(user.getPassword())) {
 			final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			authorities.add(new GrantedAuthorityImpl("ROLE_USER"));
 			UsernamePasswordAuthenticationToken t = new UsernamePasswordAuthenticationToken(
 					user.getUsername(), user.getPassword(), authorities);
-			logger.debug(t.toString());
+			logger.debug("authenticate check done:");
+			// logger.debug(t.toString());
 			return t;
 		} else {
 			throw new BadCredentialsException("Try again");

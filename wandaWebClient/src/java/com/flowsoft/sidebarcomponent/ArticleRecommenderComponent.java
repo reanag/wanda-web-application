@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Hashtable;
 import java.util.List;
 
+import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.Article;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.GridLayout;
@@ -17,6 +18,9 @@ public class ArticleRecommenderComponent extends GridLayout {
 	private CssLinkListComponent recommendedArticlesList;
 	private CssLinkListComponent recentArticlesList;
 	private CssLinkListComponent popularArticlesList;
+	public static final int ARTICLE_COUNT = 3;
+	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(
+			"kk:mm dd.MM.yyyy.");
 
 	public ArticleRecommenderComponent() {
 		articleRecommender = new TabSheet();
@@ -25,25 +29,30 @@ public class ArticleRecommenderComponent extends GridLayout {
 
 	}
 
-	// TODO: A: Webservice: getRecommendedArticles --> Hashtable(String,
-	// Resource)
-	public Hashtable<String, ExternalResource> demoListCreator(String content) {
-		Hashtable<String, ExternalResource> list = new Hashtable<String, ExternalResource>();
-		// list.put(content + " 1", new ExternalResource("#!"
-		// + CreateArticleView.NAME));
-		// list.put(content + " 2", new ExternalResource("#!"
-		// + CreateArticleView.NAME));
-		return list;
+	public void init() {
+		removeAllComponents();
+		articleRecommender.addTab(
+				initArticles(((WandaVaadinClient) WandaVaadinClient
+						.getCurrent()).getController().getRecentArticle(
+						ARTICLE_COUNT)), "Recent");
+
+		articleRecommender.addTab(
+				initArticles(((WandaVaadinClient) WandaVaadinClient
+						.getCurrent()).getController()
+						.getMostRecommendedArticle(ARTICLE_COUNT)), "Advised");
+
+		articleRecommender.addTab(
+				initArticles(((WandaVaadinClient) WandaVaadinClient
+						.getCurrent()).getController().getMostPopularArticle(
+						ARTICLE_COUNT)), "Popular");
+		addComponent(articleRecommender);
 	}
 
-	public void setMostRencentArticles(List<Article> mostRecentArticles,
-			List<Article> mostPopularArticles,
-			List<Article> mostRecommendedArticles) {
+	private CssLinkListComponent initArticles(List<Article> articleList) {
+
 		Hashtable<String, ExternalResource> recentList = new Hashtable<String, ExternalResource>();
-		Hashtable<String, ExternalResource> recommendedList = new Hashtable<String, ExternalResource>();
-		Hashtable<String, ExternalResource> popularList = new Hashtable<String, ExternalResource>();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("kk:mm dd.MM.yyyy.");
-		for (Article a : mostRecentArticles) {
+
+		for (Article a : articleList) {
 			String s;
 			if (a.getTitle().length() > 20) {
 				s = a.getTitle().substring(0, 17) + "...";
@@ -51,51 +60,14 @@ public class ArticleRecommenderComponent extends GridLayout {
 				s = a.getTitle();
 			}
 
-			recentList.put(
-					s + " (" + dateFormat.format(a.getCreatedTS()) + ")",
-					new ExternalResource("#!articleView."
-							+ a.getTitle().replace(' ', '.')));
-		}
-		for (Article a : mostRecommendedArticles) {
-			String s;
-			if (a.getTitle().length() > 20) {
-				s = a.getTitle().substring(0, 17) + "...";
-			} else {
-				s = a.getTitle();
-			}
-
-			recommendedList.put(s + " (" + dateFormat.format(a.getCreatedTS())
+			recentList.put(s + " (" + DATE_FORMAT.format(a.getCreatedTS())
 					+ ")", new ExternalResource("#!articleView."
 					+ a.getTitle().replace(' ', '.')));
 		}
-		for (Article a : mostPopularArticles) {
-			String s;
-			if (a.getTitle().length() > 20) {
-				s = a.getTitle().substring(0, 17) + "...";
-			} else {
-				s = a.getTitle();
-			}
-
-			popularList.put(
-
-			s + " (" + dateFormat.format(a.getCreatedTS()) + ")",
-					new ExternalResource("#!articleView."
-							+ a.getTitle().replace(' ', '.')));
-		}
-
-		recentArticlesList = new CssLinkListComponent(null, recentList);
-		recentArticlesList.setStyleName("list");
-
-		recommendedArticlesList = new CssLinkListComponent(null,
-				recommendedList);
-		recommendedArticlesList.setStyleName("list");
-		popularArticlesList = new CssLinkListComponent(null, popularList);
-		popularArticlesList.setStyleName("list");
-		articleRecommender.addTab(recentArticlesList, "Recent");
-		articleRecommender.addTab(recommendedArticlesList, "Advised");
-		articleRecommender.addTab(popularArticlesList, "Popular");
-		if (getComponentCount() < 1) {
-			addComponent(articleRecommender);
-		}
+		CssLinkListComponent component = new CssLinkListComponent(null,
+				recentList);
+		component.setStyleName("list");
+		return component;
 	}
+
 }

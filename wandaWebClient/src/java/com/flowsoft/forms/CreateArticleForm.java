@@ -1,4 +1,4 @@
-package com.flowsoft.createArticleComponent;
+package com.flowsoft.forms;
 
 import java.util.List;
 import java.util.Set;
@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import com.flowsoft.aviews.CreateArticleView;
 import com.flowsoft.client.WandaVaadinClient;
+import com.flowsoft.createArticleComponent.PopupWindow;
+import com.flowsoft.createArticleComponent.TagSelectorBox;
 import com.flowsoft.domain.Article;
 import com.flowsoft.domain.Category;
 import com.flowsoft.domain.Tag;
@@ -42,13 +44,13 @@ public class CreateArticleForm extends GridLayout implements
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final String componentWidth = "500px";
-	private static FieldGroup binder;
+	private FieldGroup binder;
 	private Window popupWindow;
 	protected Logger logger = LoggerFactory.getLogger(CreateArticleForm.class);
 
 	private Label title;
 
-	private static ComboBox categorySelectComboBox;
+	private ComboBox categorySelectComboBox;
 
 	@PropertyId("title")
 	private TextField articleTitle;
@@ -58,8 +60,8 @@ public class CreateArticleForm extends GridLayout implements
 	private Button submitButton;
 	private Link backLink;
 	private static List<Category> categoryList;
-	private static Category selectedCategory;
-	private static String lastInserted;
+	private Category selectedCategory;
+	private String lastInserted;
 	private CreateArticleView createArticleView;
 
 	public CreateArticleForm(CreateArticleView v) {
@@ -79,11 +81,13 @@ public class CreateArticleForm extends GridLayout implements
 		categorySelectComboBox.setImmediate(true);
 		categorySelectComboBox.setNewItemHandler(new NewItemHandler() {
 
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void addNewItem(String newItemCaption) {
 				if (!categorySelectComboBox.containsId(newItemCaption)) {
 
-					popupWindow = new PopupWindow();
+					popupWindow = new PopupWindow(CreateArticleForm.this);
 
 					binder = new FieldGroup();
 					createArticleView.getCategoryBean().setCategoryName(
@@ -109,7 +113,12 @@ public class CreateArticleForm extends GridLayout implements
 
 					@Override
 					public void valueChange(ValueChangeEvent event) {
+						if (categorySelectComboBox.getValue() == null) {
+							selectedCategory = null;
+							return;
+						}
 						for (Category c : categoryList) {
+
 							if (c.getCategoryName().equals(
 									categorySelectComboBox.getValue()
 											.toString())) {
@@ -131,13 +140,13 @@ public class CreateArticleForm extends GridLayout implements
 		articleContent.setHeight("300px");
 		articleContent.setImmediate(true);
 
-		// TODO: tagselector.setDATA + getALLTag ws
 		tagSelector = new TagSelectorBox();
-		// HashSet<Tag> temp = new HashSet<Tag>();
 
-		tagSelector.setTagList(createArticleView.getTagList());
+		tagSelector.setTagList(((WandaVaadinClient) WandaVaadinClient
+				.getCurrent()).getController().getAllTag());
 		submitButton = new Button("Submit");
 		submitButton.setImmediate(true);
+		submitButton.setEnabled(false);
 		submitButton.addClickListener(new Button.ClickListener() {
 
 			private static final long serialVersionUID = 1L;
@@ -177,7 +186,9 @@ public class CreateArticleForm extends GridLayout implements
 	}
 
 	protected void clearFields() {
-		categorySelectComboBox.unselect(selectedCategory.getCategoryName());
+		if (selectedCategory != null) {
+			categorySelectComboBox.unselect(selectedCategory.getCategoryName());
+		}
 		tagSelector.unselectAll();
 
 	}
@@ -212,7 +223,10 @@ public class CreateArticleForm extends GridLayout implements
 
 	public static void setCategoryList(List<Category> existingCategories) {
 		categoryList = existingCategories;
-		for (Category c : existingCategories) {
+	}
+
+	public void initCategoryField() {
+		for (Category c : categoryList) {
 			categorySelectComboBox.addItem(c.getCategoryName());
 		}
 	}
@@ -221,11 +235,12 @@ public class CreateArticleForm extends GridLayout implements
 		return selectedCategory;
 	}
 
-	public static void commit(boolean commitable) {
+	public void commit(boolean commitable) {
 
 		if (commitable) {
 			try {
 				binder.commit();
+
 			} catch (CommitException e) {
 				e.printStackTrace();
 			}
@@ -237,7 +252,7 @@ public class CreateArticleForm extends GridLayout implements
 
 	}
 
-	public static void createNewSelected() {
+	public void createNewSelected() {
 		selectedCategory = new Category(
 				((WandaVaadinClient) WandaVaadinClient.getCurrent())
 						.getAktUser(),
@@ -272,6 +287,10 @@ public class CreateArticleForm extends GridLayout implements
 	}
 
 	public void setSelectedCategory(Category category) {
+		if (category == null) {
+			selectedCategory = null;
+			return;
+		}
 		selectedCategory = category;
 		categorySelectComboBox.select(category.getCategoryName());
 	}
@@ -280,5 +299,15 @@ public class CreateArticleForm extends GridLayout implements
 
 		tagSelector.setSelectedTags(tagList);
 
+	}
+
+	public void setComponentErrors() {
+		articleTitle.removeAllValidators();
+		articleContent.removeAllValidators();
+		categorySelectComboBox.removeAllValidators();
+		categorySelectComboBox.setComponentError(null);
+		articleTitle.setComponentError(null);
+		articleContent.setComponentError(null);
+		submitButton.setEnabled(false);
 	}
 }

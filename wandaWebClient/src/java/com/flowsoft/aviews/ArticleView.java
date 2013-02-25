@@ -1,7 +1,6 @@
 package com.flowsoft.aviews;
 
 import java.io.Serializable;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,7 @@ public class ArticleView extends GeneralView implements View, Serializable {
 	public Comment newComment;
 	private Article article;
 	private CommentForm commentForm;
-	private List<Comment> commentList;
+
 	private static Boolean needToRefresh = false;
 
 	public ArticleView(ArticleHeader a) {
@@ -50,10 +49,12 @@ public class ArticleView extends GeneralView implements View, Serializable {
 	}
 
 	private void generateSurface() {
-		readArticleForm = new ReadArticleForm(this, article, controller);
+		readArticleForm = new ReadArticleForm(this, article);
 		readArticleForm.setWidth("550px");
 		readArticleForm.setStyleName("mydiv");
-		commentForm = new CommentForm(this, commentList, controller);
+		commentForm = new CommentForm(this,
+				((WandaVaadinClient) WandaVaadinClient.getCurrent())
+						.getController().findAllCommentFor(article.getId()));
 		commentForm.setWidth("550px");
 		commentForm.setStyleName("mydiv");
 		backLink = new Link("Back", new ExternalResource("#!main"));
@@ -61,8 +62,8 @@ public class ArticleView extends GeneralView implements View, Serializable {
 	}
 
 	private void initArticle(ArticleHeader a) {
-		article = controller.findArticleByHeader(a.getId());
-		commentList = controller.findAllCommentFor(a.getId());
+		article = ((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.getController().findArticleByHeader(a.getId());
 	}
 
 	@Override
@@ -70,12 +71,30 @@ public class ArticleView extends GeneralView implements View, Serializable {
 
 	}
 
+	private boolean exist(Article article2) {
+		if ((((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.getController().findArticleByHeader(article2.getId())) == null) {
+			return false;
+		}
+		return true;
+
+	}
+
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
+		if (!exist(article)) {
+			((WandaVaadinClient) WandaVaadinClient.getCurrent())
+					.goToMainPage(1);
+			return;
+
+		}
 		if (needToRefresh) {
-			commentList = (controller.findAllCommentFor(article.getId()));
-			commentForm.refreshList(commentList);
+
+			commentForm.refreshList(((WandaVaadinClient) WandaVaadinClient
+					.getCurrent()).getController().findAllCommentFor(
+					article.getId()));
+
 			setNeedToRefresh(false);
 		}
 
@@ -99,17 +118,16 @@ public class ArticleView extends GeneralView implements View, Serializable {
 	public void commit() {
 		try {
 			binder.commit();
-			controller.commitComment(newComment);
-			navigator.navigateTo(navigator.getState());
+			((WandaVaadinClient) WandaVaadinClient.getCurrent())
+					.getController().commitComment(newComment);
+			((WandaVaadinClient) WandaVaadinClient.getCurrent()).refreshPage();
+
 		} catch (CommitException e) {
-			navigator.navigateTo("error");
+			((WandaVaadinClient) WandaVaadinClient.getCurrent())
+					.goToErrorPage();
 			e.printStackTrace();
 		}
 
-	}
-
-	public static void refreshPage() {
-		navigator.navigateTo(navigator.getState());
 	}
 
 	public Boolean getNeedToRefresh() {
@@ -132,13 +150,17 @@ public class ArticleView extends GeneralView implements View, Serializable {
 		CreateArticleView c = new CreateArticleView(article2.getTitle());
 		c.setArticle(article2);
 		((WandaVaadinClient) WandaVaadinClient.getCurrent()).initView(c);
-		navigator.navigateTo(c.NAME);
+		((WandaVaadinClient) WandaVaadinClient.getCurrent()).getNavigator()
+				.navigateTo(c.NAME);
 	}
 
 	public void delete(Article article2) {
-		controller.deleteArticle(article2.getId());
-		navigator.removeView(navigator.getState());
-		navigator.navigateTo("main");
+		((WandaVaadinClient) WandaVaadinClient.getCurrent()).getController()
+				.deleteArticle(article2.getId());
+		((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.removeView(((WandaVaadinClient) WandaVaadinClient.getCurrent())
+						.getNavigator().getState());
+		((WandaVaadinClient) WandaVaadinClient.getCurrent()).goToMainPage(0);
 
 	}
 }

@@ -12,6 +12,11 @@ public abstract class TagSelectorComboBox extends ComboBox {
 	private static final long serialVersionUID = 1L;
 
 	private TokenFieldServerRpc rpc = new TokenFieldServerRpc() {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public void deleteToken() {
 			onDelete();
 		}

@@ -1,5 +1,6 @@
 package com.flowsoft.createArticleComponent;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -42,6 +43,11 @@ public class TagSelectorBox extends CustomField implements Container.Editor,
 		mainLayout = new CssLayout();
 		selectorField = new TagSelectorComboBox() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			protected void onDelete() {
 				if (!tags.isEmpty()) {
@@ -66,7 +72,7 @@ public class TagSelectorBox extends CustomField implements Container.Editor,
 				if (isReadOnly()) {
 					throw new Property.ReadOnlyException();
 				}
-				// logger.debug("new item: " + tokenId);
+				logger.debug("new item: " + tokenId);
 				onTokenInput(tokenId);
 				selectorField.focus();
 			}
@@ -94,10 +100,18 @@ public class TagSelectorBox extends CustomField implements Container.Editor,
 	}
 
 	private Tag search(Entry<Object, Button> b) {
+		boolean existingTag = false;
 		for (Tag t : originalTags) {
 			if (t.getTagName().equals(b.getKey())) {
+				existingTag = true;
 				return t;
+			} else {
+				existingTag = false;
 			}
+		}
+		if (!existingTag) {
+			Tag t = new Tag(b.getKey().toString());
+			return t;
 		}
 		return null;
 	}
@@ -126,6 +140,10 @@ public class TagSelectorBox extends CustomField implements Container.Editor,
 	}
 
 	public void setTagList(List<Tag> tags) {
+		if (tags == null || tags.isEmpty()) {
+			originalTags = new ArrayList<Tag>();
+			return;
+		}
 		this.originalTags = tags;
 		for (Tag s : tags) {
 			selectorField.addItem(s.getTagName());
@@ -156,9 +174,11 @@ public class TagSelectorBox extends CustomField implements Container.Editor,
 		if (set.contains(tokenId)) {
 			return;
 		}
-		if (!existingId(tokenId)) {
-			return;
-		}
+		// if (!existingId(tokenId)) {
+		//
+		// // return;
+		// }
+
 		HashSet<Object> newSet = new LinkedHashSet<Object>(set);
 
 		newSet.add(tokenId);
@@ -177,7 +197,7 @@ public class TagSelectorBox extends CustomField implements Container.Editor,
 	private void addTokenButton(final Object val) {
 		Button b = new Button();
 		configureTokenButton(val, b);
-		b.addListener(new Button.ClickListener() {
+		b.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = -1943432188848347317L;
 
 			public void buttonClick(ClickEvent event) {
@@ -300,7 +320,12 @@ public class TagSelectorBox extends CustomField implements Container.Editor,
 
 	public void unselectAll() {
 		Set<Object> set = (Set<Object>) getValue();
-		LinkedHashSet<Object> newSet = new LinkedHashSet<Object>(set);
+		LinkedHashSet<Object> newSet;
+		if (set != null) {
+			newSet = new LinkedHashSet<Object>(set);
+		} else {
+			newSet = new LinkedHashSet<Object>();
+		}
 		setTagList(originalTags);
 		newSet.clear();
 		setValue(newSet);

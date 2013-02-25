@@ -6,15 +6,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.flowsoft.aviews.ArticleView;
+import com.flowsoft.codesnippet.SnippetButton;
+import com.flowsoft.codesnippet.SnippetReader;
 import com.flowsoft.component.CommentBox;
 import com.flowsoft.domain.Comment;
-import com.flowsoft.wanda.UserDetailsService;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
@@ -28,37 +30,38 @@ public class CommentForm extends CssLayout {
 	private TextArea commentContentTextfield;
 	private Button submitButton;
 	private Label label;
-	private VerticalLayout vl;
+	private GridLayout vl;
+	private VerticalLayout commentLayout;
 	private List<Comment> list;
 	private ArticleView parent;
-	private UserDetailsService controller;
 
-	public CommentForm(ArticleView parent, List<Comment> commentList,
-			UserDetailsService c) {
-		this.controller = c;
+	public CommentForm(ArticleView parent, List<Comment> commentList) {
+
 		this.list = commentList;
 		this.parent = parent;
 		this.setStyleName("comment");
+		this.label = new Label();
+		this.commentContentTextfield = new TextArea();
+		this.submitButton = new Button("Submit");
 	}
 
 	public void enter() {
 		if (getComponentCount() != 0) {
 			removeAllComponents();
 		}
-		vl = new VerticalLayout();
-		label = new Label();
+		vl = new GridLayout(3, 4);
+		commentLayout = new VerticalLayout();
+
 		label.setValue("Comments:");
 		label.setStyleName(Reindeer.LABEL_H2);
 
-		commentContentTextfield = new TextArea();
 		commentContentTextfield.setStyleName("comment");
 		commentContentTextfield.setImmediate(true);
 		commentContentTextfield.setWidth("450px");
 
-		submitButton = new Button("Submit");
 		submitButton.setStyleName("comment");
 		submitButton.setImmediate(true);
-		submitButton.addListener(new Button.ClickListener() {
+		submitButton.addClickListener(new Button.ClickListener() {
 
 			private static final long serialVersionUID = 1L;
 
@@ -73,18 +76,22 @@ public class CommentForm extends CssLayout {
 
 			}
 		});
-		vl.addComponent(label);
-		vl.addComponent(commentContentTextfield);
+		vl.addComponent(label, 0, 0);
+		SnippetButton snip = new SnippetButton(
+				SnippetReader.read("findComment.snip"));
+		vl.addComponent(snip, 1, 0);
+		vl.addComponent(commentContentTextfield, 0, 1, 2, 1);
 
-		vl.addComponent(submitButton);
-		vl.setComponentAlignment(submitButton, Alignment.BOTTOM_CENTER);
+		vl.addComponent(submitButton, 2, 2);
+		vl.setComponentAlignment(submitButton, Alignment.BOTTOM_RIGHT);
 
 		if (list != null) {
 			for (Comment c : list) {
-				vl.addComponent(new CommentBox(c.getId(), c.getOwner()
-						.getUsername(), c.getCommentContent(), c.getCreatedTS()
-						.toLocaleString(), controller));
+				commentLayout.addComponent(new CommentBox(c.getId(), c
+						.getOwner().getUsername(), c.getCommentContent(), c
+						.getCreatedTS().toLocaleString()));
 			}
+			vl.addComponent(commentLayout, 0, 3, 2, 3);
 		}
 		addComponent(vl);
 	}
@@ -92,7 +99,9 @@ public class CommentForm extends CssLayout {
 	protected void commit() {
 		try {
 			ArticleView.setNeedToRefresh(true);
-			parent.commit();
+			if (commentContentTextfield.getValue().length() > 0) {
+				parent.commit();
+			}
 
 		} catch (InvalidValueException e) {
 
@@ -101,6 +110,9 @@ public class CommentForm extends CssLayout {
 	}
 
 	public void refreshList(List<Comment> cList) {
+		if (vl == null) {
+			vl = new GridLayout(3, 4);
+		}
 		list = cList;
 		vl.removeAllComponents();
 		vl.addComponent(label);
@@ -113,7 +125,7 @@ public class CommentForm extends CssLayout {
 			for (Comment c : list) {
 				vl.addComponent(new CommentBox(c.getId(), c.getOwner()
 						.getUsername(), c.getCommentContent(), c.getCreatedTS()
-						.toLocaleString(), controller));
+						.toLocaleString()));
 			}
 		}
 	}

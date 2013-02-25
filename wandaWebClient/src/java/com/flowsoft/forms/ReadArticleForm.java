@@ -9,7 +9,6 @@ import com.flowsoft.aviews.TagView;
 import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.Article;
 import com.flowsoft.domain.Tag;
-import com.flowsoft.wanda.UserDetailsService;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -30,11 +29,11 @@ public class ReadArticleForm extends GridLayout {
 	private ArticleRatingForm ratingForm;
 	private ArticleView articleView;
 
-	public ReadArticleForm(ArticleView v, Article a, UserDetailsService u) {
+	public ReadArticleForm(ArticleView v, Article a) {
 		super(4, 5);
 		this.articleView = v;
 		this.article = a;
-		ratingForm = new ArticleRatingForm(u, article.getId());
+		ratingForm = new ArticleRatingForm(article.getId());
 	}
 
 	public void enter() {
@@ -49,6 +48,7 @@ public class ReadArticleForm extends GridLayout {
 		auth.setStyleName(Reindeer.LABEL_H2);
 
 		ratingForm.setSizeUndefined();
+		ratingForm.refreshAverage();
 
 		addComponent(title, 0, 0, 1, 0);
 

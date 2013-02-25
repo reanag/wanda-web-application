@@ -13,8 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.codesnippet.SnippetButton;
+import com.flowsoft.codesnippet.SnippetReader;
 import com.flowsoft.security.AuthenticationProvider;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;
@@ -45,7 +45,7 @@ public class LoginView extends Panel implements View, Serializable {
 	private TextField tf;
 	private PasswordField pf;
 	private Embedded image;
-	private Navigator navigator;
+
 	private Link registrationLink;
 
 	public static class LoginEvent extends Event {
@@ -64,21 +64,9 @@ public class LoginView extends Panel implements View, Serializable {
 		}
 	}
 
-	public LoginView(Navigator n) {
-		navigator = n;
-		try {
-			this.authenticationProvider = new com.flowsoft.security.AuthenticationProvider();
-		} catch (RuntimeException re) {
-			logger.debug("Runtime error");
-
-		}
+	public LoginView() {
+		// navigator = n;
 		this.authenticationProvider = new com.flowsoft.security.AuthenticationProvider();
-		init();
-
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
 
 	}
 
@@ -86,18 +74,14 @@ public class LoginView extends Panel implements View, Serializable {
 
 		((WandaVaadinClient) WandaVaadinClient.getCurrent())
 				.initView(new MainView());
-		((WandaVaadinClient) WandaVaadinClient.getCurrent())
-				.initView(new AboutMeView());
-		((WandaVaadinClient) WandaVaadinClient.getCurrent())
-				.initView(new AboutSiteView());
-		((WandaVaadinClient) WandaVaadinClient.getCurrent())
-				.initView(new SearchView());
 
-		navigator.navigateTo("main");
+		((WandaVaadinClient) WandaVaadinClient.getCurrent()).goToMainPage(0);
 	}
 
-	public void init() {
+	@Override
+	public void enter(ViewChangeEvent event) {
 		this.setStyleName("login");
+		removeAllComponents();
 		mainLayout = new GridLayout(1, 2);
 		loginLayout = new VerticalLayout();
 
@@ -105,12 +89,16 @@ public class LoginView extends Panel implements View, Serializable {
 		image.setHeight("200");
 		image.setWidth("210");
 		tf = new TextField(WandaVaadinClient.captions.getString("username"));
-		tf.setValue("erwin");
+		tf.setValue("");
 		tf.setStyleName("login");
 		pf = new PasswordField(WandaVaadinClient.captions.getString("password"));
-		pf.setValue("12345");
+		pf.setValue("");
 		pf.setStyleName("login");
+
 		addListener(new com.vaadin.ui.Component.Listener() {
+
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void componentEvent(Event event) {
 				if (event instanceof LoginView.LoginEvent) {
@@ -122,7 +110,7 @@ public class LoginView extends Panel implements View, Serializable {
 
 					SecurityContextHolder.getContext().setAuthentication(
 							((LoginView.LoginEvent) event).getAuthentication());
-					generatePages();
+
 				}
 			}
 
@@ -145,32 +133,22 @@ public class LoginView extends Panel implements View, Serializable {
 									+ auth.getName() + "' "
 									+ auth.getCredentials());
 
-							if (((WandaVaadinClient) WandaVaadinClient
-									.getCurrent()).getHttpSession() == null) {
-								logger.debug("HTTP SESSION NULL");
-								// WandaVaadinClient.fetchSession();
-							}
-							// ((WandaVaadinClient)
-							// WandaVaadinClient.getCurrent())
-							// .getHttpSession().setAttribute("username",
-							// auth.getName());
-
 							Authentication returned = authenticationProvider
 									.authenticate(auth);
-							((WandaVaadinClient) WandaVaadinClient.getCurrent())
-									.setAktUser(authenticationProvider
-											.getUser());
 
-							logger.debug("Authentication for user '"
-									+ auth.getName() + "' succeeded");
-
-							// ((WandaVaadinClient)
-							// WandaVaadinClient.getCurrent())
-							// .fetchSession();
 							fireEvent(new LoginEvent(
 									((WandaVaadinClient) WandaVaadinClient
 											.getCurrent()).getLoginView(),
 									returned));
+
+							((WandaVaadinClient) WandaVaadinClient.getCurrent())
+									.setAktUser(authenticationProvider
+											.getUser());
+							logger.debug("Generate pages: ");
+							generatePages();
+
+							logger.debug("Authentication for user '"
+									+ auth.getName() + "' succeeded");
 
 						} catch (BadCredentialsException e) {
 							logger.debug(
@@ -215,10 +193,15 @@ public class LoginView extends Panel implements View, Serializable {
 		registrationLink = new Link("Register..", new ExternalResource("#!"
 				+ RegistrationView.NAME));
 
+		// Flash flash = new Flash(null, new
+		// ThemeResource("img/bannernow.swf"));
+		// flash.setHeight("150px");
+
 		SnippetButton snip = new SnippetButton(
 				SnippetReader.read("loginSnippet.snip"));
 
 		mainLayout.setStyleName("login");
+		// mainLayout.addComponent(flash);
 		mainLayout.addComponent(snip);
 		loginLayout.addComponent(image);
 		loginLayout.setStyleName("login");
@@ -228,7 +211,6 @@ public class LoginView extends Panel implements View, Serializable {
 		loginLayout.addComponent(registrationLink);
 
 		mainLayout.addComponent(loginLayout);
-
 		mainLayout.setRowExpandRatio(0, 30);
 		mainLayout.setRowExpandRatio(1, 100);
 		mainLayout.setSizeFull();

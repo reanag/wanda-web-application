@@ -2,7 +2,6 @@ package com.flowsoft.component;
 
 import com.flowsoft.aviews.ArticleView;
 import com.flowsoft.client.WandaVaadinClient;
-import com.flowsoft.wanda.UserDetailsService;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -19,12 +18,11 @@ public class CommentBox extends GridLayout {
 	private Button removeButton;
 	private Embedded image;
 	private Integer id;
-	private UserDetailsService controller;
 
 	public CommentBox(Integer id, String usernameText, String content,
-			String pdate, UserDetailsService c) {
+			String pdate) {
 		super(6, 4);
-		this.controller = c;
+
 		this.id = id;
 		this.setStyleName("comment");
 		this.setWidth("450px");
@@ -54,12 +52,20 @@ public class CommentBox extends GridLayout {
 			removeButton.setWidth("0px");
 			removeButton.addClickListener(new Button.ClickListener() {
 
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public void buttonClick(ClickEvent event) {
 
 					ArticleView.setNeedToRefresh(true);
-					controller.removeComment(CommentBox.this.id);
-					ArticleView.refreshPage();
+					((WandaVaadinClient) WandaVaadinClient.getCurrent())
+							.getController().removeComment(CommentBox.this.id);
+					((WandaVaadinClient) WandaVaadinClient.getCurrent())
+							.refreshPage();
+
 				}
 			});
 			addComponent(removeButton, 5, 0);

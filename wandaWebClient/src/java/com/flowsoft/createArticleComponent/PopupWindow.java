@@ -3,11 +3,15 @@ package com.flowsoft.createArticleComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.Category;
+import com.flowsoft.forms.CreateArticleForm;
 import com.flowsoft.util.ValidatorUtils;
+import com.vaadin.data.Validator;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.server.ErrorMessage;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
@@ -15,47 +19,65 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.themes.Reindeer;
 
 public class PopupWindow extends Window implements BlurListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@PropertyId("categoryName")
 	private TextField nameField;
 	@PropertyId("description")
+	private Category checkedCategory;
 	private TextField descriptionField = new TextField("Category description");
 	private Button okButton = new Button("OK");
 	private Button cancelButton = new Button("Cancel");
 	private HorizontalLayout buttonSpace = new HorizontalLayout();
 	private VerticalLayout root = new VerticalLayout();
 	public Logger logger = LoggerFactory.getLogger(PopupWindow.class);
+	private CreateArticleForm createArticleForm;
 
-	public PopupWindow() {
+	public PopupWindow(CreateArticleForm c) {
+		setStyleName(Reindeer.WINDOW_LIGHT);
+		this.createArticleForm = c;
 		nameField = new TextField("Category name");
 
-		// logger.debug("In namefield: " + nameField.getValue());
 		setPositionX(180);
 		setPositionY(230);
 
-		setWidth("400px");
-		setHeight("350px");
+		setWidth("450px");
+		setHeight("420px");
 
-		cancelButton.addListener(new Button.ClickListener() {
+		cancelButton.addClickListener(new Button.ClickListener() {
+
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
 				PopupWindow.this.commit(false);
+				if (checkedCategory != null) {
+					createArticleForm.setSelectedCategory(checkedCategory);
+				}
 				new CloseEvent(PopupWindow.this);
 				PopupWindow.this.close();
 
 			}
 		});
 
-		okButton.addListener(new Button.ClickListener() {
+		okButton.addClickListener(new Button.ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
 
 				PopupWindow.this.commit(true);
-				CreateArticleForm.createNewSelected();
+				createArticleForm.createNewSelected();
 				new CloseEvent(PopupWindow.this);
 				PopupWindow.this.close();
 
@@ -69,6 +91,36 @@ public class PopupWindow extends Window implements BlurListener {
 				"You are creating new Category. Please add description: "));
 
 		root.addComponent(nameField);
+		nameField.addValidator(new Validator() {
+
+			@Override
+			public void validate(Object value) throws InvalidValueException {
+				checkedCategory = ((WandaVaadinClient) WandaVaadinClient
+						.getCurrent()).getController().findCategoryByName(
+						nameField.getValue());
+				if (checkedCategory != null) {
+
+					okButton.setEnabled(false);
+					nameField.setComponentError(new ErrorMessage() {
+
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public String getFormattedHtmlMessage() {
+							return "Category already exist!";
+						}
+
+						@Override
+						public ErrorLevel getErrorLevel() {
+							return ErrorLevel.ERROR;
+						}
+					});
+				} else {
+					nameField.setComponentError(null);
+					okButton.setEnabled(true);
+				}
+			}
+		});
 		nameField.setWidth("300px");
 		nameField.setImmediate(true);
 		nameField.addBlurListener(this);
@@ -88,8 +140,7 @@ public class PopupWindow extends Window implements BlurListener {
 	}
 
 	protected void commit(boolean b) {
-		CreateArticleForm.commit(b);
-
+		createArticleForm.commit(b);
 	}
 
 	@Override

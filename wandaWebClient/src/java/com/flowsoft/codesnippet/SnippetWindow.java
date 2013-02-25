@@ -11,7 +11,7 @@ public class SnippetWindow extends Window {
 	private static final long serialVersionUID = 1L;
 
 	public SnippetWindow(String source) {
-		this.setWidth("600px");
+		this.setWidth("900px");
 		this.setHeight("400px");
 		this.setStyleName("black");
 		Label c = new CodeLabel(source);

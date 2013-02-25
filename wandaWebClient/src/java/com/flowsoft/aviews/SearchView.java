@@ -30,7 +30,7 @@ public class SearchView extends GeneralView {
 		super.enter(event);
 
 		if (mainLayout.getComponentCount() < 1) {
-			searchForm = new SearchForm(navigator, controller);
+			searchForm = new SearchForm();
 			mainLayout.addComponent(searchForm);
 			mainLayout.setComponentAlignment(searchForm, Alignment.MIDDLE_LEFT);
 			mainLayout.addComponent(new Link("Back", new ExternalResource(
