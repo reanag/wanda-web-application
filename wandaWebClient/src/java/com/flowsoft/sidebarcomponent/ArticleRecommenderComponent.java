@@ -31,20 +31,24 @@ public class ArticleRecommenderComponent extends GridLayout {
 
 	public void init() {
 		removeAllComponents();
-		articleRecommender.addTab(
-				initArticles(((WandaVaadinClient) WandaVaadinClient
-						.getCurrent()).getController().getRecentArticle(
-						ARTICLE_COUNT)), "Recent");
+
+		List<Article> a = ((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.getController().getRecentArticle(ARTICLE_COUNT);
+
+		articleRecommender.addTab(initArticles(a),
+				WandaVaadinClient.captions.getString("recommend.recent"));
 
 		articleRecommender.addTab(
 				initArticles(((WandaVaadinClient) WandaVaadinClient
 						.getCurrent()).getController()
-						.getMostRecommendedArticle(ARTICLE_COUNT)), "Advised");
+						.getMostRecommendedArticle(ARTICLE_COUNT)),
+				WandaVaadinClient.captions.getString("recommend.adviced"));
 
 		articleRecommender.addTab(
 				initArticles(((WandaVaadinClient) WandaVaadinClient
 						.getCurrent()).getController().getMostPopularArticle(
-						ARTICLE_COUNT)), "Popular");
+						ARTICLE_COUNT)), WandaVaadinClient.captions
+						.getString("recommend.popular"));
 		addComponent(articleRecommender);
 	}
 

@@ -49,24 +49,24 @@ public class TagCloudComponent extends GridLayout {
 			tags = new ArrayList<CssLinkComponent>();
 
 		}
-		int aktRank = 0;
+
 		for (Tag t : list) {
 
 			TagView v = new TagView(t.getTagName());
 			((WandaVaadinClient) WandaVaadinClient.getCurrent()).initView(v);
 			CssLinkComponent cssLink = new CssLinkComponent(v.getTagName(),
 					new ExternalResource("#!" + v.NAME));
-			if (t.getRank() == aktRank) {
-				cssLink.setRank(t.getRank() + 2);
-				aktRank = t.getRank() + 2;
+			if (t.getRank() == null || t.getRank() == 0) {
+				cssLink.setRank(12);
 			} else {
-				aktRank = t.getRank();
+
+				cssLink.setRank(t.getRank());
 			}
+
 			tags.add(cssLink);
 
 		}
 
 		addTag();
 	}
-
 }

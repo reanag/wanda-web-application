@@ -36,8 +36,9 @@ public class OptionSelectorComponent extends GridLayout {
 		((WandaVaadinClient) WandaVaadinClient.getCurrent()).initView(c);
 		createArticleLink = new CssLinkComponent("Write new article..",
 				new ExternalResource("#!" + c.NAME));
-		SnippetButton snip = new SnippetButton(
-				SnippetReader.read("category.snip"));
+		SnippetReader sr = new SnippetReader();
+		SnippetButton snip = new SnippetButton(sr.read("category.snip"),
+				"Category representation");
 		createArticleLink.setHeight("40px");
 		layout.addComponent(createArticleLink, 0, 1, 1, 1);
 		createArticleLink.setStyleName("title-style");
