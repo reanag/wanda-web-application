@@ -6,12 +6,14 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Entity
+@Table(schema = "WANDA")
 public class Category extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -32,8 +34,8 @@ public class Category extends AbstractEntity implements Serializable {
 		this.categoryName = name;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();
-		logger.debug("Create Category with id: " + categoryName + " by : "
-				+ owner.getUsername());
+		// logger.debug("Create Category with id: " + categoryName + " by : "
+		// + owner.getUsername());
 	}
 
 	public String getCategoryName() {

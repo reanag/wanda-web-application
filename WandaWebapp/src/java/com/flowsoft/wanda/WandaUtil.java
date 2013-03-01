@@ -36,7 +36,11 @@ public class WandaUtil {
 		newTag.setCreatedTS(t.getCreatedTS());
 		newTag.setModifiedTS(t.getModifiedTS());
 		newTag.setId(t.getId());
-		newTag.setRank(t.getRank());
+		if (t.getRank() == null) {
+			newTag.setRank(12);
+		} else {
+			newTag.setRank(t.getRank());
+		}
 		newTag.setTagName(t.getTagName());
 
 		return newTag;
@@ -75,7 +79,9 @@ public class WandaUtil {
 	}
 
 	public static Article convertArticleToDomain(com.flowsoft.entity.Article a) {
-
+		if (a == null) {
+			return null;
+		}
 		Article domainObject = new Article();
 		domainObject.setCategory(convertCategoryToDomain(a.getCategory()));
 		domainObject.setContent(a.getContent());
@@ -109,7 +115,9 @@ public class WandaUtil {
 
 	public static com.flowsoft.entity.Article convertArticleToEntity(Article a) {
 		com.flowsoft.entity.Article entityObject = new com.flowsoft.entity.Article();
-		entityObject.setCategory(convertCategoryToEntity(a.getCategory()));
+		if (a.getCategory() != null) {
+			entityObject.setCategory(convertCategoryToEntity(a.getCategory()));
+		}
 		entityObject.setContent(a.getContent());
 		entityObject.setRank(a.getRank());
 		entityObject.setCreatedTS(a.getCreatedTS());
@@ -125,7 +133,8 @@ public class WandaUtil {
 			Set<Tag> tagList) {
 		Map<Integer, com.flowsoft.entity.Tag> entitySet = new HashMap<Integer, com.flowsoft.entity.Tag>();
 		for (Tag t : tagList) {
-			entitySet.put(t.getId(), convertTagToEntity(t));
+			com.flowsoft.entity.Tag tag = convertTagToEntity(t);
+			entitySet.put(tag.getId(), tag);
 		}
 		return entitySet;
 	}
@@ -149,25 +158,36 @@ public class WandaUtil {
 		newCat.setCreatedTS(c.getCreatedTS());
 		newCat.setModifiedTS(c.getModifiedTS());
 		newCat.setDescription(c.getDescription());
-		newCat.setId(c.getId());
+		if (c.getId() != null) {
+			newCat.setId(c.getId());
+		}
 		newCat.setOwner(convertWandaUserToEntity(c.getOwner()));
 		return newCat;
 	}
 
 	public static com.flowsoft.entity.Tag convertTagToEntity(Tag c) {
 		com.flowsoft.entity.Tag newTag = new com.flowsoft.entity.Tag();
-		newTag.setCreatedTS(c.getCreatedTS());
-		newTag.setId(c.getId());
-		newTag.setModifiedTS(c.getModifiedTS());
-		newTag.setRank(c.getRank());
+
+		if (c.getCreatedTS() != null) {
+			newTag.setCreatedTS(c.getCreatedTS());
+		}
+		if (c.getId() != null) {
+			newTag.setId(c.getId());
+		}
+		if (c.getModifiedTS() != null) {
+			newTag.setModifiedTS(c.getModifiedTS());
+		}
+		if (c.getRank() != null) {
+			newTag.setRank(c.getRank());
+		}
 		newTag.setTagName(c.getTagName());
+
 		return newTag;
 	}
 
 	public static com.flowsoft.entity.Comment convertCommentToEntity(Comment a) {
 		com.flowsoft.entity.Comment c = new com.flowsoft.entity.Comment();
 		c.setCommentContent(a.getCommentContent());
-		// TODO:
 		c.setCommentedArticle(convertArticleToEntity(a.getCommentedArticle()));
 		c.setCreatedTS(a.getCreatedTS());
 		c.setId(a.getId());
@@ -179,6 +199,7 @@ public class WandaUtil {
 	public static com.flowsoft.entity.WandaUser convertWandaUserToEntity(
 			WandaUser owner) {
 		com.flowsoft.entity.WandaUser w = new com.flowsoft.entity.WandaUser();
+
 		w.setCreatedTS(owner.getCreatedTS());
 		w.setModifiedTS(owner.getModifiedTS());
 		w.setEmailAdress(owner.getEmailAddress());
@@ -197,19 +218,8 @@ public class WandaUtil {
 		if (owner.getAvatar() != null) {
 			w.setAvatar(convertAvatarToEntity(owner.getAvatar()));
 		}
+
 		return w;
-	}
-
-	private static Set<com.flowsoft.entity.Category> convertCategorySetToEntity(
-			Set<Category> favoriteCategories) {
-		// TODO wandaUtil convert
-		return null;
-	}
-
-	private static Set<com.flowsoft.entity.Article> convertArticleSetToEntity(
-			Set<Article> favoriteArticles) {
-		// TODO wandaUtil convert
-		return null;
 	}
 
 	public static WandaUser convertWandaUserToDomain(
@@ -259,12 +269,6 @@ public class WandaUtil {
 		return newSet;
 	}
 
-	private static Set<Article> convertArticleSetToDomain(
-			Set<com.flowsoft.entity.Article> set) {
-		// TODO wandaUtil convert
-		return null;
-	}
-
 	public static List<WandaUser> convertWandaUserListToDomain(
 			List<com.flowsoft.entity.WandaUser> entityList) {
 
@@ -279,17 +283,17 @@ public class WandaUtil {
 	public static List<Category> convertCategoryListToDomain(
 			List<com.flowsoft.entity.Category> categoryList) {
 
-		logger.debug("size1: " + categoryList.size());
+		// logger.debug("size1: " + categoryList.size());
 		List<Category> domainList = new ArrayList<Category>();
 
 		for (com.flowsoft.entity.Category c : categoryList) {
 			domainList.add(convertCategoryToDomain(c));
 		}
-		logger.debug("size2: " + domainList.size());
+		// logger.debug("size2: " + domainList.size());
 		return domainList;
 	}
 
-	private static Category convertCategoryToDomain(
+	public static Category convertCategoryToDomain(
 			com.flowsoft.entity.Category c) {
 		Category newCat = new Category();
 		newCat.setCategoryName(c.getCategoryName());

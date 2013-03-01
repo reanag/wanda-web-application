@@ -7,13 +7,16 @@ import java.util.List;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+//TODO - BACSOG - CODE SNIPPET ***
 @Entity
+@Table(schema = "WANDA")
 public class WandaUser extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,12 +28,13 @@ public class WandaUser extends AbstractEntity implements Serializable {
 	private String lastName;
 	@Embedded
 	private Avatar avatar;
-	@Size(max = 1200)
+	@Size(max = 12)
 	private String aboutText;
 
 	@OneToMany(orphanRemoval = true, mappedBy = "owner")
 	private List<Category> categories;
 
+	// TODO - BACSOG - *** CODE SNIPPET
 	public List<Category> getCategories() {
 		return categories;
 	}
@@ -39,31 +43,7 @@ public class WandaUser extends AbstractEntity implements Serializable {
 		this.categories = categories;
 	}
 
-	// TODO: @ManyToMany
-	// private Set<Article> favoriteArticles = new HashSet<Article>();
-	//
-	// public Set<com.flowsoft.entity.Article> getFavoriteArticles() {
-	// return favoriteArticles;
-	// }
-	//
-	// public void setFavoriteArticles(Set<Article> favoriteArticles) {
-	// this.favoriteArticles = favoriteArticles;
-	// }
-
-	// TODO: @ManyToMany
-	// private Set<Category> favoriteCategories = new HashSet<Category>();
-
-	// public Set<Category> getFavoriteCategories() {
-	// return favoriteCategories;
-	// }
-	//
-	// public void setFavoriteCategories(Set<Category> favoriteCategories) {
-	// this.favoriteCategories = favoriteCategories;
-	// }
-
 	private String emailAdress;
-
-	// private Date birthDate;
 
 	private Boolean enabled;
 	private String role;
@@ -76,7 +56,7 @@ public class WandaUser extends AbstractEntity implements Serializable {
 
 	public WandaUser(String username, String password, String firstname,
 			String lastname) {
-		logger.debug("Create WandaUser with id: " + username);
+		// logger.debug("Create WandaUser with id: " + username);
 		this.username = username;
 		this.password = password;
 		this.firstName = firstname;
@@ -87,7 +67,7 @@ public class WandaUser extends AbstractEntity implements Serializable {
 
 	public WandaUser(String username, String password, Boolean isEnabled,
 			String role, String email) {
-		logger.debug("Create WandaUser with id: " + username);
+		// logger.debug("Create WandaUser with id: " + username);
 		this.username = username;
 		this.password = password;
 		this.enabled = isEnabled;
@@ -167,11 +147,10 @@ public class WandaUser extends AbstractEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "WandaUser [username=" + username + ", password=" + password
-				+ ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", emailAdress=" + emailAdress + ", birthDate="
+		return "WandaUser [username=" + username + " id" + id + ", password="
+				+ password + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", emailAdress=" + emailAdress + ", birthDate="
 				+ ", enabled=" + enabled + ", role=" + role + ", createdTS=";
-		// + ", modifiedTS=" + ", articles=" + articles + "]";
 	}
 
 	public Avatar getAvatar() {

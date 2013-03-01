@@ -71,7 +71,7 @@ public interface ArticleDao {
 
 	void persistUser(WandaUser w);
 
-	String findCategoryByName(String categoryName);
+	Category findCategoryByName(String categoryName);
 
 	List<Category> findTopCategories(Integer count);
 

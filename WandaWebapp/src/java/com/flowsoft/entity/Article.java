@@ -7,33 +7,35 @@ import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.Size;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Entity
+@Table(schema = "WANDA")
 public class Article extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne()
+	@ManyToOne(fetch = FetchType.LAZY)
 	private WandaUser owner;
-	@Column(columnDefinition = "double precision default '0'")
+	@Column(columnDefinition = "Float default '0'")
 	private Double rank;
-	@Column(columnDefinition = "double precision default '0'")
+	@Column(columnDefinition = "Number(10) default '0'")
 	private Integer rankCount;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	private Map<Integer, Tag> tagList = new HashMap<Integer, Tag>();
 
-	@ManyToOne()
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Category category;
 	private String title;
-	@Size(max = 5000)
+	@Column(columnDefinition = "varchar2(4000)")
 	private String content;
 
 	@Transient
@@ -103,7 +105,7 @@ public class Article extends AbstractEntity implements Serializable {
 	}
 
 	public void calculateRank(Double rank) {
-		logger.debug("rank: " + rank);
+
 		if (rankCount == null) {
 			rankCount = 0;
 		}

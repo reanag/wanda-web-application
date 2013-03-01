@@ -5,14 +5,16 @@
 	<appender name="DebugLogger" class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="[%-5p]:  %d{yyyy.MM.dd HH:mm:ss} (%t)  %-10c: %m%n" />
+			<param name="ConversionPattern"
+				value="[%-5p]:  %d{yyyy.MM.dd HH:mm:ss} (%t)  %-10c: %m%n" />
 		</layout>
 	</appender>
 
 	<appender name="ErrorLogger" class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.err" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="[%-5p]:  %d{yyyy.MM.dd HH:mm:ss} (%t)  %-10c: %m%n" />
+			<param name="ConversionPattern"
+				value="[%-5p]:  %d{yyyy.MM.dd HH:mm:ss} (%t)  %-10c: %m%n" />
 		</layout>
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
 			<param name="LevelMin" value="DEBUG" />
@@ -39,6 +41,9 @@
 		<level value="warn" />
 
 		<appender-ref ref="DebugLogger" />
+	</logger>
+	<logger name="org.apache.cxf">
+		<level value="ERROR" />
 	</logger>
 	<root>
 		<level value="ERROR" />

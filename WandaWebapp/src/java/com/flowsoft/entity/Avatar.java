@@ -12,7 +12,7 @@ public class Avatar implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Lob
-	@Size(max = 15000)
+	@Size(max = 1500)
 	private byte[] image;
 
 	public Avatar() {

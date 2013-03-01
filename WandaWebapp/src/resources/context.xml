@@ -19,6 +19,7 @@
 	<import resource="classpath:data-access-config.xml" />
 
 
+
 	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
 		p:cacheManager-ref="ehcache" />
 

@@ -11,8 +11,6 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-//@Entity
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @MappedSuperclass
 abstract public class AbstractEntity implements Serializable {
 
@@ -25,7 +23,7 @@ abstract public class AbstractEntity implements Serializable {
 	protected Date modifiedTS;
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(unique = true, nullable = false)
+	@Column(nullable = false)
 	protected Integer id;
 
 	public Date getCreatedTS() {

@@ -1,9 +1,12 @@
 package com.flowsoft.wanda;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -22,6 +25,7 @@ import com.flowsoft.domain.Comment;
 import com.flowsoft.domain.Tag;
 import com.flowsoft.domain.WandaUser;
 
+//TODO - BACSOG - CODE SNIPPET ***
 @Service("articleDao")
 public class ArticleDaoImpl implements ArticleDao {
 	private EntityManager em;
@@ -41,28 +45,74 @@ public class ArticleDaoImpl implements ArticleDao {
 		return WandaUtil.convertArticleListToDomain(query.getResultList());
 	}
 
+	// TODO - BACSOG - *** CODE SNIPPET
 	@Override
 	public List<Comment> findAllCommentFor(Integer articleID) {
 		com.flowsoft.entity.Article actArticle = em.find(
 				com.flowsoft.entity.Article.class, articleID);
-		Query query = em.createQuery(
-				"SELECT e FROM Comment e where commentedArticle = :article")
+		Query query = em
+				.createQuery(
+						"SELECT e FROM Comment e where commentedArticle = :article order by e.createdTS desc")
 				.setParameter("article", actArticle);
 
 		return WandaUtil.convertCommentListToDomain(query.getResultList());
 	}
 
+	// TODO - BACOG - CODE SNIPPET ***
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Article persistArticle(Article a) {
 
-		// if (em.find(com.flowsoft.entity.Category.class,
-		// a.getCategory().getId()) != null) {
-		//
-		// em.persist(WandaUtil.convertCategoryToEntity(a.getCategory()));
-		// em.flush();
-		// }
 		com.flowsoft.entity.Article ent = WandaUtil.convertArticleToEntity(a);
+		// new object
+		if (a.getCategory().getId() == null) {
+			com.flowsoft.entity.WandaUser w = em.find(
+					com.flowsoft.entity.WandaUser.class, a.getOwner().getId());
+			if (w != null) {
+				com.flowsoft.entity.Category c = WandaUtil
+						.convertCategoryToEntity(a.getCategory());
+				c.setOwner(w);
+				ent.setCategory(c);
+				em.persist(c);
+				em.flush();
+			}
+			// existing object
+		} else {
+			com.flowsoft.entity.Category c = em
+					.find(com.flowsoft.entity.Category.class, a.getCategory()
+							.getId());
+			// TODO - BACSOG - *** CODE SNIPPET
+			ent.setCategory(c);
+		}
+		Map<Integer, com.flowsoft.entity.Tag> taglist = new HashMap<Integer, com.flowsoft.entity.Tag>();
+
+		for (Tag t : a.getTagList()) {
+			if (t.getId() == null) {
+				com.flowsoft.entity.Tag tag = WandaUtil.convertTagToEntity(t);
+				em.persist(tag);
+				em.flush();
+				com.flowsoft.entity.Tag tg = (com.flowsoft.entity.Tag) em
+						.createQuery(
+								"SELECT t from Tag t where t.tagName = :tagName ")
+						.setParameter("tagName", tag.getTagName())
+						.getSingleResult();
+				taglist.put(tg.getId(), tg);
+
+			} else {
+				com.flowsoft.entity.Tag tag = WandaUtil.convertTagToEntity(t);
+				em.merge(tag);
+				em.flush();
+				com.flowsoft.entity.Tag tg = (com.flowsoft.entity.Tag) em
+						.createQuery(
+								"SELECT t from Tag t where t.tagName = :tagName ")
+						.setParameter("tagName", tag.getTagName())
+						.getSingleResult();
+				taglist.put(tg.getId(), tg);
+			}
+			ent.setTagList(taglist);
+
+		}
+
 		if (a.getId() == null) {
 			em.persist(ent);
 		} else {
@@ -91,10 +141,18 @@ public class ArticleDaoImpl implements ArticleDao {
 	public void persistComment(Comment c) {
 		if (em.find(com.flowsoft.entity.Article.class, c.getCommentedArticle()
 				.getId()) == null) {
-			em.persist(WandaUtil.convertArticleToEntity(c.getCommentedArticle()));
-			em.flush();
+			return;
+			// em.persist(WandaUtil.convertArticleToEntity(c.getCommentedArticle()));
+			// em.flush();
 		}
-		em.persist(WandaUtil.convertCommentToEntity(c));
+		Integer name = em
+				.find(com.flowsoft.entity.Article.class,
+						c.getCommentedArticle().getId()).getCategory().getId();
+		com.flowsoft.entity.Category cat = (com.flowsoft.entity.Category) findCategoryBy(name);
+		com.flowsoft.entity.Comment comment = WandaUtil
+				.convertCommentToEntity(c);
+		comment.getCommentedArticle().setCategory(cat);
+		em.persist(comment);
 		em.flush();
 	}
 
@@ -219,6 +277,7 @@ public class ArticleDaoImpl implements ArticleDao {
 		}
 	}
 
+	// TODO - BACSOG - CODE SNIPPET ***
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	@Fetch(FetchMode.JOIN)
@@ -226,6 +285,8 @@ public class ArticleDaoImpl implements ArticleDao {
 		return WandaUtil.convertArticleToDomain(em.find(
 				com.flowsoft.entity.Article.class, headerId));
 	}
+
+	// TODO - BACSOG - *** CODE SNIPPET
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -245,7 +306,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	public void deleteComment(Integer id) {
 		com.flowsoft.entity.Comment c = em.find(
 				com.flowsoft.entity.Comment.class, id);
-		logger.debug("Remove: " + c.getId());
+		// logger.debug("Remove: " + c.getId());
 		em.remove(c);
 		em.flush();
 
@@ -272,7 +333,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Article> getMostPopularArticle(Integer numberOfArticles) {
 		List<com.flowsoft.entity.Article> result = em.createQuery(
-				"select a from Article a order by a.rank asc",
+				"select a from Article a order by a.rank DESC",
 				com.flowsoft.entity.Article.class).getResultList();
 		if (numberOfArticles > result.size()) {
 			return WandaUtil.convertArticleListToDomain(result);
@@ -380,7 +441,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Double getRank(Integer articleId) {
-		logger.debug("Try to getRank with id: " + articleId);
+		// logger.debug("Try to getRank with id: " + articleId);
 		com.flowsoft.entity.Article a = em.find(
 				com.flowsoft.entity.Article.class, articleId);
 		return a.getRank();
@@ -399,18 +460,18 @@ public class ArticleDaoImpl implements ArticleDao {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Article> findArticleByTag(String tagname) {
-		logger.debug(tagname);
+		// logger.debug(tagname);
 
 		com.flowsoft.entity.Tag tag = (com.flowsoft.entity.Tag) em
 				.createQuery("Select t from Tag t where t.tagName =:tagname")
 				.setParameter("tagname", tagname).getSingleResult();
-		logger.debug(tag.getTagName());
+		// logger.debug(tag.getTagName());
 
 		List<com.flowsoft.entity.Article> arc = em
 				.createQuery(
 						"SELECT a FROM Article a where :tag in elements(a.tagList)")
 				.setParameter("tag", tag).getResultList();
-		logger.debug("Article list size: " + arc.size());
+		// logger.debug("Article list size: " + arc.size());
 		return WandaUtil.convertArticleListToDomain(arc);
 
 	}
@@ -418,25 +479,34 @@ public class ArticleDaoImpl implements ArticleDao {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void persistUser(WandaUser w) {
-
 		em.persist(WandaUtil.convertWandaUserToEntity(w));
 		em.flush();
 
 	}
 
 	@Override
-	public String findCategoryByName(String categoryName) {
-		com.flowsoft.entity.Category c = (com.flowsoft.entity.Category) em
-				.createQuery(
-						"SELECT c FROM Category c where categoryName = :name")
-				.setParameter("name", categoryName).getSingleResult();
-		return c.getDescription();
+	public Category findCategoryByName(String categoryName) {
+		try {
+			com.flowsoft.entity.Category c = (com.flowsoft.entity.Category) em
+					.createQuery(
+							"SELECT c FROM Category c where categoryName = :name")
+					.setParameter("name", categoryName).getSingleResult();
+			return WandaUtil.convertCategoryToDomain(c);
+		} catch (NoResultException nre) {
+			return null;
+		}
+
 	}
 
 	@Override
 	public List<Category> findTopCategories(Integer count) {
+
 		List<com.flowsoft.entity.Category> categoryList = em.createQuery(
 				"SELECT c FROM Category c").getResultList();
+		if (categoryList.size() > count) {
+			return WandaUtil.convertCategoryListToDomain(categoryList.subList(
+					0, count));
+		}
 		return WandaUtil.convertCategoryListToDomain(categoryList);
 	}
 }

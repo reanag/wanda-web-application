@@ -5,12 +5,14 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Entity
+@Table(name = "WComment", schema = "WANDA")
 public class Comment extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -33,8 +35,6 @@ public class Comment extends AbstractEntity implements Serializable {
 		this.commentContent = content;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();
-		logger.debug("Create Comment with id: " + this.getId() + " by :"
-				+ owner.getUsername());
 	}
 
 	public WandaUser getOwner() {

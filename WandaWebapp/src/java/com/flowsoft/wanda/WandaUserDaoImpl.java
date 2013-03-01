@@ -3,6 +3,7 @@ package com.flowsoft.wanda;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -26,6 +27,7 @@ public class WandaUserDaoImpl implements WandaUserDao {
 		this.em = em;
 	}
 
+	// TODO - BACSOG - CODE SNIPPET ***
 	@Override
 	@Cacheable(value = "wandaUser")
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -36,10 +38,14 @@ public class WandaUserDaoImpl implements WandaUserDao {
 			Query query = em.createQuery(
 					"SELECT e FROM WandaUser e where username = :username")
 					.setParameter("username", username);
-			return WandaUtil
-					.convertWandaUserToDomain((com.flowsoft.entity.WandaUser) query
-							.getSingleResult());
-
+			try {
+				com.flowsoft.entity.WandaUser w = (com.flowsoft.entity.WandaUser) query
+						.getSingleResult();
+				return WandaUtil.convertWandaUserToDomain(w);
+			} catch (NoResultException ns) {
+				return null;
+			}
+			// TODO - BACSOG - *** CODE SNIPPET
 		} else {
 			return null;
 		}

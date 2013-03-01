@@ -17,10 +17,10 @@ import com.flowsoft.domain.Comment;
 import com.flowsoft.domain.Tag;
 import com.flowsoft.domain.WandaUser;
 
-@WebService(name = "userDetailsService", targetNamespace = "http://com.flowsoft.wanda.UserDetailsServiceImpl", endpointInterface = "com.flowsoft.wanda.UserDetailsService")
-public class UserDetailsServiceImpl implements UserDetailsService {
+@WebService(name = "wandaService", targetNamespace = "http://com.flowsoft.wanda.WandaServiceImpl", endpointInterface = "com.flowsoft.wanda.WandaService")
+public class WandaServiceImpl implements WandaService {
 
-	Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+	Logger logger = LoggerFactory.getLogger(WandaServiceImpl.class);
 
 	@Autowired
 	private WandaUserDao userDao;
@@ -159,7 +159,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public List<Article> getRecentArticle(Integer numberOfArticles) {
-		return articleDao.getMostRecentArticle(numberOfArticles);
+		List<Article> mostRecentArticle = articleDao
+				.getMostRecentArticle(numberOfArticles);
+
+		return mostRecentArticle;
 	}
 
 	@Override
@@ -196,20 +199,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public Double getRank(Integer articleId) {
-		// TODO Auto-generated method stub
+
 		return articleDao.getRank(articleId);
 	}
 
 	@Override
 	public Double setRank(Integer articleId, Double newRank) {
-		// TODO Auto-generated method stub
+
 		return articleDao.setRank(articleId, newRank);
 	}
 
 	@Override
 	@WebResult(name = "articles")
 	public List<Article> findArticleByTag(String tagname) {
-		// TODO Auto-generated method stub
+
 		return articleDao.findArticleByTag(tagname);
 	}
 
@@ -235,6 +238,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			@WebParam(name = "count") Integer count) {
 		return articleDao.findTopCategories(count);
 
+	}
+
+	@Override
+	public Category findCategoryByName(String name) {
+
+		return articleDao.findCategoryByName(name);
 	}
 
 }

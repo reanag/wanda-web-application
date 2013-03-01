@@ -13,9 +13,10 @@ import com.flowsoft.domain.Comment;
 import com.flowsoft.domain.Tag;
 import com.flowsoft.domain.WandaUser;
 
+//TODO - BACSOG - CODE SNIPPET ***
+//TODO - BACSOG - nevezd at
 @WebService
-// @SOAPBinding(style = Style.DOCUMENT, use = Use.ENCODED)
-public interface UserDetailsService {
+public interface WandaService {
 
 	@WebResult(name = "exist")
 	Boolean exist(@WebParam(name = "username") String username);
@@ -26,6 +27,7 @@ public interface UserDetailsService {
 	@WebResult(name = "wandaUser")
 	WandaUser findByUsername(@WebParam(name = "username") String username);
 
+	// TODO - BACSOG *** CODE SNIPPET
 	@WebResult(name = "articleContent")
 	String getArticleContentByTitle(
 			@WebParam(name = "articleTitle") String title);
@@ -126,5 +128,8 @@ public interface UserDetailsService {
 
 	@WebResult(name = "topCategoryList")
 	public java.util.List<Category> getTopCategories(
-			@WebParam(name = "count") Integer userid);
+			@WebParam(name = "count") Integer count);
+
+	@WebResult(name = "category")
+	public Category findCategoryByName(@WebParam(name = "name") String name);
 }
