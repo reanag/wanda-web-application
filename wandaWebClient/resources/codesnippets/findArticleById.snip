@@ -1,8 +1,0 @@
-	
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
-	@Fetch(FetchMode.JOIN)
-	public Article findArticleById(Integer headerId) {
-		return WandaUtil.convertArticleToDomain(em.find(
-				com.flowsoft.entity.Article.class, headerId));
-	}
