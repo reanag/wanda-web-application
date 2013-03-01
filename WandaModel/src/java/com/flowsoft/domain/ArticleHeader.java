@@ -3,16 +3,13 @@ package com.flowsoft.domain;
 import java.io.Serializable;
 import java.util.StringTokenizer;
 
-public class ArticleHeader implements Serializable {
+public class ArticleHeader extends Article implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private String title, author, content, originalContent;
-	// listLong = true --> return with title + author + createdTS + 2 sentence
-	// from content
-	// listLong = false --> return with title + author
-	private Integer id;
+	private String contentSnippet;
+
 	private Boolean listLong = true;
-	private final static int headerLength = 100;
+	private final static int HEADER_LENGTH = 100;
 
 	public ArticleHeader() {
 	}
@@ -20,43 +17,22 @@ public class ArticleHeader implements Serializable {
 	public ArticleHeader(Article a) {
 		this.id = a.getId();
 		this.title = a.getTitle();
-		this.setAuthor(a.getOwner().getUsername());
-		this.content = generateHeaderContent(a.getContent());
-		this.originalContent = a.getContent();
+		this.setOwner(a.getOwner());
+		this.content = a.getContent();
+		this.setContentSnippet(generateHeaderContent(a.getContent()));
+
 	}
 
 	private String generateHeaderContent(String c) {
 		StringBuilder sb = new StringBuilder();
+		// TODO - BACSOG - FIX THIS
 		StringTokenizer st = new StringTokenizer(c, ".");
-		while (st.hasMoreTokens() && sb.length() < headerLength) {
+		while (st.hasMoreTokens() && sb.length() < HEADER_LENGTH) {
 			sb.append(st.nextToken());
+			sb.append(".");
 		}
 		sb.append("...");
 		return sb.toString();
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
 	}
 
 	public Boolean getListLong() {
@@ -67,20 +43,12 @@ public class ArticleHeader implements Serializable {
 		this.listLong = listLong;
 	}
 
-	public String getOriginalContent() {
-		return originalContent;
+	public String getContentSnippet() {
+		return contentSnippet;
 	}
 
-	public void setOriginalContent(String originalContent) {
-		this.originalContent = originalContent;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
+	public void setContentSnippet(String contentSnippet) {
+		this.contentSnippet = contentSnippet;
 	}
 
 }

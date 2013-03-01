@@ -14,22 +14,22 @@ import org.slf4j.LoggerFactory;
 
 public class Article implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private WandaUser owner;
+	protected static final long serialVersionUID = 1L;
+	protected WandaUser owner;
 	@NotNull
-	private Category category;
-	private Double rank;
-	private Integer rankCount;
+	protected Category category;
+	protected Double rank;
+	protected Integer rankCount;
 
 	@NotNull
 	@Size(max = 100, min = 3)
-	private String title;
-	private Set<Tag> tagList = new HashSet<Tag>();
+	protected String title;
+	protected Set<Tag> tagList = new HashSet<Tag>();
 	@NotEmpty
-	private String content;
-	private Date createdTS;
-	private Date modifiedTS;
-	private Integer id;
+	protected String content;
+	protected Date createdTS;
+	protected Date modifiedTS;
+	protected Integer id;
 
 	Logger logger = LoggerFactory.getLogger(Article.class);
 
@@ -42,6 +42,7 @@ public class Article implements Serializable {
 		this.content = content;
 		this.createdTS = new Date(System.currentTimeMillis());
 		this.modifiedTS = (Date) createdTS.clone();
+
 		// logger.debug("Create Article with title: {} by: {}", getTitle(),
 		// owner.getUsername());
 	}
@@ -128,6 +129,23 @@ public class Article implements Serializable {
 
 	public void setRankCount(Integer rankCount) {
 		this.rankCount = rankCount;
+	}
+
+	public String getAuthor() {
+		if (owner != null) {
+			return owner.getUsername();
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Article [owner=" + owner + ", category=" + category + ", rank="
+				+ rank + ", rankCount=" + rankCount + ", title=" + title
+				+ ", tagList=" + tagList + ", content=" + content
+				+ ", createdTS=" + createdTS + ", modifiedTS=" + modifiedTS
+				+ ", id=" + id + "]";
 	}
 
 }

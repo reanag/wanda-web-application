@@ -8,31 +8,23 @@ public class Avatar implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Integer id;
-	private Byte[] image;
+
+	private byte[] image;
 
 	public Avatar() {
 	}
 
-	public Avatar(Integer i, Byte[] im) {
-		this.id = i;
+	public Avatar(byte[] im) {
+
 		this.image = im;
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Byte[] getImage() {
+	public byte[] getImage() {
 		return image;
 	}
 
-	public void setImage(Byte[] image) {
-		this.image = image;
+	public void setImage(byte[] bs) {
+		this.image = bs;
 	}
 
 }

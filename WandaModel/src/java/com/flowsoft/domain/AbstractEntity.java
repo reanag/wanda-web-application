@@ -5,6 +5,10 @@ import java.util.Date;
 
 abstract public class AbstractEntity implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected Date createdTS;
 	protected Date modifiedTS;
 	protected Integer id;
