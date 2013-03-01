@@ -18,7 +18,7 @@ public class SearchView extends GeneralView {
 	public SearchView() {
 		super();
 		this.NAME = "search";
-		// logger.debug("ID: " + viewId + " - " + this.getClass());
+
 	}
 
 	@Override

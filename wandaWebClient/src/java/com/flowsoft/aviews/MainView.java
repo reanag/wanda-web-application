@@ -29,7 +29,7 @@ public class MainView extends GeneralView {
 		super();
 		NAME = "main";
 		articles = null;
-		// logger.debug("ID: " + viewId + " - " + this.getClass());
+
 		layout = new VerticalLayout();
 		setSizeFull();
 
@@ -38,32 +38,13 @@ public class MainView extends GeneralView {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-		// if (articles == null || articles.isEmpty()) {
+
 		List<ArticleHeader> w = ((WandaVaadinClient) WandaVaadinClient
 				.getCurrent()).getController().findAllArticleHeader();
-		logger.debug("article headers: " + w.size());
 
 		ArticlePanel panel = new ArticlePanel(w);
 
 		mainLayout.addComponent(panel);
-		// if (articles == null) {
-		// articles = new Vector<CssLayout>();
-		// }
-		// for (ArticleHeader h : w) {
-		//
-		// ArticleView articleView = new ArticleView(h);
-		// ((WandaVaadinClient) WandaVaadinClient.getCurrent())
-		// .initView(articleView);
-		//
-		// articles.add(new ReadMoreForm(h));
-		// }
-		//
-		// }
-		// for (CssLayout p : articles) {
-		// p.setStyleName("mydiv");
-		// layout.addComponent(p);
-		// layout.setComponentAlignment(p, Alignment.TOP_CENTER);
-		// }
 		mainLayout.addComponent(layout);
 
 		((WandaVaadinClient) WandaVaadinClient.getCurrent())

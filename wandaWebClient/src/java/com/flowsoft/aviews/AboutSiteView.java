@@ -15,7 +15,7 @@ public class AboutSiteView extends GeneralView implements View, Serializable {
 	public AboutSiteView() {
 		super();
 		this.NAME = "AboutSite";
-		// logger.debug("ID: " + viewId + " - " + this.getClass());
+
 	}
 
 	@Override

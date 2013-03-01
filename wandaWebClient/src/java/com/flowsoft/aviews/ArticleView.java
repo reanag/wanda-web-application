@@ -34,8 +34,7 @@ public class ArticleView extends GeneralView implements View, Serializable {
 	private static Boolean needToRefresh = false;
 
 	public ArticleView(ArticleHeader a) {
-		// logger.debug("ID: " + viewId + " - " + this.getClass() + "/"
-		// + a.getTitle());
+
 		this.NAME = "articleView." + a.getTitle().replace(' ', '.');
 		initArticle(a);
 		generateSurface();
@@ -143,9 +142,6 @@ public class ArticleView extends GeneralView implements View, Serializable {
 	}
 
 	public void edit(Article article2) {
-		logger.debug("edit: " + article2.toString());
-		// navigator.removeView(CreateArticleView.NAME);
-		// navigator.addView(CreateArticleView.NAME, new CreateArticleView());
 
 		CreateArticleView c = new CreateArticleView(article2.getTitle());
 		c.setArticle(article2);

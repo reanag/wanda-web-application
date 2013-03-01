@@ -5,6 +5,9 @@ import java.io.Serializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.flowsoft.client.WandaVaadinClient;
+import com.flowsoft.codesnippet.SnippetButton;
+import com.flowsoft.codesnippet.SnippetReader;
 import com.flowsoft.domain.WandaUser;
 import com.flowsoft.forms.RegistrationForm;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -32,12 +35,30 @@ public class RegistrationView extends Panel implements View, Serializable {
 
 	public RegistrationView() {
 
-		mainLayout = new GridLayout();
 		title = new Label("Sign up");
 		title.setStyleName(Reindeer.LABEL_H2);
 		info = new Label(
-				"This is a simple registration page. Please fill the following form to registrate.");
+				WandaVaadinClient.captions.getString("registration.label"));
 		info.setStyleName(Reindeer.LABEL_SMALL);
+
+		clearFields();
+
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		removeAllComponents();
+		clearFields();
+		addComponent(mainLayout);
+
+	}
+
+	private void clearFields() {
+		mainLayout = new GridLayout();
+		SnippetReader sr = new SnippetReader();
+		SnippetButton snip2 = new SnippetButton(
+				sr.read("validatorUtil.snip"),
+				WandaVaadinClient.captions.getString("snip.Validator"));
 		wandaUser = new WandaUser();
 		wandaUser.setUsername("");
 		wandaUser.setAboutText("");
@@ -50,18 +71,16 @@ public class RegistrationView extends Panel implements View, Serializable {
 		binder.setItemDataSource(item);
 
 		regForm = new RegistrationForm(binder, wandaUser);
-
 		binder.bindMemberFields(regForm);
 		mainLayout.addComponent(title);
 		mainLayout.addComponent(info);
+		// mainLayout.addComponent(snip);
+		// mainLayout.setComponentAlignment(snip, Alignment.BOTTOM_RIGHT);
 		mainLayout.addComponent(regForm);
+		mainLayout.addComponent(snip2);
+		mainLayout.setComponentAlignment(snip2, Alignment.BOTTOM_RIGHT);
 		mainLayout.setSizeFull();
 		mainLayout.setComponentAlignment(regForm, Alignment.MIDDLE_CENTER);
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
-		addComponent(mainLayout);
 
 	}
 

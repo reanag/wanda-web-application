@@ -98,8 +98,9 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		usernameLabel = new Link();
 		usernameLabel.setStyleName("username");
 		usernameLabel.setImmediate(true);
-		SnippetButton snip = new SnippetButton(
-				SnippetReader.read("wandaUser.snip"));
+		SnippetReader sr = new SnippetReader();
+		SnippetButton snip = new SnippetButton(sr.read("wandaUser.snip"),
+				"User representation");
 
 		logout = new Button("Logout");
 		logout.setImmediate(true);

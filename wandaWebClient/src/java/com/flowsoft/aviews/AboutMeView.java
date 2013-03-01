@@ -30,7 +30,8 @@ public class AboutMeView extends GeneralView implements View, Serializable {
 		cssLayout = new CssLayout();
 		cssLayout.setWidth("550px");
 		cssLayout.setStyleName("mydiv");
-		Label l = new CodeLabel(SnippetReader.read("aboutMe.snip"));
+		SnippetReader sr = new SnippetReader();
+		Label l = new CodeLabel(sr.read("aboutMe.snip"));
 		cssLayout.addComponent(l);
 		mainLayout.addComponent(cssLayout);
 	}

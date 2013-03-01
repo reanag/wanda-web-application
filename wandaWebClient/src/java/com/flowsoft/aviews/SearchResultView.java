@@ -19,7 +19,7 @@ public class SearchResultView extends GeneralView {
 	private ArticlePanel articlePanel;
 
 	public SearchResultView(String name, List<Article> a) {
-		// logger.debug("ID: " + viewId + " - " + this.getClass());
+
 		this.NAME = "searchResult." + name;
 		generateArticles(a);
 	}

@@ -35,7 +35,6 @@ public class CreateArticleView extends GeneralView {
 	public CreateArticleView(String title) {
 		super();
 		this.NAME = "createArticleView" + title;
-		logger.debug("ID: " + viewId + " - " + this.getClass());
 		setSizeFull();
 		createForm = new CreateArticleForm(this);
 	}

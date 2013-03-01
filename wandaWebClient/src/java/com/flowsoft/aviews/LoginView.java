@@ -144,11 +144,8 @@ public class LoginView extends Panel implements View, Serializable {
 							((WandaVaadinClient) WandaVaadinClient.getCurrent())
 									.setAktUser(authenticationProvider
 											.getUser());
-							logger.debug("Generate pages: ");
-							generatePages();
 
-							logger.debug("Authentication for user '"
-									+ auth.getName() + "' succeeded");
+							generatePages();
 
 						} catch (BadCredentialsException e) {
 							logger.debug(
@@ -196,13 +193,20 @@ public class LoginView extends Panel implements View, Serializable {
 		// Flash flash = new Flash(null, new
 		// ThemeResource("img/bannernow.swf"));
 		// flash.setHeight("150px");
+		GridLayout l = new GridLayout(2, 1);
+		SnippetReader sr = new SnippetReader();
+		SnippetButton snip = new SnippetButton(sr.read("loginSnippet.snip"),
+				WandaVaadinClient.captions.getString("snip.Login"));
 
-		SnippetButton snip = new SnippetButton(
-				SnippetReader.read("loginSnippet.snip"));
-
+		Embedded e = new Embedded("", new ThemeResource("img/snip_info.png"));
+		e.setHeight("32px");
 		mainLayout.setStyleName("login");
 		// mainLayout.addComponent(flash);
-		mainLayout.addComponent(snip);
+		l.addComponent(snip, 0, 0);
+		l.addComponent(e, 1, 0);
+		l.setComponentAlignment(snip, Alignment.BOTTOM_LEFT);
+		l.setComponentAlignment(e, Alignment.MIDDLE_LEFT);
+		mainLayout.addComponent(l);
 		loginLayout.addComponent(image);
 		loginLayout.setStyleName("login");
 		loginLayout.addComponent(tf);
