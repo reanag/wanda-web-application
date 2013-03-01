@@ -17,7 +17,7 @@ import com.flowsoft.domain.Category;
  * Generated source version: 2.7.0
  * 
  */
-@WebService(targetNamespace = "http://wanda.flowsoft.com/", name = "UserDetailsService")
+@WebService(targetNamespace = "http://wanda.flowsoft.com/", name = "wandaService")
 // @XmlSeeAlso({ ObjectFactory.class })
 public interface WandaService {
 
