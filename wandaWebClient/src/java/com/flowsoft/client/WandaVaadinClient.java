@@ -76,6 +76,7 @@ public class WandaVaadinClient extends UI implements Serializable {
 		loginView = new LoginView();
 
 		navigator.addView(LoginView.NAME, loginView);
+		navigator.addView("", loginView);
 		RegistrationView r = new RegistrationView();
 		navigator.addView(RegistrationView.NAME, r);
 
@@ -89,7 +90,7 @@ public class WandaVaadinClient extends UI implements Serializable {
 	// }
 
 	public void goToMainPage(Integer errorCode) {
-		logger.debug("Go to main with error: " + errorCode);
+
 		navigator.navigateTo(DEFAULT_VIEW);
 
 		if (errorCode == 1) {

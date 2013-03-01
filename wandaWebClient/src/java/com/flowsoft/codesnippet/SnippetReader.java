@@ -1,10 +1,9 @@
 package com.flowsoft.codesnippet;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,13 +12,17 @@ public class SnippetReader {
 
 	public static Logger logger = LoggerFactory.getLogger(SnippetReader.class);
 
-	public static String read(String string) {
+	public String read(String string) {
 		StringBuilder builder = new StringBuilder();
 
 		try {
-
-			BufferedReader br = new BufferedReader(new FileReader(new File(
-					"codesnippets/" + string)));
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					getClass().getClassLoader().getResourceAsStream(
+							"/codesnippets/" + string)));
+			// String path = WandaVaadinClient.captions.getString("path");
+			// File sni = new File(path);
+			// logger.debug(sni.getAbsolutePath());
+			// BufferedReader br = new BufferedReader(new FileReader(sni));
 
 			while (br.ready()) {
 

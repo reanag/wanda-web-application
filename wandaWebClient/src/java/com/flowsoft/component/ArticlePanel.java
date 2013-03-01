@@ -17,6 +17,10 @@ public class ArticlePanel<E extends Article> extends TabSheet {
 
 	public ArticlePanel(List<E> w) {
 		this.setStyleName(Reindeer.TABSHEET_MINIMAL);
+		if (w == null) {
+			return;
+		}
+
 		int pageNumber = w.size() / ARTICLE_PER_PAGE;
 		if (w.size() % ARTICLE_PER_PAGE > 0) {
 			pageNumber = pageNumber + 1;
