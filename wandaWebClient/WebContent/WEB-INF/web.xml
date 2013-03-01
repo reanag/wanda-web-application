@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 	id="WebApp_ID" version="2.5">
-	<display-name>WandaWebClient</display-name>
+	<display-name>WandaKnowledgebase</display-name>
 
 
 
@@ -25,6 +25,10 @@
 			<param-name>widgetset</param-name>
 			<param-value>org.vaadin.teemu.ratingstars.gwt.RatingStarsWidgetset</param-value>
 		</init-param>
+		<init-param>
+			<param-name>closeIdleSessions</param-name>
+			<param-value>true</param-value>
+		</init-param>
 
 
 	</servlet>
@@ -33,11 +37,12 @@
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 
-		
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:context.xml</param-value>
 	</context-param>
+
 
 
 	<filter>
@@ -49,16 +54,16 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
-<!-- 	<listener> -->
-<!-- 		<listener-class>com.flowsoft.security.MyHttpSessionListener</listener-class> -->
-<!-- 	</listener> -->
+	<!-- <listener> -->
+	<!-- <listener-class>com.flowsoft.security.MyHttpSessionListener</listener-class> -->
+	<!-- </listener> -->
 
 
 	<session-config>

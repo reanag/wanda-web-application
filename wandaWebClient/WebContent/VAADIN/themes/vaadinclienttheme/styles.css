@@ -365,9 +365,9 @@
 .v-link-16-style a:link span {
 	margin-bottom: 7px;
 	margin-top: 7px;
-	margin-left: 3px;
-	padding-left: 3px;
-	margin-right: 3px;
+	margin-left: 2px;
+	padding-left: 2px;
+	margin-right: 2px;
 	font-weight: bolder;
 	text-decoration: none;
 	font-size: 14px;
@@ -379,23 +379,23 @@
 .v-link-14-style a:link span {
 	margin-bottom: 7px;
 	margin-top: 7px;
-	margin-left: 1px;
-	padding-left: 3px;
-	margin-right: 9px;
+	margin-left: 2px;
+	padding-left: 2px;
+	margin-right: 2px;
 	font-weight: bolder;
 	text-decoration: none;
 	font-size: 13px;
 	color: #3399FF;
 	text-shadow: 0.01em 0.02em 0.1em #3399FF;
-	margin-right: 9px;
+	margin-right: 4px;
 }
 
 .v-link-12-style a:link span {
 	margin-bottom: 7px;
 	margin-top: 7px;
 	margin-left: 3px;
-	margin-right: 9px;
-	padding-left: 11px;
+	margin-right: 2px;
+	padding-left: 1px;
 	font-weight: bolder;
 	text-decoration: none;
 	font-size: 12px;
