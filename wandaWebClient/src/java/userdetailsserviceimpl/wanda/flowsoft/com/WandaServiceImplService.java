@@ -29,6 +29,8 @@ public class WandaServiceImplService extends Service {
 	static {
 		URL url = null;
 		try {
+			// url = new
+			// URL("http://localhost:8081/WandaWebapp/wandaService?wsdl");
 			url = new URL("http://blurk.hu:8080/WandaWebapp/wandaService?wsdl");
 		} catch (MalformedURLException e) {
 			java.util.logging.Logger.getLogger(
