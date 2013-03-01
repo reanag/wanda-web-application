@@ -72,7 +72,7 @@ public class TagSelectorBox extends CustomField implements Container.Editor,
 				if (isReadOnly()) {
 					throw new Property.ReadOnlyException();
 				}
-				logger.debug("new item: " + tokenId);
+
 				onTokenInput(tokenId);
 				selectorField.focus();
 			}
