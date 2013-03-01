@@ -1,0 +1,129 @@
+package com.flowsoft.aviews;
+... 
+public class RegistrationView extends Panel implements View, Serializable {
+
+	public static final String NAME = "registration";
+	private GridLayout mainLayout;
+	...
+	private RegistrationForm regForm;
+	private FieldGroup binder;
+	private WandaUser wandaUser;
+	
+	public RegistrationView() {
+		mainLayout = new GridLayout();
+		...
+		wandaUser = new WandaUser();
+		BeanItem<WandaUser> item = new BeanItem<WandaUser>(wandaUser);
+		
+		binder = new FieldGroup();		
+		binder.setItemDataSource(item);
+	
+		regForm = new RegistrationForm(binder, wandaUser);
+	
+		binder.bindMemberFields(regForm);
+		mainLayout.addComponent(regForm);
+		...
+	}
+}	
+------------------------------------------------------------------------------------------------
+
+package com.flowsoft.forms;
+
+...
+public class RegistrationForm extends GridLayout implements BlurListener {
+	...
+
+	private Button submit;
+	
+	@PropertyId("firstName")
+	private TextField firstName;
+	
+	@PropertyId("lastName")
+	private TextField lastName;
+	
+	@PropertyId("username")
+	private TextField username;
+	
+	@PropertyId("emailAddress")
+	private TextField emailAddress;
+	
+	@PropertyId("password")
+	private PasswordField password;
+
+	private PasswordField passwordAgain;
+	
+	private FieldGroup binder;
+	...
+	
+	private void initFields() {
+		username = new TextField("");
+		username.setImmediate(true);
+		username.addValidator(new Validator() {
+	
+		@Override
+		public void validate(Object value) throws InvalidValueException {
+				WandaUser s = ((WandaVaadinClient) WandaVaadinClient
+							.getCurrent()).getController().findByUsername(
+							username.getValue());
+				if (s != null) {
+						submit.setEnabled(false);
+						username.setComponentError(new ErrorMessage() {
+	
+							private static final long serialVersionUID = 1L;
+	
+							@Override
+							public String getFormattedHtmlMessage() {
+								return WandaVaadinClient.captions.getString("error.UsernameAlreadyExist");
+							}
+	
+							@Override
+							public ErrorLevel getErrorLevel() {
+								return ErrorLevel.ERROR;
+							}
+						});
+					} else {
+						username.setComponentError(null);
+						submit.setEnabled(true);
+					}
+	
+				}
+			});
+			username.addBlurListener(this);
+			...
+			
+			submit = new Button("Submit");
+			submit.addClickListener(new Button.ClickListener() {
+	
+				private static final long serialVersionUID = 1L;
+	
+				@Override
+				public void buttonClick(ClickEvent event) {
+					RegistrationForm.this.commit();
+	
+				}
+			});
+	}
+		
+	@Override
+	public void blur(BlurEvent event) {
+		ValidatorUtils.installSingleValidator(event.getComponent(),
+				WandaUser.class);
+		if (!binder.isValid()) {
+			submit.setEnabled(false);
+		} else {
+			submit.setEnabled(true);
+		}
+	}
+	
+	protected void commit() {
+		try {
+						binder.commit();
+			((WandaVaadinClient) WandaVaadinClient.getCurrent())
+					.getController().createUser(wandaUser);
+			((WandaVaadinClient) WandaVaadinClient.getCurrent())
+					.goToLoginPage();
+		} catch (CommitException e) {
+			e.printStackTrace();
+		}
+
+	}

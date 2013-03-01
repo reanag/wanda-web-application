@@ -1,7 +1,7 @@
 	
 	
 public class LoginView extends Panel implements View, Serializable {
-	private AuthenticationProvider authenticationProvider;
+	private WandaAuthenticationProvider authenticationProvider;
 	
 	public LoginView(Navigator n) {
 	...
@@ -80,3 +80,46 @@ public class LoginView extends Panel implements View, Serializable {
 	}
 	
 }
+
+-------------------------------------------------------------------------------------------------
+package com.flowsoft.security;
+
+...
+import com.flowsoft.domain.WandaUser;
+import com.flowsoft.wanda.WandaService;
+
+public class WandaAuthenticationProvider implements AuthenticationProvider,
+		Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private WandaUser user;
+
+
+	@Override
+	public Authentication authenticate(Authentication authentication)
+			throws AuthenticationException {
+
+		WandaServiceImplService ss = new WandaServiceImplService();
+		WandaService controller = ss.getWandaServicePort();
+		user = controller.findByUsername(authentication.getName());
+
+		if (authentication.getCredentials().equals(user.getPassword())) {
+			UsernamePasswordAuthenticationToken t = new UsernamePasswordAuthenticationToken(
+					user.getUsername(), user.getPassword(), user.getAuthorities());
+
+			return t;
+		} else {
+			throw new BadCredentialsException("Try again");
+		}
+	}
+
+	@Override
+	public boolean supports(Class<?> authentication) {
+
+		return (UsernamePasswordAuthenticationToken.class
+				.isAssignableFrom(authentication));
+
+	}
+...
+}
+

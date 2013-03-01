@@ -1,0 +1,18 @@
+package com.flowsoft.wanda;
+
+.. 
+
+@WebService
+public interface WandaService {
+
+	@WebResult(name = "exist")
+	Boolean exist(@WebParam(name = "username") String username);
+
+	@WebResult(name = "wandaUserList")
+	List<WandaUser> findAllUser();
+
+	@WebResult(name = "wandaUser")
+	WandaUser findByUsername(@WebParam(name = "username") String username);
+...
+
+}
