@@ -77,8 +77,9 @@ public class CommentForm extends CssLayout {
 			}
 		});
 		vl.addComponent(label, 0, 0);
-		SnippetButton snip = new SnippetButton(
-				SnippetReader.read("findComment.snip"));
+		SnippetReader sr = new SnippetReader();
+		SnippetButton snip = new SnippetButton(sr.read("findComment.snip"),
+				"Server side implementation of comment finding");
 		vl.addComponent(snip, 1, 0);
 		vl.addComponent(commentContentTextfield, 0, 1, 2, 1);
 

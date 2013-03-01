@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import com.flowsoft.aviews.RegistrationView;
 import com.flowsoft.client.WandaVaadinClient;
+import com.flowsoft.codesnippet.SnippetButton;
+import com.flowsoft.codesnippet.SnippetReader;
 import com.flowsoft.domain.WandaUser;
 import com.flowsoft.util.ValidatorUtils;
 import com.vaadin.data.Validator;
@@ -30,6 +32,8 @@ public class RegistrationForm extends GridLayout implements BlurListener {
 	protected static Logger logger = LoggerFactory
 			.getLogger(RegistrationView.class);
 	private static final long serialVersionUID = 1L;
+	public static final String FIELD_WIDHT = "300px";
+	private String triedName;
 
 	private Button submit;
 	@PropertyId("firstName")
@@ -54,7 +58,7 @@ public class RegistrationForm extends GridLayout implements BlurListener {
 
 	public RegistrationForm(FieldGroup binder, WandaUser w) {
 		super(2, 9);
-
+		triedName = "";
 		this.binder = binder;
 		this.wandaUser = w;
 
@@ -62,47 +66,88 @@ public class RegistrationForm extends GridLayout implements BlurListener {
 	}
 
 	private void initFields() {
-		usernameL = new Label("<h3>Username: </h3>", ContentMode.HTML);
+		usernameL = new Label("<h3>Username: (*) </h3>", ContentMode.HTML);
 		username = new TextField("");
 		username.setImmediate(true);
 		username.addValidator(new Validator() {
 
 			@Override
 			public void validate(Object value) throws InvalidValueException {
-				WandaUser s = ((WandaVaadinClient) WandaVaadinClient
-						.getCurrent()).getController().findByUsername(
-						username.getValue());
-				if (s != null) {
 
-					submit.setEnabled(false);
-					username.setComponentError(new ErrorMessage() {
+				if (!triedName.equals(username.getValue())) {
+					if (username.getValue() == null
+							|| username.getValue().equals("")) {
+						username.setComponentError(new ErrorMessage() {
 
-						private static final long serialVersionUID = 1L;
+							private static final long serialVersionUID = 1L;
 
-						@Override
-						public String getFormattedHtmlMessage() {
-							return "Username already exist!";
-						}
+							@Override
+							public String getFormattedHtmlMessage() {
+								return "Username cannot be null!";
+							}
 
-						@Override
-						public ErrorLevel getErrorLevel() {
-							return ErrorLevel.ERROR;
-						}
-					});
-				} else {
-					username.setComponentError(null);
-					submit.setEnabled(true);
+							@Override
+							public ErrorLevel getErrorLevel() {
+								return ErrorLevel.ERROR;
+							}
+						});
+						return;
+					}
+					if (username.getValue().length() < 6
+							|| username.getValue().length() > 15) {
+						username.setComponentError(new ErrorMessage() {
+
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public String getFormattedHtmlMessage() {
+								return "The size of the username must be between 6 and 15!";
+							}
+
+							@Override
+							public ErrorLevel getErrorLevel() {
+								return ErrorLevel.ERROR;
+							}
+						});
+						return;
+					}
+					WandaUser s = ((WandaVaadinClient) WandaVaadinClient
+							.getCurrent()).getController().findByUsername(
+							username.getValue());
+					triedName = username.getValue();
+
+					if (s != null) {
+
+						submit.setEnabled(false);
+						username.setComponentError(new ErrorMessage() {
+
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public String getFormattedHtmlMessage() {
+								return "Username already exist!";
+							}
+
+							@Override
+							public ErrorLevel getErrorLevel() {
+								return ErrorLevel.ERROR;
+							}
+						});
+					} else {
+						username.setComponentError(null);
+						submit.setEnabled(true);
+					}
 				}
 
 			}
 		});
 		username.addBlurListener(this);
-		passwordL = new Label("<h3>Password: </h3>", ContentMode.HTML);
+		passwordL = new Label("<h3>Password: (*)</h3>", ContentMode.HTML);
 
 		password = new PasswordField("");
 		password.setImmediate(true);
 		password.addBlurListener(this);
-		passwordAgainL = new Label("<h3>Password again: </h3>",
+		passwordAgainL = new Label("<h3>Repeat password: (*)</h3>",
 				ContentMode.HTML);
 
 		passwordAgain = new PasswordField("");
@@ -158,10 +203,11 @@ public class RegistrationForm extends GridLayout implements BlurListener {
 		emailAddress = new TextField("");
 		emailAddress.setImmediate(true);
 		emailAddress.addBlurListener(this);
-		emailAddressL = new Label("<h3>Email: </h3>", ContentMode.HTML);
+		emailAddressL = new Label("<h3>Email: (*)</h3>", ContentMode.HTML);
 		aboutMeText = new TextArea("");
 		aboutMeTextL = new Label("<h3>About me: </h3>", ContentMode.HTML);
 		submit = new Button("Submit");
+
 		submit.addClickListener(new Button.ClickListener() {
 
 			/**
@@ -175,33 +221,43 @@ public class RegistrationForm extends GridLayout implements BlurListener {
 
 			}
 		});
-
-		// pictureUpload = new PictureUpload();
+		submit.setVisible(false);
 		addComponent(usernameL, 0, 0);
-		addComponent(username, 1, 0);
-		username.setWidth("300px");
+		SnippetReader sr = new SnippetReader();
+		SnippetButton snip2 = new SnippetButton(sr.read("fieldBind.snip"),
+				WandaVaadinClient.captions.getString("snip.Binding"));
+
+		GridLayout l = new GridLayout(2, 1);
+		l.addComponent(username, 0, 0);
+		l.addComponent(snip2, 1, 0);
+		addComponent(l, 1, 0);
+		username.setWidth(FIELD_WIDHT);
+
 		addComponent(passwordL, 0, 1);
 		addComponent(password, 1, 1);
-		password.setWidth("300px");
+		password.setWidth(FIELD_WIDHT);
+
 		addComponent(passwordAgainL, 0, 2);
 		addComponent(passwordAgain, 1, 2);
-		passwordAgain.setWidth("300px");
+		passwordAgain.setWidth(FIELD_WIDHT);
 		addComponent(firstNameL, 0, 3);
 		addComponent(firstName, 1, 3);
-		firstName.setWidth("300px");
+		firstName.setWidth(FIELD_WIDHT);
 		addComponent(lastNameL, 0, 4);
 		addComponent(lastName, 1, 4);
-		lastName.setWidth("300px");
+		lastName.setWidth(FIELD_WIDHT);
 		addComponent(emailAddressL, 0, 5);
 		addComponent(emailAddress, 1, 5);
-		emailAddress.setWidth("300px");
+		emailAddress.setWidth(FIELD_WIDHT);
 		addComponent(aboutMeTextL, 0, 6);
 		addComponent(aboutMeText, 1, 6);
-		aboutMeText.setWidth("300px");
+		aboutMeText.setWidth(FIELD_WIDHT);
 		// addComponent(pictureUpload, 0, 7, 1, 7);
 		addComponent(submit, 0, 8, 1, 8);
-		setWidth("600px");
-
+		setWidth("700px");
+		setColumnExpandRatio(0, 100);
+		setColumnExpandRatio(1, 100);
+		setColumnExpandRatio(2, 1);
 		ValidatorUtils.table.put(username, "username");
 		ValidatorUtils.table.put(password, "password");
 
@@ -262,10 +318,11 @@ public class RegistrationForm extends GridLayout implements BlurListener {
 	public void blur(BlurEvent event) {
 		ValidatorUtils.installSingleValidator(event.getComponent(),
 				WandaUser.class);
-		if (!binder.isValid()) {
-			submit.setEnabled(false);
-		} else {
-			submit.setEnabled(true);
+		binder.isValid();
+		submit.setVisible(true);
+		if (username.getValue().equals("") || password.getValue().equals("")
+				|| emailAddress.getValue().equals("")) {
+			submit.setVisible(false);
 		}
 
 	}

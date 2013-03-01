@@ -1,5 +1,6 @@
 package com.flowsoft.forms;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -208,7 +209,7 @@ public class CreateArticleForm extends GridLayout implements
 		if (categorySelectComboBox.getValue() == null) {
 			return;
 		}
-		logger.debug("Value changed: ");
+
 		for (Category c : categoryList) {
 			if (c.getCategoryName().equals(
 					categorySelectComboBox.getValue().toString())) {
@@ -217,8 +218,6 @@ public class CreateArticleForm extends GridLayout implements
 			}
 		}
 
-		logger.debug("selectedCategory is: " + selectedCategory);
-
 	}
 
 	public static void setCategoryList(List<Category> existingCategories) {
@@ -226,6 +225,10 @@ public class CreateArticleForm extends GridLayout implements
 	}
 
 	public void initCategoryField() {
+		if (categoryList == null || categoryList.isEmpty()) {
+			categoryList = new ArrayList<Category>();
+			return;
+		}
 		for (Category c : categoryList) {
 			categorySelectComboBox.addItem(c.getCategoryName());
 		}
@@ -289,16 +292,14 @@ public class CreateArticleForm extends GridLayout implements
 	public void setSelectedCategory(Category category) {
 		if (category == null) {
 			selectedCategory = null;
-			return;
+		} else {
+			selectedCategory = category;
+			categorySelectComboBox.select(category.getCategoryName());
 		}
-		selectedCategory = category;
-		categorySelectComboBox.select(category.getCategoryName());
 	}
 
 	public void setSelectedTags(Set<Tag> tagList) {
-
 		tagSelector.setSelectedTags(tagList);
-
 	}
 
 	public void setComponentErrors() {

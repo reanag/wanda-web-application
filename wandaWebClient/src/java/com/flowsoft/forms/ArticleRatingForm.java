@@ -68,8 +68,9 @@ public class ArticleRatingForm extends GridLayout {
 
 		avgRs.setHeight("30px");
 		avgRs.setMaxValue(5);
-		// avgRs.setValue(((WandaVaadinClient) WandaVaadinClient.getCurrent())
-		// .getController().getRank(id));
+
+		avgRs.setValue(((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.getController().getRank(id));
 		avgRs.setReadOnly(true);
 
 		allRatingStars.add(avgRs);
