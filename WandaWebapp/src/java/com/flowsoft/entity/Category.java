@@ -1,7 +1,6 @@
 package com.flowsoft.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -27,15 +26,13 @@ public class Category extends AbstractEntity implements Serializable {
 	Logger logger = LoggerFactory.getLogger(Category.class);
 
 	public Category() {
+		initDefaults();
 	}
 
 	public Category(WandaUser owner, String name) {
 		this.owner = owner;
 		this.categoryName = name;
-		this.createdTS = new Date(System.currentTimeMillis());
-		this.modifiedTS = (Date) createdTS.clone();
-		// logger.debug("Create Category with id: " + categoryName + " by : "
-		// + owner.getUsername());
+		initDefaults();
 	}
 
 	public String getCategoryName() {

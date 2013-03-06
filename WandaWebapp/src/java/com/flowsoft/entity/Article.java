@@ -42,14 +42,20 @@ public class Article extends AbstractEntity implements Serializable {
 	Logger logger = LoggerFactory.getLogger(Article.class);
 
 	public Article() {
+		this.initDefaults();
+
+		this.rank = 0.0;
+		this.rankCount = 0;
+
 	}
 
 	public Article(WandaUser owner, String title, String content) {
 		this.owner = owner;
 		this.title = title;
 		this.content = content;
-		this.createdTS = new Date(System.currentTimeMillis());
-		this.modifiedTS = (Date) createdTS.clone();
+		this.initDefaults();
+		this.rank = 0.0;
+		this.rankCount = 0;
 
 	}
 
@@ -102,6 +108,7 @@ public class Article extends AbstractEntity implements Serializable {
 
 	public void setRank(Double rank) {
 		this.rank = rank;
+
 	}
 
 	public void calculateRank(Double rank) {

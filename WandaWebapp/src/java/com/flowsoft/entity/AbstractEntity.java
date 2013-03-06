@@ -26,12 +26,21 @@ abstract public class AbstractEntity implements Serializable {
 	@Column(nullable = false)
 	protected Integer id;
 
+	public void initDefaults() {
+		this.createdTS = new Date(System.currentTimeMillis());
+		this.modifiedTS = (Date) createdTS.clone();
+	}
+
 	public Date getCreatedTS() {
 		return createdTS;
 	}
 
 	public void setCreatedTS(Date createdTS) {
 		this.createdTS = createdTS;
+		if (this.createdTS == null) {
+			this.createdTS = new Date();
+		}
+
 	}
 
 	public Date getModifiedTS() {
@@ -40,6 +49,10 @@ abstract public class AbstractEntity implements Serializable {
 
 	public void setModifiedTS(Date modifiedTS) {
 		this.modifiedTS = modifiedTS;
+		if (this.modifiedTS == null) {
+			this.modifiedTS = new Date();
+		}
+
 	}
 
 	public Integer getId() {

@@ -1,7 +1,6 @@
 package com.flowsoft.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Embedded;
@@ -52,6 +51,9 @@ public class WandaUser extends AbstractEntity implements Serializable {
 	Logger logger = LoggerFactory.getLogger(WandaUser.class);
 
 	public WandaUser() {
+		initDefaults();
+		this.role = "ROLE_USER";
+		this.enabled = true;
 	}
 
 	public WandaUser(String username, String password, String firstname,
@@ -61,8 +63,9 @@ public class WandaUser extends AbstractEntity implements Serializable {
 		this.password = password;
 		this.firstName = firstname;
 		this.lastName = lastname;
-		this.createdTS = new Date(System.currentTimeMillis());
-		this.modifiedTS = (Date) createdTS.clone();
+		this.role = "ROLE_USER";
+		this.enabled = true;
+		initDefaults();
 	}
 
 	public WandaUser(String username, String password, Boolean isEnabled,
@@ -73,8 +76,9 @@ public class WandaUser extends AbstractEntity implements Serializable {
 		this.enabled = isEnabled;
 		this.role = role;
 		this.emailAdress = email;
-		this.createdTS = new Date(System.currentTimeMillis());
-		this.modifiedTS = (Date) createdTS.clone();
+		this.role = "ROLE_USER";
+		this.enabled = true;
+		initDefaults();
 	}
 
 	public String getUsername() {

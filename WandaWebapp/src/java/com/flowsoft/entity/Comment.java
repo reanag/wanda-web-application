@@ -1,7 +1,6 @@
 package com.flowsoft.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -27,14 +26,14 @@ public class Comment extends AbstractEntity implements Serializable {
 	Logger logger = LoggerFactory.getLogger(Comment.class);
 
 	public Comment() {
+		initDefaults();
 	}
 
 	public Comment(WandaUser owner, Article article, String content) {
 		this.owner = owner;
 		this.commentedArticle = article;
 		this.commentContent = content;
-		this.createdTS = new Date(System.currentTimeMillis());
-		this.modifiedTS = (Date) createdTS.clone();
+		initDefaults();
 	}
 
 	public WandaUser getOwner() {

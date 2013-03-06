@@ -1,7 +1,6 @@
 package com.flowsoft.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,12 +25,12 @@ public class Tag extends AbstractEntity implements Serializable {
 	Logger logger = LoggerFactory.getLogger(Tag.class);
 
 	public Tag() {
+		initDefaults();
 	}
 
 	public Tag(String name) {
 		this.tagName = name;
-		this.createdTS = new Date(System.currentTimeMillis());
-		this.modifiedTS = (Date) createdTS.clone();
+		initDefaults();
 	}
 
 	public String getTagName() {
