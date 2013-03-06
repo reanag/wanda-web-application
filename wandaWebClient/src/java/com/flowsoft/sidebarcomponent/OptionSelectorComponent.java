@@ -41,7 +41,7 @@ public class OptionSelectorComponent extends GridLayout {
 				"Category representation");
 		createArticleLink.setHeight("40px");
 		layout.addComponent(createArticleLink, 0, 1, 1, 1);
-		createArticleLink.setStyleName("title-style");
+		createArticleLink.setLinkStyle("title-style");
 		layout.addComponent(snip, 1, 2);
 		layout.addComponent(ownCategoryGroup, 0, 2);
 		layout.addComponent(topCategoryGroup, 0, 3);

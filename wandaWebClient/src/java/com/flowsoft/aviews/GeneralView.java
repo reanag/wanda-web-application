@@ -36,9 +36,9 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 	}
 
 	private static final long serialVersionUID = 1L;
-	public static Integer viewId = 0;
+	protected static Integer viewId = 0;
 	public String NAME = "Footer&Header";
-	public static Logger logger = LoggerFactory.getLogger(MainView.class);
+	public final static Logger logger = LoggerFactory.getLogger(MainView.class);
 	protected VerticalLayout baseLayout;
 	protected GridLayout headerLayout;
 	protected GridLayout bodyLayout;

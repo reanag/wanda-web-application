@@ -1,5 +1,7 @@
 package com.flowsoft.forms;
 
+import javax.persistence.Transient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +17,7 @@ import com.vaadin.ui.themes.Reindeer;
 public class ReadMoreForm<E extends Article> extends CssLayout {
 
 	private static final long serialVersionUID = 1L;
+	@Transient
 	Logger logger = LoggerFactory.getLogger(ReadMoreForm.class);
 	private LinkLabel linkLabel;
 	private LinkLabel authorLabel;

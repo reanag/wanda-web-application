@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -51,6 +52,7 @@ public class WandaUser extends AbstractEntity implements Serializable {
 	private Set<Article> favoriteArticles = new HashSet<Article>();
 	private Set<Category> favoriteCategories = new HashSet<Category>();
 
+	@Transient
 	Logger logger = LoggerFactory.getLogger(WandaUser.class);
 
 	public WandaUser() {

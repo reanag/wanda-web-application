@@ -19,7 +19,8 @@ import com.flowsoft.domain.Tag;
 import com.flowsoft.domain.WandaUser;
 
 public class WandaUtil {
-	public static Logger logger = LoggerFactory.getLogger(ArticleDaoImpl.class);
+	public final static Logger logger = LoggerFactory
+			.getLogger(ArticleDaoImpl.class);
 
 	public static List<Tag> convertTagListToDomain(
 			List<com.flowsoft.entity.Tag> tagList) {

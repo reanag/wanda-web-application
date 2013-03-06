@@ -3,6 +3,7 @@ package com.flowsoft.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -20,6 +21,7 @@ public class Category extends AbstractEntity implements Serializable {
 	@NotEmpty
 	private String description;
 	private WandaUser owner;
+	@Transient
 	Logger logger = LoggerFactory.getLogger(Category.class);
 
 	public Category() {

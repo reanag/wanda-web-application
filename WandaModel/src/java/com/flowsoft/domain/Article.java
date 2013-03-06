@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -31,6 +32,7 @@ public class Article implements Serializable {
 	protected Date modifiedTS;
 	protected Integer id;
 
+	@Transient
 	Logger logger = LoggerFactory.getLogger(Article.class);
 
 	public Article() {

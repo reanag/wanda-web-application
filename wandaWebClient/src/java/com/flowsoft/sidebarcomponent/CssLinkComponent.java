@@ -12,6 +12,7 @@ public class CssLinkComponent extends CssLayout implements
 
 	private static final long serialVersionUID = 1L;
 	private Link link;
+	@javax.persistence.Transient
 	Logger logger = LoggerFactory.getLogger(CssLinkComponent.class);
 
 	public CssLinkComponent() {
@@ -20,7 +21,7 @@ public class CssLinkComponent extends CssLayout implements
 	public CssLinkComponent(String linkText, ExternalResource resource) {
 		link = new Link(linkText, resource);
 		this.addComponent(link);
-		this.setSizeFull();
+		this.setWidth(link.getWidth(), link.getWidthUnits());
 
 	}
 
@@ -45,7 +46,11 @@ public class CssLinkComponent extends CssLayout implements
 		}
 	}
 
+	public void setLinkStyle(String s) {
+		link.setStyleName(s);
+	}
+
 	public void setRank(Integer value) {
-		link.setStyleName(value + "-style");
+		setLinkStyle(value + "-style");
 	}
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Transient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +49,7 @@ public class CreateArticleForm extends GridLayout implements
 	private static final String componentWidth = "500px";
 	private FieldGroup binder;
 	private Window popupWindow;
+	@Transient
 	protected Logger logger = LoggerFactory.getLogger(CreateArticleForm.class);
 
 	private Label title;
@@ -143,7 +146,7 @@ public class CreateArticleForm extends GridLayout implements
 		articleContent.setImmediate(true);
 
 		tagSelector = new TagSelectorBox();
-
+		tagSelector.setCaption("Tag:");
 		tagSelector.setTagList(((WandaVaadinClient) WandaVaadinClient
 				.getCurrent()).getController().getAllTag());
 		submitButton = new Button("Submit");

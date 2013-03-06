@@ -382,7 +382,7 @@
 }
 .v-link-16-style a:link span {
 	
-	padding: 1px, 1px, 1px, 1px;
+	padding: 4px, 4px, 4px, 4px;
 	margin: 1px, 1px, 1px, 1px;
 	font-weight: bolder;
 	text-decoration: none;
@@ -392,8 +392,9 @@
 	
 }
 
+
 .v-link-14-style a:link span {
-	padding: 1px, 1px, 1px, 1px;
+	padding: 3px, 3px, 3px, 3px;
 	margin: 1px, 1px, 1px, 1px;
 		font-weight: bolder;
 	text-decoration: none;
@@ -405,7 +406,7 @@
 
 .v-link-12-style a:link span {
 
-	padding: 1px, 1px, 1px, 1px;
+	padding: 3px, 3px, 3px, 3px;
 	margin: 1px, 1px, 1px, 1px;
 	font-weight: bolder;
 	text-decoration: none;
@@ -420,10 +421,10 @@
 	color: #ffffff;
 }
 
-.v-gridlayout-tagCloudStyle {
-	font-color: #ffffff;
+.v-csslayout.v-layout.v-widget.tagCloud.v-csslayout-tagCloud.v-has-width{
+	padding: 1px 1px 1px 1px;
+	margin: 1px 1px 1px 1px;	
 }
-
 .v-csslayout-tagCloud{
 	padding: 1px 1px 1px 1px;
 	margin: 1px 1px 1px 1px;

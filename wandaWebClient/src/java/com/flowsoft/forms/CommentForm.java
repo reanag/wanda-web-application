@@ -2,6 +2,8 @@ package com.flowsoft.forms;
 
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +27,7 @@ import com.vaadin.ui.themes.Reindeer;
 public class CommentForm extends CssLayout {
 
 	private static final long serialVersionUID = 1L;
+	@Transient
 	Logger logger = LoggerFactory.getLogger(CommentForm.class);
 	@PropertyId("commentContent")
 	private TextArea commentContentTextfield;

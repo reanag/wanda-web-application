@@ -2,6 +2,8 @@ package com.flowsoft.forms;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Transient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +31,8 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 public class RegistrationForm extends GridLayout implements BlurListener {
-	protected static Logger logger = LoggerFactory
+	@Transient
+	protected final static Logger logger = LoggerFactory
 			.getLogger(RegistrationView.class);
 	private static final long serialVersionUID = 1L;
 	public static final String FIELD_WIDHT = "300px";

@@ -1,5 +1,7 @@
 package com.flowsoft.createArticleComponent;
 
+import javax.persistence.Transient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +39,7 @@ public class PopupWindow extends Window implements BlurListener {
 	private Button cancelButton = new Button("Cancel");
 	private HorizontalLayout buttonSpace = new HorizontalLayout();
 	private VerticalLayout root = new VerticalLayout();
+	@Transient
 	public Logger logger = LoggerFactory.getLogger(PopupWindow.class);
 	private CreateArticleForm createArticleForm;
 

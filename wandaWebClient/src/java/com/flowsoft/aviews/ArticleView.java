@@ -1,7 +1,5 @@
 package com.flowsoft.aviews;
 
-import java.io.Serializable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,16 +12,16 @@ import com.flowsoft.forms.ReadArticleForm;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Link;
 
-public class ArticleView extends GeneralView implements View, Serializable {
+public class ArticleView extends GeneralView {
 
 	private static final long serialVersionUID = -8116691770439511775L;
 
-	public static Logger logger = LoggerFactory.getLogger(ArticleView.class);
+	public final static Logger logger = LoggerFactory
+			.getLogger(ArticleView.class);
 	private ReadArticleForm readArticleForm;
 	private Link backLink;
 	public FieldGroup binder;

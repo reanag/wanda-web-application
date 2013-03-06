@@ -2,6 +2,8 @@ package com.flowsoft.forms;
 
 import java.util.ArrayList;
 
+import javax.persistence.Transient;
+
 import org.slf4j.LoggerFactory;
 
 import com.flowsoft.aviews.ArticleView;
@@ -21,6 +23,7 @@ import com.vaadin.ui.themes.Reindeer;
 public class ReadArticleForm extends GridLayout {
 
 	private static final long serialVersionUID = 1L;
+	@Transient
 	protected org.slf4j.Logger logger = LoggerFactory
 			.getLogger(ReadArticleForm.class);
 	private ArrayList<Link> tags;

@@ -10,7 +10,8 @@ import org.slf4j.LoggerFactory;
 
 public class SnippetReader {
 
-	public static Logger logger = LoggerFactory.getLogger(SnippetReader.class);
+	public final static Logger logger = LoggerFactory
+			.getLogger(SnippetReader.class);
 
 	public String read(String string) {
 		StringBuilder builder = new StringBuilder();

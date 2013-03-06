@@ -18,7 +18,7 @@ public class TagView extends GeneralView {
 
 	private static final long serialVersionUID = -8116691770439511775L;
 
-	public static Logger logger = LoggerFactory.getLogger(TagView.class);
+	public final static Logger logger = LoggerFactory.getLogger(TagView.class);
 	private Label l, l2;
 	private GridLayout layout;
 	private String tagName;
@@ -34,7 +34,7 @@ public class TagView extends GeneralView {
 			}
 		}
 
-		this.NAME = "tagView." + sb.toString();
+		this.NAME = "tagView" + sb.toString();
 		initTagForm(tagName);
 
 	}

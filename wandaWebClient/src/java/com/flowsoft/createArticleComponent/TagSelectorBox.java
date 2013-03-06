@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.persistence.Transient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +32,7 @@ public class TagSelectorBox extends CustomField implements Container.Editor,
 	public static final String STYLE_TOKENFIELD = "tokenfield";
 	public static final String STYLE_TOKENTEXTFIELD = "tokentextfield";
 	public static final String STYLE_BUTTON_EMPHAZISED = "emphasize";
+	@Transient
 	Logger logger = LoggerFactory.getLogger(TagSelectorBox.class);
 	private static final long serialVersionUID = 1L;
 	private TagSelectorComboBox selectorField;

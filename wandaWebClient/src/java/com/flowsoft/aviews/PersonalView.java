@@ -8,7 +8,6 @@ import java.io.OutputStream;
 
 import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.domain.WandaUser;
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Embedded;
@@ -16,7 +15,7 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.Reindeer;
 
-public class PersonalView extends GeneralView implements View {
+public class PersonalView extends GeneralView {
 
 	private static final long serialVersionUID = 1L;
 

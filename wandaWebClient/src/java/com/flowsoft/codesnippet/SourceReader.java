@@ -24,6 +24,7 @@ public class SourceReader {
 			src.append(line);
 			src.append("\n");
 		}
+		bis.close();
 		return src.toString();
 
 	}

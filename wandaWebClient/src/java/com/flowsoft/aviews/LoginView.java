@@ -2,6 +2,8 @@ package com.flowsoft.aviews;
 
 import java.io.Serializable;
 
+import javax.persistence.Transient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -38,6 +40,7 @@ public class LoginView extends Panel implements View, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "login";
+	@Transient
 	Logger logger = LoggerFactory.getLogger(LoginView.class);
 	protected GridLayout mainLayout;
 	protected VerticalLayout loginLayout;

@@ -3,6 +3,8 @@ package com.flowsoft.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Transient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +14,8 @@ public class Comment extends AbstractEntity implements Serializable {
 	private WandaUser owner;
 	private Article commentedArticle;
 	private String commentContent;
+
+	@Transient
 	Logger logger = LoggerFactory.getLogger(Comment.class);
 
 	public Comment() {

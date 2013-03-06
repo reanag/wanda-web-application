@@ -3,6 +3,8 @@ package com.flowsoft.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Transient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +14,7 @@ public class Tag extends AbstractEntity implements Serializable {
 	private String tagName;
 	private Integer rank;
 
+	@Transient
 	Logger logger = LoggerFactory.getLogger(Tag.class);
 
 	public Tag() {

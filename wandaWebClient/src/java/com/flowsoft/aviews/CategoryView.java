@@ -19,7 +19,7 @@ public class CategoryView extends GeneralView {
 
 	private static final long serialVersionUID = -8116691770439511775L;
 
-	public static Logger logger = LoggerFactory.getLogger(TagView.class);
+	public final static Logger logger = LoggerFactory.getLogger(TagView.class);
 	private Label l, l2, l3;
 	private GridLayout layout;
 	private List<Article> aList;
@@ -27,7 +27,7 @@ public class CategoryView extends GeneralView {
 	public CategoryView(Category c) {
 		super();
 
-		this.NAME = "categoryView" + c.getId();
+		this.NAME = "category" + c.getId();
 		initCategoryForm(c.getCategoryName());
 
 	}

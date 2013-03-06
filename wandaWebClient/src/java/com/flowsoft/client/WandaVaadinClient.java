@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import javax.persistence.Transient;
 import javax.xml.ws.WebServiceRef;
 
 import org.slf4j.Logger;
@@ -41,6 +42,7 @@ public class WandaVaadinClient extends UI implements Serializable {
 	private Navigator navigator;
 	private WandaUser aktUser;
 	public Vector<String> existingViewNames;
+	@Transient
 	static public ResourceBundle captions;
 
 	@WebServiceRef

@@ -37,17 +37,17 @@ public class TagCloudComponent extends VerticalLayout {
 	private void addTag() {
 		int count = 0;
 		HorizontalLayout l = new HorizontalLayout();
-		l.setWidth("250px");
+		// l.setWidth("250px");
 		for (CssLinkComponent t : tags) {
-			if (count > 16) {
+			if (count > 20) {
 				this.addComponent(l);
 				count = 0;
 				l = new HorizontalLayout();
-				l.setWidth("250px");
+				// l.setWidth("250px");
 			}
 			t.setStyleName("tagCloud");
 			l.addComponent(t);
-			count += t.getLinkText().length();
+			count += (t.getLinkText().length());
 
 		}
 	}

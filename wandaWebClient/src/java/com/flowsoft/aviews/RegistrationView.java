@@ -25,7 +25,7 @@ import com.vaadin.ui.themes.Reindeer;
 public class RegistrationView extends Panel implements View, Serializable {
 
 	private static final long serialVersionUID = 1L;
-	protected static Logger logger = LoggerFactory
+	protected final static Logger logger = LoggerFactory
 			.getLogger(RegistrationView.class);
 	public static final String NAME = "registration";
 

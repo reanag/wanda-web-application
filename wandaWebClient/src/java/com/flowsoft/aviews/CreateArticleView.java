@@ -3,6 +3,8 @@ package com.flowsoft.aviews;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +21,8 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 public class CreateArticleView extends GeneralView {
 
 	private static final long serialVersionUID = 1L;
-	protected static Logger logger = LoggerFactory
+	@Transient
+	protected final static Logger logger = LoggerFactory
 			.getLogger(CreateArticleView.class);
 	private CreateArticleForm createForm;
 	private Article article;
