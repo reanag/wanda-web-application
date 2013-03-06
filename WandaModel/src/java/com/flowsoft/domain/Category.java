@@ -23,6 +23,8 @@ public class Category extends AbstractEntity implements Serializable {
 	Logger logger = LoggerFactory.getLogger(Category.class);
 
 	public Category() {
+		this.createdTS = new Date(System.currentTimeMillis());
+		this.modifiedTS = (Date) createdTS.clone();
 	}
 
 	public Category(WandaUser owner, String name) {
