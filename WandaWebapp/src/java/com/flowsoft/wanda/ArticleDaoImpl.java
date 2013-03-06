@@ -237,7 +237,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Tag> getListTags() {
 		List<com.flowsoft.entity.Tag> tagList = em.createQuery(
-				"SELECT t FROM Tag t").getResultList();
+				"SELECT t FROM Tag t order by t.tagName asc").getResultList();
 
 		return WandaUtil.convertTagListToDomain(tagList);
 
@@ -485,6 +485,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public Category findCategoryByName(String categoryName) {
 		try {
 			com.flowsoft.entity.Category c = (com.flowsoft.entity.Category) em
@@ -499,6 +500,7 @@ public class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Category> findTopCategories(Integer count) {
 
 		List<com.flowsoft.entity.Category> categoryList = em.createQuery(
@@ -508,5 +510,16 @@ public class ArticleDaoImpl implements ArticleDao {
 					0, count));
 		}
 		return WandaUtil.convertCategoryListToDomain(categoryList);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Category findCategoryByArticleId(Integer id) {
+		com.flowsoft.entity.Article a = em.find(
+				com.flowsoft.entity.Article.class, id);
+		if (a.getCategory() == null) {
+			logger.debug("CATEGORY IS NULL");
+		}
+		return WandaUtil.convertCategoryToDomain(a.getCategory());
 	}
 }

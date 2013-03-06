@@ -246,4 +246,12 @@ public class WandaServiceImpl implements WandaService {
 		return articleDao.findCategoryByName(name);
 	}
 
+	@Override
+	@WebResult(name = "category")
+	public Category findCategoryByArticleId(
+			@WebParam(name = "articleId") Integer id) {
+
+		return articleDao.findCategoryByArticleId(id);
+	}
+
 }

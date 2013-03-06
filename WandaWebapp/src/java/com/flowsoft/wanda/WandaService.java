@@ -132,4 +132,9 @@ public interface WandaService {
 
 	@WebResult(name = "category")
 	public Category findCategoryByName(@WebParam(name = "name") String name);
+
+	@WebResult(name = "category")
+	public Category findCategoryByArticleId(
+			@WebParam(name = "articleId") Integer id);
+
 }

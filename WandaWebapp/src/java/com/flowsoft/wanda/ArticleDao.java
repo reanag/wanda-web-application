@@ -75,4 +75,6 @@ public interface ArticleDao {
 
 	List<Category> findTopCategories(Integer count);
 
+	Category findCategoryByArticleId(Integer id);
+
 }
