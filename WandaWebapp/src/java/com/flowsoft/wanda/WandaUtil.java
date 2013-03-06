@@ -103,7 +103,6 @@ public class WandaUtil {
 		Article domainObject = new Article();
 		domainObject.setCategory(convertCategoryToDomain(a.getCategory()));
 		domainObject.setContent(a.getContent());
-		domainObject.setRank(a.getRank());
 		domainObject.setCreatedTS(a.getCreatedTS());
 		domainObject.setModifiedTS(a.getModifiedTS());
 		domainObject.setId(a.getId());
@@ -119,10 +118,21 @@ public class WandaUtil {
 			entityObject.setCategory(convertCategoryToEntity(a.getCategory()));
 		}
 		entityObject.setContent(a.getContent());
-		entityObject.setRank(a.getRank());
-		entityObject.setCreatedTS(a.getCreatedTS());
-		entityObject.setModifiedTS(a.getModifiedTS());
-		entityObject.setId(a.getId());
+		if (a.getRank() != null) {
+			entityObject.setRank(a.getRank());
+		}
+		if (a.getRankCount() != null) {
+			entityObject.setRankCount(a.getRankCount());
+		}
+		if (a.getCreatedTS() != null) {
+			entityObject.setCreatedTS(a.getCreatedTS());
+		}
+		if (a.getModifiedTS() != null) {
+			entityObject.setModifiedTS(a.getModifiedTS());
+		}
+		if (a.getId() != null) {
+			entityObject.setId(a.getId());
+		}
 		entityObject.setOwner(convertWandaUserToEntity(a.getOwner()));
 		entityObject.setTitle(a.getTitle());
 		entityObject.setTagList(convertTagListToEntity(a.getTagList()));
@@ -155,12 +165,18 @@ public class WandaUtil {
 			Category c) {
 		com.flowsoft.entity.Category newCat = new com.flowsoft.entity.Category();
 		newCat.setCategoryName(c.getCategoryName());
-		newCat.setCreatedTS(c.getCreatedTS());
-		newCat.setModifiedTS(c.getModifiedTS());
+		if (c.getCreatedTS() != null) {
+			newCat.setCreatedTS(c.getCreatedTS());
+		}
+
 		newCat.setDescription(c.getDescription());
 		if (c.getId() != null) {
 			newCat.setId(c.getId());
 		}
+		if (c.getModifiedTS() != null) {
+			newCat.setModifiedTS(c.getModifiedTS());
+		}
+
 		newCat.setOwner(convertWandaUserToEntity(c.getOwner()));
 		return newCat;
 	}
@@ -189,9 +205,15 @@ public class WandaUtil {
 		com.flowsoft.entity.Comment c = new com.flowsoft.entity.Comment();
 		c.setCommentContent(a.getCommentContent());
 		c.setCommentedArticle(convertArticleToEntity(a.getCommentedArticle()));
-		c.setCreatedTS(a.getCreatedTS());
-		c.setId(a.getId());
-		c.setModifiedTS(a.getModifiedTS());
+		if (a.getCreatedTS() != null) {
+			c.setCreatedTS(a.getCreatedTS());
+		}
+		if (a.getId() != null) {
+			c.setId(a.getId());
+		}
+		if (c.getModifiedTS() != null) {
+			c.setModifiedTS(a.getModifiedTS());
+		}
 		c.setOwner(convertWandaUserToEntity(a.getOwner()));
 		return c;
 	}
@@ -199,9 +221,12 @@ public class WandaUtil {
 	public static com.flowsoft.entity.WandaUser convertWandaUserToEntity(
 			WandaUser owner) {
 		com.flowsoft.entity.WandaUser w = new com.flowsoft.entity.WandaUser();
-
-		w.setCreatedTS(owner.getCreatedTS());
-		w.setModifiedTS(owner.getModifiedTS());
+		if (owner.getCreatedTS() != null) {
+			w.setCreatedTS(owner.getCreatedTS());
+		}
+		if (owner.getModifiedTS() != null) {
+			w.setModifiedTS(owner.getModifiedTS());
+		}
 		w.setEmailAdress(owner.getEmailAddress());
 		w.setEnabled(owner.isEnabled());
 		// w.setFavoriteArticles(convertArticleSetToEntity(owner
@@ -210,7 +235,9 @@ public class WandaUtil {
 		// w.setFavoriteCategories(convertCategorySetToEntity(owner
 		// .getFavoriteCategories()));
 		w.setFirstName(owner.getFirstName());
-		w.setId(owner.getId());
+		if (owner.getId() != null) {
+			w.setId(owner.getId());
+		}
 		w.setLastName(owner.getLastName());
 		w.setPassword(owner.getPassword());
 		w.setRole(owner.getRole());
@@ -260,14 +287,14 @@ public class WandaUtil {
 		return a;
 	}
 
-	private static Set<Category> convertCategorySetToDomain(
-			Set<com.flowsoft.entity.Category> set) {
-		Set<Category> newSet = new HashSet<Category>();
-		for (com.flowsoft.entity.Category c : set) {
-			newSet.add(convertCategoryToDomain(c));
-		}
-		return newSet;
-	}
+	// private static Set<Category> convertCategorySetToDomain(
+	// Set<com.flowsoft.entity.Category> set) {
+	// Set<Category> newSet = new HashSet<Category>();
+	// for (com.flowsoft.entity.Category c : set) {
+	// newSet.add(convertCategoryToDomain(c));
+	// }
+	// return newSet;
+	// }
 
 	public static List<WandaUser> convertWandaUserListToDomain(
 			List<com.flowsoft.entity.WandaUser> entityList) {
