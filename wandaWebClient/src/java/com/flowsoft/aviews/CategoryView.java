@@ -27,7 +27,7 @@ public class CategoryView extends GeneralView {
 	public CategoryView(Category c) {
 		super();
 
-		this.NAME += "categoryView." + c.getCategoryName();
+		this.NAME = "categoryView" + c.getId();
 		initCategoryForm(c.getCategoryName());
 
 	}
@@ -58,7 +58,8 @@ public class CategoryView extends GeneralView {
 
 		if (aList != null) {
 			for (Article a : aList) {
-				ReadMoreForm rmf = new ReadMoreForm(new ArticleHeader(a));
+				ReadMoreForm<ArticleHeader> rmf = new ReadMoreForm<ArticleHeader>(
+						new ArticleHeader(a));
 				layout.addComponent(rmf);
 			}
 		} else {

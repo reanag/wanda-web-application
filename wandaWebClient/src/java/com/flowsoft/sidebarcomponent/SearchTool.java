@@ -32,6 +32,7 @@ public class SearchTool extends GridLayout {
 		searchField.setStyleName("sidebarStyle");
 		submitButton = new Button();
 		submitButton.setCaption("OK");
+
 		submitButton.setStyleName("sidebarStyle");
 		submitButton.addClickListener(new Button.ClickListener() {
 

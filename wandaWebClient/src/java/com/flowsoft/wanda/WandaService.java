@@ -246,4 +246,11 @@ public interface WandaService {
 	public Category findCategoryByName(
 			@WebParam(name = "name", targetNamespace = "") java.lang.String name);
 
+	@WebResult(name = "category")
+	@RequestWrapper(localName = "getCategoryByArticleId", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.domain.GetCategoryByArticleId")
+	@WebMethod
+	@ResponseWrapper(localName = "getCategoryByArticleIdResponse", targetNamespace = "http://wanda.flowsoft.com/", className = "com.flowsoft.domain.GetCategoryByArticleIdResponse")
+	public Category findCategoryByArticleId(
+			@WebParam(name = "articleId") Integer id);
+
 }

@@ -8,6 +8,7 @@ import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.sidebarcomponent.SearchTool;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -44,6 +45,7 @@ public class SearchForm extends GridLayout {
 		searchField.setInputPrompt("Search in title..");
 		submitButton = new Button();
 		submitButton.setCaption("OK");
+		submitButton.setClickShortcut(KeyCode.ENTER);
 		submitButton.addClickListener(new Button.ClickListener() {
 
 			private static final long serialVersionUID = 3378831040295729624L;

@@ -1,6 +1,5 @@
 package com.flowsoft.security;
 
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
@@ -9,21 +8,22 @@ import org.slf4j.LoggerFactory;
 
 public class MyHttpSessionListener implements HttpSessionListener {
 	Logger logger = LoggerFactory.getLogger(getClass());
-	private HttpSession session;
+
+	// private HttpSession session;
 
 	@Override
 	public void sessionCreated(HttpSessionEvent httpSessionEvent) {
 		logger.debug("Session start");
 		logger.debug("Session: " + httpSessionEvent.getSession().isNew() + " "
 				+ httpSessionEvent.getSession().getId());
-		this.session = httpSessionEvent.getSession();
+		// this.session = httpSessionEvent.getSession();
 		// WandaVaadinClient.setCurrent(new WandaVaadinClient());
-		setSession();
+		// setSession();
 	}
 
-	public void setSession() {
-
-	}
+	// public void setSession() {
+	//
+	// }
 
 	@Override
 	public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {

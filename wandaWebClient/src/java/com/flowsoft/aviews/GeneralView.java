@@ -10,6 +10,7 @@ import com.flowsoft.codesnippet.SnippetButton;
 import com.flowsoft.codesnippet.SnippetReader;
 import com.flowsoft.domain.WandaUser;
 import com.flowsoft.sidebarcomponent.Sidebar;
+import com.vaadin.event.MouseEvents.ClickListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;
@@ -123,6 +124,14 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		});
 		Embedded embedded = new Embedded("", new ThemeResource("img/long.gif"));
 		embedded.setHeight("100px");
+		embedded.addClickListener(new ClickListener() {
+
+			@Override
+			public void click(com.vaadin.event.MouseEvents.ClickEvent event) {
+				((WandaVaadinClient) (WandaVaadinClient.getCurrent()))
+						.goToMainPage(0);
+			}
+		});
 
 		headerLayout.addComponent(embedded);
 
@@ -164,7 +173,8 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		if (aktUser != null) {
 
 			((WandaVaadinClient) WandaVaadinClient.getCurrent())
-					.initView(new PersonalView(aktUser.getUsername()));
+					.initView(new PersonalView(aktUser.getId(), aktUser
+							.getUsername()));
 
 			sidebar.initUserCategories(((WandaVaadinClient) WandaVaadinClient
 					.getCurrent()).getController().getUserCategories(

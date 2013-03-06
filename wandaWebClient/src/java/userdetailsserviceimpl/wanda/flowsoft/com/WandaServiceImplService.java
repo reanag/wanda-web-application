@@ -16,7 +16,8 @@ import com.flowsoft.wanda.WandaService;
  * Generated source version: 2.7.0
  * 
  */
-@WebServiceClient(name = "WandaServiceImplService", wsdlLocation = "http://blurk.hu:8080/WandaWebapp/wandaService?wsdl", targetNamespace = "http://com.flowsoft.wanda.WandaServiceImpl")
+
+@WebServiceClient(name = "WandaServiceImplService", wsdlLocation = "http://localhost:8081/WandaWebapp/wandaService?wsdl", targetNamespace = "http://com.flowsoft.wanda.WandaServiceImpl")
 public class WandaServiceImplService extends Service {
 
 	public final static URL WSDL_LOCATION;
@@ -29,9 +30,8 @@ public class WandaServiceImplService extends Service {
 	static {
 		URL url = null;
 		try {
-			// url = new
-			// URL("http://localhost:8081/WandaWebapp/wandaService?wsdl");
-			url = new URL("http://blurk.hu:8080/WandaWebapp/wandaService?wsdl");
+			// url = new URL("http://blurk:8080/WandaWebapp/wandaService?wsdl");
+			url = new URL("http://localhost:8081/WandaWebapp/wandaService?wsdl");
 		} catch (MalformedURLException e) {
 			java.util.logging.Logger.getLogger(
 					WandaServiceImplService.class.getName()).log(

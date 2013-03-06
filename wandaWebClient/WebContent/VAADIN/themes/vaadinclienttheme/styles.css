@@ -172,6 +172,20 @@
 	color: #ffffff;
 	position: relative;
 }
+.v-csslayout-tagCloudStyle {
+	background: transparent;
+	border-color: #393939;
+	border-radius: 4px 4px 4px 4px;
+	border-style: ridge none none ridge;
+	border-width: 1px 0 0 2px;
+	margin-left: 2px;
+	/*     margin-top: 20px; */
+	margin-bottom: 3px;
+	margin-top: 2px;
+	
+	color: #ffffff;
+	position: relative;
+}
 
 .v-csslayout-mydiv .v-captiontext {
 	color: #ffffff;
@@ -362,40 +376,37 @@
 	padding-bottom: 20px;
 }
 
+.tagCloud .v-csslayout.v-layout.v-widget {
+	padding: 1px, 1px, 1px, 1px;
+	margin: 1px, 1px, 1px, 1px;
+}
 .v-link-16-style a:link span {
-	margin-bottom: 7px;
-	margin-top: 7px;
-	margin-left: 2px;
-	padding-left: 2px;
-	margin-right: 2px;
+	
+	padding: 1px, 1px, 1px, 1px;
+	margin: 1px, 1px, 1px, 1px;
 	font-weight: bolder;
+	text-decoration: none;
+	font-size: 16px;
+	color: #3399FF;
+	text-shadow: 0.01em 0.02em 0.1em #3399FF;
+	
+}
+
+.v-link-14-style a:link span {
+	padding: 1px, 1px, 1px, 1px;
+	margin: 1px, 1px, 1px, 1px;
+		font-weight: bolder;
 	text-decoration: none;
 	font-size: 14px;
 	color: #3399FF;
 	text-shadow: 0.01em 0.02em 0.1em #3399FF;
-	margin-right: 3px;
-}
-
-.v-link-14-style a:link span {
-	margin-bottom: 7px;
-	margin-top: 7px;
-	margin-left: 2px;
-	padding-left: 2px;
-	margin-right: 2px;
-	font-weight: bolder;
-	text-decoration: none;
-	font-size: 13px;
-	color: #3399FF;
-	text-shadow: 0.01em 0.02em 0.1em #3399FF;
-	margin-right: 4px;
+	
 }
 
 .v-link-12-style a:link span {
-	margin-bottom: 7px;
-	margin-top: 7px;
-	margin-left: 3px;
-	margin-right: 2px;
-	padding-left: 1px;
+
+	padding: 1px, 1px, 1px, 1px;
+	margin: 1px, 1px, 1px, 1px;
 	font-weight: bolder;
 	text-decoration: none;
 	font-size: 12px;
@@ -413,12 +424,9 @@
 	font-color: #ffffff;
 }
 
-.v-csslayout.v-layout.v-widget.tag-style.v-csslayout-tag-style .v-link.v-widget
-	{
+.v-csslayout-tagCloud{
 	padding: 1px 1px 1px 1px;
 	margin: 1px 1px 1px 1px;
-	font-weight: bold;
-	text-decoration: none;
 }
 
 .tokenfield .v-button-link {

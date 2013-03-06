@@ -41,7 +41,7 @@ public class AuthenticationProvider implements
 
 		if (authentication.getCredentials().equals(user.getPassword())) {
 			final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-			authorities.add(new GrantedAuthorityImpl("ROLE_USER"));
+			authorities.add(new GrantedAuthorityImpl(user.getRole()));
 			UsernamePasswordAuthenticationToken t = new UsernamePasswordAuthenticationToken(
 					user.getUsername(), user.getPassword(), authorities);
 			logger.debug("authenticate check done:");

@@ -34,8 +34,8 @@ public class ArticleView extends GeneralView implements View, Serializable {
 	private static Boolean needToRefresh = false;
 
 	public ArticleView(ArticleHeader a) {
+		this.NAME = "articleView" + a.getId();
 
-		this.NAME = "articleView." + a.getTitle().replace(' ', '.');
 		initArticle(a);
 		generateSurface();
 
@@ -43,7 +43,8 @@ public class ArticleView extends GeneralView implements View, Serializable {
 
 	public ArticleView(Article a) {
 		article = a;
-		this.NAME = "articleView." + a.getTitle().replace(' ', '.');
+		this.NAME = "articleView" + a.getId();
+
 		generateSurface();
 	}
 
@@ -114,6 +115,7 @@ public class ArticleView extends GeneralView implements View, Serializable {
 
 	}
 
+	// @PreAuthorize("adminOnly()")
 	public void commit() {
 		try {
 			binder.commit();
@@ -143,8 +145,8 @@ public class ArticleView extends GeneralView implements View, Serializable {
 
 	public void edit(Article article2) {
 
-		CreateArticleView c = new CreateArticleView(article2.getTitle());
-		c.setArticle(article2);
+		CreateArticleView c = new CreateArticleView(article2);
+
 		((WandaVaadinClient) WandaVaadinClient.getCurrent()).initView(c);
 		((WandaVaadinClient) WandaVaadinClient.getCurrent()).getNavigator()
 				.navigateTo(c.NAME);
@@ -154,8 +156,7 @@ public class ArticleView extends GeneralView implements View, Serializable {
 		((WandaVaadinClient) WandaVaadinClient.getCurrent()).getController()
 				.deleteArticle(article2.getId());
 		((WandaVaadinClient) WandaVaadinClient.getCurrent())
-				.removeView(((WandaVaadinClient) WandaVaadinClient.getCurrent())
-						.getNavigator().getState());
+				.removeView(this.NAME);
 		((WandaVaadinClient) WandaVaadinClient.getCurrent()).goToMainPage(0);
 
 	}

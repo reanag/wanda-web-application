@@ -22,18 +22,8 @@
 	<beans:bean id="wandaPermissionEvaluator"
 		class="com.flowsoft.security.WandaPermissionEvaluator" />
 
-	<!-- <http use-expressions="true"> -->
-	<!-- <form-login login-page="/#!login" default-target-url="/#!login" -->
-	<!-- always-use-default-target="true" authentication-failure-url="/#!login" 
-		/> -->
-	<!-- <form-login /> -->
-	<!-- <intercept-url pattern="/#!m*" access="hasRole('admin')" /> -->
-	<!-- <custom-filter ref="exceptionTranslationFilter" before="FILTER_SECURITY_INTERCEPTOR" 
-		/> -->
-	<!-- <logout /> -->
-	<!-- </http> -->
-
 	<http use-expressions='true' auto-config="true">
+	 <intercept-url pattern="/#!AboutSite" access="permitAll" />
 		<form-login login-page="/#!login" default-target-url="/#!login"
 			always-use-default-target="true" authentication-failure-url="/#!login" />
 		<intercept-url pattern="client/#!main" access="hasRole('admin')" />

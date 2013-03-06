@@ -16,11 +16,11 @@ public class SearchResultView extends GeneralView {
 	private static final long serialVersionUID = 1L;
 	private Label noResultLabel;
 	// private Vector<CssLayout> articles;
-	private ArticlePanel articlePanel;
+	private ArticlePanel<Article> articlePanel;
 
 	public SearchResultView(String name, List<Article> a) {
 
-		this.NAME = "searchResult." + name;
+		this.NAME = "searchResult" + name;
 		generateArticles(a);
 	}
 
@@ -30,7 +30,7 @@ public class SearchResultView extends GeneralView {
 			noResultLabel.setValue("Sorry! No articles found.");
 			noResultLabel.setWidth("550px");
 		} else {
-			articlePanel = new ArticlePanel(a);
+			articlePanel = new ArticlePanel<Article>(a);
 		}
 
 	}

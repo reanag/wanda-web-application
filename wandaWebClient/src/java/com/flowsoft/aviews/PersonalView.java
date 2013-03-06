@@ -23,10 +23,10 @@ public class PersonalView extends GeneralView implements View {
 	private GridLayout cssLayout;
 	private String author;
 
-	public PersonalView(String author) {
+	public PersonalView(Integer id, String author) {
 		// logger.debug("ID: " + viewId + " - " + this.getClass() + "/" +
 		// author);
-		NAME = "auth=" + author;
+		NAME = "auth" + id;
 		this.author = author;
 	}
 
@@ -43,6 +43,8 @@ public class PersonalView extends GeneralView implements View {
 		String aboutText = "";
 		if (u.getAboutText() != null) {
 			aboutText = u.getAboutText();
+		} else {
+			aboutText = "-";
 		}
 		Label l35 = new Label("About " + u.getUsername() + ": " + aboutText);
 		Label l4 = new Label("Role: " + u.getRole());
@@ -50,6 +52,7 @@ public class PersonalView extends GeneralView implements View {
 		Embedded ee = null;
 		if (u.getAvatar() == null) {
 			ee = new Embedded("", new ThemeResource("img/default_avatar.png"));
+			ee.setWidth("80px");
 		} else {
 
 			try {
@@ -77,8 +80,8 @@ public class PersonalView extends GeneralView implements View {
 		cssLayout.addComponent(l3, 0, 2);
 		cssLayout.addComponent(l35, 0, 3, 2, 3);
 		cssLayout.addComponent(l4, 2, 2);
-		cssLayout.setColumnExpandRatio(0, 2);
-		cssLayout.setColumnExpandRatio(1, 1);
+		cssLayout.setColumnExpandRatio(0, 4);
+		cssLayout.setColumnExpandRatio(1, 2);
 		cssLayout.setColumnExpandRatio(2, 1);
 		mainLayout.addComponent(cssLayout);
 	}

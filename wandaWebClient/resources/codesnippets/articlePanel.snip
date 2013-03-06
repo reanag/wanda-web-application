@@ -1,0 +1,44 @@
+package com.flowsoft.component;
+
+import java.util.List;
+...
+
+public class ArticlePanel<E extends Article> extends TabSheet {
+
+	public static final int ARTICLE_PER_PAGE = 5;
+	private static final long serialVersionUID = 1L;
+
+	public ArticlePanel(List<E> list) {
+		this.setStyleName(Reindeer.TABSHEET_MINIMAL);
+		if (list == null) {
+			return;
+		}
+
+		int pageNumber = list.size() / ARTICLE_PER_PAGE;
+		if (list.size() % ARTICLE_PER_PAGE > 0) {
+			pageNumber = pageNumber + 1;
+		}
+
+		for (int i = 0; i < pageNumber; i++) {
+			Panel panel = new Panel();
+			for (int j = ARTICLE_PER_PAGE * i; j < ARTICLE_PER_PAGE * (i + 1); j++) {
+				try {
+					panel.addComponent(new ReadMoreForm<E>(list.get(j)));
+
+				} catch (IndexOutOfBoundsException e) {
+					logger.warn(e.getMessage());					
+				}
+			}
+
+			addTab(p, (i + 1) + ". Page");
+		}
+
+		for (E element : list) {
+
+			ArticleView articleView = new ArticleView(element);
+			((WandaVaadinClient) WandaVaadinClient.getCurrent())
+					.initView(articleView);
+		}
+	}
+	...
+}

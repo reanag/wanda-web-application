@@ -60,7 +60,7 @@ public class CreateArticleForm extends GridLayout implements
 	private TagSelectorBox tagSelector;
 	private Button submitButton;
 	private Link backLink;
-	private static List<Category> categoryList;
+	private List<Category> categoryList;
 	private Category selectedCategory;
 	private String lastInserted;
 	private CreateArticleView createArticleView;
@@ -75,7 +75,8 @@ public class CreateArticleForm extends GridLayout implements
 
 		// ------------CATEGORY SELECTOR------------
 		categorySelectComboBox = new ComboBox("Categories: ");
-		categorySelectComboBox.addListener((Property.ValueChangeListener) this);
+		categorySelectComboBox
+				.addValueChangeListener((Property.ValueChangeListener) this);
 
 		categorySelectComboBox.setNewItemsAllowed(true);
 		categorySelectComboBox.setNullSelectionAllowed(false);
@@ -147,7 +148,12 @@ public class CreateArticleForm extends GridLayout implements
 				.getCurrent()).getController().getAllTag());
 		submitButton = new Button("Submit");
 		submitButton.setImmediate(true);
-		submitButton.setEnabled(false);
+		if (articleTitle.getValue() == null
+				|| articleTitle.getValue().equals("")) {
+			submitButton.setEnabled(false);
+		} else {
+			submitButton.setEnabled(true);
+		}
 		submitButton.addClickListener(new Button.ClickListener() {
 
 			private static final long serialVersionUID = 1L;
@@ -220,17 +226,18 @@ public class CreateArticleForm extends GridLayout implements
 
 	}
 
-	public static void setCategoryList(List<Category> existingCategories) {
+	public void setCategoryList(List<Category> existingCategories) {
 		categoryList = existingCategories;
 	}
 
 	public void initCategoryField() {
 		if (categoryList == null || categoryList.isEmpty()) {
 			categoryList = new ArrayList<Category>();
-			return;
-		}
-		for (Category c : categoryList) {
-			categorySelectComboBox.addItem(c.getCategoryName());
+			categoryList.addAll(((WandaVaadinClient) WandaVaadinClient
+					.getCurrent()).getController().findAllExistingCategory());
+			for (Category c : categoryList) {
+				categorySelectComboBox.addItem(c.getCategoryName());
+			}
 		}
 	}
 
@@ -248,7 +255,6 @@ public class CreateArticleForm extends GridLayout implements
 				e.printStackTrace();
 			}
 		} else {
-
 			categorySelectComboBox.removeItem(lastInserted);
 			categorySelectComboBox.select(null);
 		}
@@ -256,10 +262,11 @@ public class CreateArticleForm extends GridLayout implements
 	}
 
 	public void createNewSelected() {
-		selectedCategory = new Category(
-				((WandaVaadinClient) WandaVaadinClient.getCurrent())
-						.getAktUser(),
-				categorySelectComboBox.getValue().toString());
+		selectedCategory = createArticleView.getCategoryBean();
+		// selectedCategory = new Category(
+		// ((WandaVaadinClient) WandaVaadinClient.getCurrent())
+		// .getAktUser(),
+		// categorySelectComboBox.getValue().toString());
 		categoryList.add(selectedCategory);
 
 	}
@@ -290,6 +297,7 @@ public class CreateArticleForm extends GridLayout implements
 	}
 
 	public void setSelectedCategory(Category category) {
+
 		if (category == null) {
 			selectedCategory = null;
 		} else {

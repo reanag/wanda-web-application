@@ -15,6 +15,7 @@ import com.flowsoft.client.WandaVaadinClient;
 import com.flowsoft.codesnippet.SnippetButton;
 import com.flowsoft.codesnippet.SnippetReader;
 import com.flowsoft.security.AuthenticationProvider;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;
@@ -186,7 +187,7 @@ public class LoginView extends Panel implements View, Serializable {
 					}
 
 				});
-
+		b.setClickShortcut(KeyCode.ENTER);
 		registrationLink = new Link("Register..", new ExternalResource("#!"
 				+ RegistrationView.NAME));
 

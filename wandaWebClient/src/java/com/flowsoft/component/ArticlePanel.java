@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.flowsoft.aviews.ArticleView;
 import com.flowsoft.client.WandaVaadinClient;
+import com.flowsoft.codesnippet.SnippetButton;
+import com.flowsoft.codesnippet.SnippetReader;
 import com.flowsoft.domain.Article;
 import com.flowsoft.forms.ReadMoreForm;
 import com.vaadin.ui.Panel;
@@ -28,10 +30,15 @@ public class ArticlePanel<E extends Article> extends TabSheet {
 
 		for (int i = 0; i < pageNumber; i++) {
 			Panel p = new Panel();
+			SnippetReader sr = new SnippetReader();
+			SnippetButton snip = new SnippetButton(
+					sr.read("articlePanel.snip"),
+					WandaVaadinClient.captions.getString("snip.articlePanel"));
+			p.addComponent(snip);
 			for (int j = ARTICLE_PER_PAGE * i; j < ARTICLE_PER_PAGE * (i + 1); j++) {
 				try {
 
-					p.addComponent(new ReadMoreForm(w.get(j)));
+					p.addComponent(new ReadMoreForm<E>(w.get(j)));
 
 				} catch (IndexOutOfBoundsException e) {
 				}

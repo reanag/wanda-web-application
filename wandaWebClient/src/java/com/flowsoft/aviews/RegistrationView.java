@@ -14,9 +14,11 @@ import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Link;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.themes.Reindeer;
 
@@ -56,8 +58,7 @@ public class RegistrationView extends Panel implements View, Serializable {
 	private void clearFields() {
 		mainLayout = new GridLayout();
 		SnippetReader sr = new SnippetReader();
-		SnippetButton snip2 = new SnippetButton(
-				sr.read("validatorUtil.snip"),
+		SnippetButton snip2 = new SnippetButton(sr.read("validatorUtil.snip"),
 				WandaVaadinClient.captions.getString("snip.Validator"));
 		wandaUser = new WandaUser();
 		wandaUser.setUsername("");
@@ -81,6 +82,8 @@ public class RegistrationView extends Panel implements View, Serializable {
 		mainLayout.setComponentAlignment(snip2, Alignment.BOTTOM_RIGHT);
 		mainLayout.setSizeFull();
 		mainLayout.setComponentAlignment(regForm, Alignment.MIDDLE_CENTER);
+		mainLayout.addComponent(new Link("What is this?", new ExternalResource(
+				"#!AboutPage")));
 
 	}
 

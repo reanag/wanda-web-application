@@ -20,12 +20,13 @@ public class CssLinkComponent extends CssLayout implements
 	public CssLinkComponent(String linkText, ExternalResource resource) {
 		link = new Link(linkText, resource);
 		this.addComponent(link);
+		this.setSizeFull();
+
 	}
 
 	@Override
 	public void setStyleName(String style) {
 		super.setStyleName(style);
-		link.setStyleName(style);
 	}
 
 	public String getLinkText() {

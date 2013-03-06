@@ -27,11 +27,14 @@ public class TagView extends GeneralView {
 	public TagView(String t) {
 		super();
 		tagName = t;
-		String s = tagName;
-		if (tagName.contains(" ")) {
-			s = tagName.replace(" ", ".");
+		StringBuffer sb = new StringBuffer();
+		for (Character c : t.toCharArray()) {
+			if (c.isJavaLetterOrDigit(c)) {
+				sb.append(c);
+			}
 		}
-		this.NAME = "tagView." + s;
+
+		this.NAME = "tagView." + sb.toString();
 		initTagForm(tagName);
 
 	}
@@ -62,7 +65,8 @@ public class TagView extends GeneralView {
 
 		if (aList != null) {
 			for (Article a : aList) {
-				ReadMoreForm rmf = new ReadMoreForm(new ArticleHeader(a));
+				ReadMoreForm<ArticleHeader> rmf = new ReadMoreForm<ArticleHeader>(
+						new ArticleHeader(a));
 				layout.addComponent(rmf);
 			}
 		} else {

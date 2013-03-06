@@ -29,22 +29,20 @@ public class ReadMoreForm<E extends Article> extends CssLayout {
 		if (e instanceof ArticleHeader) {
 			linkLabel = new LinkLabel(((ArticleHeader) e).getContentSnippet(),
 					WandaVaadinClient.captions.getString("more.link.text"),
-					new ExternalResource("#!articleView."
-							+ e.getTitle().replace(' ', '.')));
+					new ExternalResource("#!articleView" + e.getId()));
 		} else {
 			linkLabel = new LinkLabel(e.getContent(),
 					WandaVaadinClient.captions.getString("more.link.text"),
-					new ExternalResource("#!articleView."
-							+ e.getTitle().replace(' ', '.')));
+					new ExternalResource(("#!articleView" + e.getId())));
 
 		}
 		authorLabel = new LinkLabel("",
 				WandaVaadinClient.captions.getString("author.title")
 						+ ((Article) e).getAuthor(), new ExternalResource(
-						"#!auth=" + e.getAuthor())); // +
+						"#!auth" + e.getId())); // +
 
 		((WandaVaadinClient) WandaVaadinClient.getCurrent())
-				.initView(new PersonalView(e.getAuthor()));
+				.initView(new PersonalView(e.getId(), e.getAuthor()));
 
 		authorLabel.setStyleName(Reindeer.LABEL_SMALL);
 

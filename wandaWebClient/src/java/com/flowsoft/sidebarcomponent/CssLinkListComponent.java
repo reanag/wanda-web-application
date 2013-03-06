@@ -1,7 +1,7 @@
 package com.flowsoft.sidebarcomponent;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import com.vaadin.server.ExternalResource;
@@ -18,7 +18,7 @@ public class CssLinkListComponent extends GridLayout {
 	}
 
 	public CssLinkListComponent(String title,
-			Hashtable<String, ExternalResource> resources) {
+			Map<String, ExternalResource> resources) {
 		setTitle(title);
 		setList(resources);
 	}
@@ -54,7 +54,7 @@ public class CssLinkListComponent extends GridLayout {
 
 	}
 
-	public void setList(Hashtable<String, ExternalResource> list) {
+	public void setList(Map<String, ExternalResource> list) {
 		listElements = new ArrayList<Link>();
 
 		for (Entry<String, ExternalResource> e : list.entrySet()) {

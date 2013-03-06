@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import userdetailsserviceimpl.wanda.flowsoft.com.WandaServiceImplService;
 
+import com.flowsoft.aviews.AnonymousAboutSiteView;
 import com.flowsoft.aviews.ErrorView;
 import com.flowsoft.aviews.GeneralView;
 import com.flowsoft.aviews.LoginView;
@@ -33,8 +34,8 @@ import com.vaadin.ui.UI;
 public class WandaVaadinClient extends UI implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	public static final String DEFAULT_VIEW = "main";
-	public static final String ERROR_VIEW = "errow";
+	public final String DEFAULT_VIEW = "main";
+	public final String ERROR_VIEW = "error";
 
 	private LoginView loginView;
 	private Navigator navigator;
@@ -45,7 +46,6 @@ public class WandaVaadinClient extends UI implements Serializable {
 	@WebServiceRef
 	protected WandaService controller;
 
-	protected static UI page;
 	static Logger logger = LoggerFactory.getLogger(WandaVaadinClient.class);
 
 	@Override
@@ -53,12 +53,15 @@ public class WandaVaadinClient extends UI implements Serializable {
 		logger.debug("Init UI request: " + request.getRequestPathInfo());
 		Locale bLocale = new Locale("en", "EN");
 		captions = ResourceBundle.getBundle("i18n/Messages", bLocale);
+
 		initNavigator(this);
 
 		if (controller == null) {
 			WandaServiceImplService ss = new WandaServiceImplService();
 			controller = ss.getWandaServicePort();
+
 		}
+
 	}
 
 	public void destroySession() {
@@ -83,12 +86,12 @@ public class WandaVaadinClient extends UI implements Serializable {
 		navigator.navigateTo(LoginView.NAME);
 		navigator.setErrorView(new ErrorView());
 
+		AnonymousAboutSiteView av = new AnonymousAboutSiteView();
+		navigator.addView(av.NAME, av);
+
 	}
 
-	// public void goToMainPage() {
-	// navigator.navigateTo(DEFAULT_VIEW);
-	// }
-
+	// @PreAuthorize("adminOnly()")
 	public void goToMainPage(Integer errorCode) {
 
 		navigator.navigateTo(DEFAULT_VIEW);
@@ -111,9 +114,10 @@ public class WandaVaadinClient extends UI implements Serializable {
 	}
 
 	public void initView(GeneralView view) {
-		if (view.getNAME().equals(DEFAULT_VIEW)) {
-			removeView(DEFAULT_VIEW);
-		}
+		// logger.debug("init: " + view.NAME);
+		// if (view.getNAME().equals(DEFAULT_VIEW)) {
+		// removeView(DEFAULT_VIEW);
+		// }
 		if (!((WandaVaadinClient) WandaVaadinClient.getCurrent()).existingViewNames
 				.contains(view.getNAME())) {
 			navigator.addView(view.getNAME(), view);

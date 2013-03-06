@@ -16,6 +16,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -27,11 +28,11 @@ public class PopupWindow extends Window implements BlurListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Category checkedCategory;
 	@PropertyId("categoryName")
 	private TextField nameField;
 	@PropertyId("description")
-	private Category checkedCategory;
-	private TextField descriptionField = new TextField("Category description");
+	private TextArea descriptionField;
 	private Button okButton = new Button("OK");
 	private Button cancelButton = new Button("Cancel");
 	private HorizontalLayout buttonSpace = new HorizontalLayout();
@@ -43,7 +44,7 @@ public class PopupWindow extends Window implements BlurListener {
 		setStyleName(Reindeer.WINDOW_LIGHT);
 		this.createArticleForm = c;
 		nameField = new TextField("Category name");
-
+		descriptionField = new TextArea("Category description");
 		setPositionX(180);
 		setPositionY(230);
 
@@ -92,6 +93,11 @@ public class PopupWindow extends Window implements BlurListener {
 
 		root.addComponent(nameField);
 		nameField.addValidator(new Validator() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void validate(Object value) throws InvalidValueException {

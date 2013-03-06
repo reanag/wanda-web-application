@@ -4,27 +4,31 @@ import java.io.Serializable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 
-import com.flowsoft.aviews.MainView;
+public class WandaPermissionEvaluator implements PermissionEvaluator {
 
-public class WandaPermissionEvaluator implements
-		org.springframework.security.access.PermissionEvaluator {
-	Logger logger = LoggerFactory.getLogger(MainView.class);
+	Logger logger = LoggerFactory.getLogger(WandaPermissionEvaluator.class);
 
 	@Override
 	public boolean hasPermission(Authentication authentication,
 			Object targetDomainObject, Object permission) {
 
-		logger.debug("HasPermission: " + authentication.getName());
-		return false;
+		boolean hasPermission = false;
+		logger.debug("hasPerm");
+		if (authentication != null && permission instanceof String) {
+
+		} else {
+			hasPermission = false;
+		}
+		return hasPermission;
 	}
 
 	@Override
 	public boolean hasPermission(Authentication authentication,
 			Serializable targetId, String targetType, Object permission) {
-
-		logger.debug("HasPermission2: " + authentication.getName());
+		logger.debug("hasPerm");
 		return false;
 	}
 

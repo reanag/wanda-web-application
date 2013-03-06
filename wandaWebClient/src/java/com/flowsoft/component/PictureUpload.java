@@ -35,8 +35,8 @@ public class PictureUpload extends CustomComponent implements
 		upload.setButtonCaption("Upload Now");
 
 		// Listen for events regarding the success of upload.
-		upload.addListener((Upload.SucceededListener) this);
-		upload.addListener((Upload.FailedListener) this);
+		upload.addSucceededListener((Upload.SucceededListener) this);
+		upload.addFailedListener((Upload.FailedListener) this);
 
 		root.addComponent(upload);
 		root.addComponent(new Label("Click 'Browse' to "

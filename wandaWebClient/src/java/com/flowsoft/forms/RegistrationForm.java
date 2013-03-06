@@ -71,6 +71,11 @@ public class RegistrationForm extends GridLayout implements BlurListener {
 		username.setImmediate(true);
 		username.addValidator(new Validator() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void validate(Object value) throws InvalidValueException {
 
@@ -153,6 +158,11 @@ public class RegistrationForm extends GridLayout implements BlurListener {
 		passwordAgain = new PasswordField("");
 		passwordAgain.setImmediate(true);
 		passwordAgain.addBlurListener(new BlurListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void blur(BlurEvent event) {
