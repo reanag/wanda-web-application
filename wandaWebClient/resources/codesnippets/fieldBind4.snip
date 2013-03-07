@@ -1,0 +1,12 @@
+
+protected void commit() {
+		try {
+						binder.commit();
+			((WandaVaadinClient) WandaVaadinClient.getCurrent())
+					.getController().createUser(wandaUser);
+			((WandaVaadinClient) WandaVaadinClient.getCurrent())
+					.goToLoginPage();
+		} catch (CommitException e) {
+			e.printStackTrace();
+		}
+}

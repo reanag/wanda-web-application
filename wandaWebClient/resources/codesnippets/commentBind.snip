@@ -1,0 +1,30 @@
+...
+public class CommentForm extends CssLayout {
+...
+	@PropertyId("commentContent")
+	private TextArea commentContentTextfield;
+	private Button submitButton;
+	
+	public void enter() {
+	...
+	submitButton.setImmediate(true);
+		submitButton.addClickListener(new Button.ClickListener() {
+		...
+			@Override
+			public void buttonClick(ClickEvent event) {
+				try {
+					CommentForm.this.commit();
+				} catch (InvalidValueException e) {
+					...
+				}
+			}
+		});
+	...
+	}
+	protected void commit() {	
+		if (isValidComment(commentContentTextfield.getValue())) {
+			parent.commit();
+		}
+	}
+	...
+}

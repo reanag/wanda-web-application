@@ -28,6 +28,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
@@ -201,7 +202,13 @@ public class LoginView extends Panel implements View, Serializable {
 		SnippetReader sr = new SnippetReader();
 		SnippetButton snip = new SnippetButton(sr.read("loginSnippet.snip"),
 				WandaVaadinClient.captions.getString("snip.Login"));
-
+		SnippetButton snip2 = new SnippetButton(
+				sr.read("loginSnippet_part2.snip"),
+				WandaVaadinClient.captions.getString("snip.Login2"));
+		SnippetButton snip3 = new SnippetButton(sr.read("loginButton.snip"),
+				WandaVaadinClient.captions.getString("snip.LoginButton"));
+		SnippetButton snip4 = new SnippetButton(sr.read("findUserbyName.snip"),
+				WandaVaadinClient.captions.getString("snip.findUserbyName"));
 		Embedded e = new Embedded("", new ThemeResource("img/snip_info.png"));
 		e.setHeight("32px");
 		mainLayout.setStyleName("login");
@@ -215,10 +222,18 @@ public class LoginView extends Panel implements View, Serializable {
 		loginLayout.setStyleName("login");
 		loginLayout.addComponent(tf);
 		loginLayout.addComponent(pf);
-		loginLayout.addComponent(b);
+
+		HorizontalLayout buttonLayout = new HorizontalLayout();
+		buttonLayout.addComponent(b);
+		buttonLayout.addComponent(snip3);
+		buttonLayout.setComponentAlignment(b, Alignment.MIDDLE_CENTER);
+		buttonLayout.setComponentAlignment(snip3, Alignment.MIDDLE_RIGHT);
+		loginLayout.addComponent(buttonLayout);
+		// loginLayout.addComponent(b);
 		loginLayout.addComponent(registrationLink);
 
 		mainLayout.addComponent(loginLayout);
+
 		mainLayout.setRowExpandRatio(0, 30);
 		mainLayout.setRowExpandRatio(1, 100);
 		mainLayout.setSizeFull();
@@ -226,9 +241,20 @@ public class LoginView extends Panel implements View, Serializable {
 		loginLayout.setComponentAlignment(image, Alignment.MIDDLE_CENTER);
 		loginLayout.setComponentAlignment(tf, Alignment.MIDDLE_CENTER);
 		loginLayout.setComponentAlignment(pf, Alignment.MIDDLE_CENTER);
-		loginLayout.setComponentAlignment(b, Alignment.MIDDLE_CENTER);
+
+		loginLayout
+				.setComponentAlignment(buttonLayout, Alignment.MIDDLE_CENTER);
+
 		loginLayout.setComponentAlignment(registrationLink,
 				Alignment.MIDDLE_CENTER);
+		HorizontalLayout snipLayout = new HorizontalLayout();
+		snipLayout.setWidth(mainLayout.getWidth(), mainLayout.getWidthUnits());
+		snipLayout.addComponent(snip4);
+		snipLayout.addComponent(snip2);
+		snipLayout.setComponentAlignment(snip4, Alignment.BOTTOM_RIGHT);
+		snipLayout.setComponentAlignment(snip2, Alignment.MIDDLE_RIGHT);
+		mainLayout.addComponent(snipLayout);
+		mainLayout.setComponentAlignment(snipLayout, Alignment.BOTTOM_CENTER);
 		addComponent(mainLayout);
 	}
 }

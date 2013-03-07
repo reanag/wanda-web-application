@@ -33,8 +33,9 @@ public class AuthenticationProvider implements
 			throws AuthenticationException {
 		logger.debug("authenticate start:");
 
-		WandaServiceImplService ss = new WandaServiceImplService();
-		WandaService controller = ss.getWandaServicePort();
+		// WandaServiceImplService ss = new WandaServiceImplService();
+		WandaService controller = new WandaServiceImplService()
+				.getWandaServicePort();
 		user = controller.findByUsername(authentication.getName());
 		logger.debug("authenticate ws call done:");
 		// logger.debug(user.getUsername() + " " + user.getPassword());

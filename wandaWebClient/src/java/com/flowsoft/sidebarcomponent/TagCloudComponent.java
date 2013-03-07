@@ -23,7 +23,7 @@ public class TagCloudComponent extends VerticalLayout {
 
 	public TagCloudComponent() {
 		// super(3, 5);
-		this.setWidth("250px");
+		// this.setWidth("250px");
 		// this.setHeight("400px");
 		tags = new ArrayList<CssLinkComponent>();
 		generateTag();
@@ -36,26 +36,33 @@ public class TagCloudComponent extends VerticalLayout {
 
 	private void addTag() {
 		int count = 0;
+		int layoutCount = 0;
 		HorizontalLayout l = new HorizontalLayout();
 		// l.setWidth("250px");
 		for (CssLinkComponent t : tags) {
-			if (count > 20) {
+			if (count > 24) {
 				this.addComponent(l);
 				count = 0;
 				l = new HorizontalLayout();
-				// l.setWidth("250px");
+				layoutCount++;
 			}
 			t.setStyleName("tagCloud");
 			l.addComponent(t);
 			count += (t.getLinkText().length());
 
 		}
+		if (!this.components.contains(l)) {
+			this.addComponent(l);
+		}
+		this.setHeight(layoutCount * 32 + "px");
+
 	}
 
 	public void generateTag() {
 
 		list = ((WandaVaadinClient) WandaVaadinClient.getCurrent())
 				.getController().getAllTag();
+
 		if (list == null || list.isEmpty()) {
 			return;
 		}
@@ -77,7 +84,6 @@ public class TagCloudComponent extends VerticalLayout {
 
 				cssLink.setRank(t.getRank());
 			}
-
 			tags.add(cssLink);
 
 		}

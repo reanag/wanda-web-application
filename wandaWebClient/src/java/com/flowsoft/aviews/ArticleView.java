@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.flowsoft.client.WandaVaadinClient;
+import com.flowsoft.codesnippet.SnippetButton;
+import com.flowsoft.codesnippet.SnippetReader;
 import com.flowsoft.domain.Article;
 import com.flowsoft.domain.ArticleHeader;
 import com.flowsoft.domain.Comment;
@@ -33,7 +35,7 @@ public class ArticleView extends GeneralView {
 
 	public ArticleView(ArticleHeader a) {
 		this.NAME = "articleView" + a.getId();
-
+		setSizeFull();
 		initArticle(a);
 		generateSurface();
 
@@ -42,7 +44,7 @@ public class ArticleView extends GeneralView {
 	public ArticleView(Article a) {
 		article = a;
 		this.NAME = "articleView" + a.getId();
-
+		setSizeFull();
 		generateSurface();
 	}
 
@@ -99,6 +101,12 @@ public class ArticleView extends GeneralView {
 		if (mainLayout.getComponentCount() == 0) {
 			readArticleForm.enter();
 			commentForm.enter();
+			SnippetReader sr = new SnippetReader();
+			SnippetButton snip = new SnippetButton(
+					sr.read("findArticleById.snip"),
+					WandaVaadinClient.captions
+							.getString("snip.findArticlebyId"));
+			mainLayout.addComponent(snip);
 			mainLayout.addComponent(readArticleForm);
 			mainLayout.addComponent(commentForm);
 			mainLayout.addComponent(backLink);

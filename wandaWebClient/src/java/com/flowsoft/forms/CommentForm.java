@@ -52,7 +52,7 @@ public class CommentForm extends CssLayout {
 		if (getComponentCount() != 0) {
 			removeAllComponents();
 		}
-		vl = new GridLayout(3, 4);
+		vl = new GridLayout(3, 5);
 		commentLayout = new VerticalLayout();
 
 		label.setValue("Comments:");
@@ -82,11 +82,14 @@ public class CommentForm extends CssLayout {
 		vl.addComponent(label, 0, 0);
 		SnippetReader sr = new SnippetReader();
 		SnippetButton snip = new SnippetButton(sr.read("findComment.snip"),
-				"Server side implementation of comment finding");
+				"Server side implementation of comment searching");
 		vl.addComponent(snip, 1, 0);
 		vl.addComponent(commentContentTextfield, 0, 1, 2, 1);
 
 		vl.addComponent(submitButton, 2, 2);
+		SnippetButton snip4 = new SnippetButton(sr.read("commentBind.snip"),
+				"Comment form binding & commit mechanism");
+		vl.addComponent(snip4, 2, 3);
 		vl.setComponentAlignment(submitButton, Alignment.BOTTOM_RIGHT);
 
 		if (list != null) {
@@ -95,7 +98,7 @@ public class CommentForm extends CssLayout {
 						.getOwner().getUsername(), c.getCommentContent(), c
 						.getCreatedTS().toLocaleString()));
 			}
-			vl.addComponent(commentLayout, 0, 3, 2, 3);
+			vl.addComponent(commentLayout, 0, 4, 2, 4);
 		}
 		addComponent(vl);
 	}
@@ -115,7 +118,7 @@ public class CommentForm extends CssLayout {
 
 	public void refreshList(List<Comment> cList) {
 		if (vl == null) {
-			vl = new GridLayout(3, 4);
+			vl = new GridLayout(3, 5);
 		}
 		list = cList;
 		vl.removeAllComponents();

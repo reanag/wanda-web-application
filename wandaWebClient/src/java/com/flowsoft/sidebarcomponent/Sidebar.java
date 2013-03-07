@@ -16,20 +16,24 @@ public class Sidebar extends Panel implements View {
 	private TagCloudComponent tagCloud;
 
 	public Sidebar() {
-		this.setWidth("100px");
+		// this.setWidth("200px");
 
 		searchTool = new SearchTool();
+		searchTool.setWidth(this.getWidth(), this.getWidthUnits());
 		optionSelector = new OptionSelectorComponent();
+		optionSelector.setWidth(this.getWidth(), this.getWidthUnits());
 		optionSelector.setStyleName("optionSelStyle");
 		articleRecommender = new ArticleRecommenderComponent();
 		articleRecommender.setStyleName("recommenderStyle");
+		articleRecommender.setWidth(this.getWidth(), this.getWidthUnits());
 		articleRecommender.init();
 
 		tagCloud = new TagCloudComponent();
 		tagCloud.setStyleName("tagCloudStyle");
-
+		tagCloud.setWidth(this.getWidth(), this.getWidthUnits());
 		addComponent(searchTool);
 		addComponent(optionSelector);
+
 		addComponent(articleRecommender);
 		addComponent(tagCloud);
 

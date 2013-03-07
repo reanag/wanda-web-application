@@ -5,7 +5,8 @@
 				com.flowsoft.entity.Article.class, articleID);
 		Query query = em
 				.createQuery(
-						"SELECT e FROM Comment e where commentedArticle = :article order by e.createdTS desc")
+						"SELECT e FROM Comment e where 
+						commentedArticle = :article order by e.createdTS desc")
 				.setParameter("article", actArticle);
 
 		return WandaUtil.convertCommentListToDomain(query.getResultList());

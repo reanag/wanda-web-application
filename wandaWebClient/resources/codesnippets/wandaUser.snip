@@ -1,13 +1,12 @@
 package com.flowsoft.domain;
 
 import java.io.Serializable;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 ...
 
 public class WandaUser extends AbstractEntity implements Serializable {
 ...
+	
 	@NotNull
 	@Size(max = 15, min = 5)
 	private String username;
@@ -17,7 +16,6 @@ public class WandaUser extends AbstractEntity implements Serializable {
 	private String password;
 
 	private String firstName;
-
 	private String lastName;
 	
 	@NotNull

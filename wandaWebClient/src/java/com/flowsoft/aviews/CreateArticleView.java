@@ -31,6 +31,7 @@ public class CreateArticleView extends GeneralView {
 
 	public CreateArticleView() {
 		super();
+		this.NAME = "createArticleView";
 		setSizeFull();
 		createForm = new CreateArticleForm(this);
 	}
@@ -41,6 +42,8 @@ public class CreateArticleView extends GeneralView {
 		this.NAME = "createArticleView" + a.getId();
 		setSizeFull();
 		createForm = new CreateArticleForm(this);
+		// createForm.setWidth(mainLayout.getWidth(),
+		// mainLayout.getWidthUnits());
 	}
 
 	@Override

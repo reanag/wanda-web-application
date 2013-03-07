@@ -42,7 +42,9 @@ public class ReadArticleForm extends GridLayout {
 	public void enter() {
 		removeAllComponents();
 		tags = new ArrayList<Link>();
-		Label content = new Label(article.getContent());
+		Label content = new Label();
+		// content.setContentMode(ContentMode.HTML);
+		content.setValue(article.getContent());
 
 		Label title = new Label(article.getTitle());
 		title.setStyleName(Reindeer.LABEL_H1);
@@ -89,10 +91,14 @@ public class ReadArticleForm extends GridLayout {
 			this.setColumnExpandRatio(1, 1);
 			this.setColumnExpandRatio(0, 15);
 			this.setColumnExpandRatio(2, 1);
+			this.setRowExpandRatio(0, 30);
+			this.setRowExpandRatio(1, 20);
+			this.setRowExpandRatio(3, 1);
 			addComponent(editButton, 2, 0);
 			addComponent(deleteButton, 3, 0);
 
 		}
+
 		addComponent(auth, 0, 1, 2, 1);
 		addComponent(content, 0, 2, 3, 2);
 		if (article.getTagList() != null) {

@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import com.flowsoft.aviews.SearchResultView;
 import com.flowsoft.client.WandaVaadinClient;
+import com.flowsoft.codesnippet.SnippetButton;
+import com.flowsoft.codesnippet.SnippetReader;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -23,10 +25,10 @@ public class SearchTool extends GridLayout {
 
 	public SearchTool() {
 
-		super(2, 3);
+		super(3, 3);
 
 		searchField = new TextField();
-		searchField.setWidth("190");
+		searchField.setWidth("190px");
 		searchField.setImmediate(true);
 		searchField.setInputPrompt("Search in title..");
 		searchField.setStyleName("sidebarStyle");
@@ -52,11 +54,16 @@ public class SearchTool extends GridLayout {
 		advancedSearch = new Link("Advanced search", new ExternalResource(
 				"#!search"));
 		// + SearchView.NAME));
+		SnippetReader sr = new SnippetReader();
+		SnippetButton snip = new SnippetButton(sr.read("search.snip"),
+				WandaVaadinClient.captions.getString("snip.search"));
 
 		advancedSearch.setHeight("30");
 		advancedSearch.setStyleName("sidebarStyle");
+
 		addComponent(searchField, 0, 0);
 		addComponent(submitButton, 1, 0);
+		addComponent(snip, 2, 0);
 		addComponent(isAccurateSearch, 0, 1);
 		addComponent(advancedSearch, 0, 2);
 	}

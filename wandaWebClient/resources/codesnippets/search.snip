@@ -1,0 +1,11 @@
+    
+    protected void searchByTitle(String value, Boolean b) {
+	
+		SearchResultView searchResultView = new SearchResultView(value,
+				((WandaVaadinClient) WandaVaadinClient.getCurrent())
+						.getController().findArticleByTitle(value, b));
+		((WandaVaadinClient) WandaVaadinClient.getCurrent()).initView(searchResultView);
+		((WandaVaadinClient) WandaVaadinClient.getCurrent()).getNavigator()
+				.navigateTo(searchResult.NAME);
+
+	}

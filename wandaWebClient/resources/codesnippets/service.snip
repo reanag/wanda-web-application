@@ -4,6 +4,7 @@ package com.flowsoft.wanda;
 
 @WebService
 public interface WandaService {
+...
 
 	@WebResult(name = "exist")
 	Boolean exist(@WebParam(name = "username") String username);
@@ -14,5 +15,4 @@ public interface WandaService {
 	@WebResult(name = "wandaUser")
 	WandaUser findByUsername(@WebParam(name = "username") String username);
 ...
-
 }

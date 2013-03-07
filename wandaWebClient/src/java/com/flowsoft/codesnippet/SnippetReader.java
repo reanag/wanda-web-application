@@ -17,9 +17,16 @@ public class SnippetReader {
 		StringBuilder builder = new StringBuilder();
 
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					getClass().getClassLoader().getResourceAsStream(
-							"/codesnippets/" + string)));
+			BufferedReader br = null;
+			if (string.endsWith(".snip")) {
+				br = new BufferedReader(new InputStreamReader(getClass()
+						.getClassLoader().getResourceAsStream(
+								"/codesnippets/" + string)));
+			} else {
+				br = new BufferedReader(new InputStreamReader(getClass()
+						.getClassLoader().getResourceAsStream(
+								"/staticContent/" + string)));
+			}
 			// String path = WandaVaadinClient.captions.getString("path");
 			// File sni = new File(path);
 			// logger.debug(sni.getAbsolutePath());

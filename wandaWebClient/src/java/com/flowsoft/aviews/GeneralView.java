@@ -76,23 +76,27 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 
 	protected void resizeMainLayout() {
 		if (baseLayout != null) {
-			baseLayout.setSizeUndefined();
+			// baseLayout.setSizeUndefined();
+			baseLayout.setSizeFull();
 		}
 		if (bodyLayout != null) {
-			bodyLayout.setSizeUndefined();
+			// bodyLayout.setSizeUndefined();
+			bodyLayout.setSizeFull();
 		}
 		if (sidebar != null) {
-			sidebar.setSizeUndefined();
+			// sidebar.setSizeUndefined();
+			sidebar.setSizeFull();
 		}
 		if (mainLayout != null) {
-			mainLayout.setSizeUndefined();
+			// mainLayout.setSizeUndefined();
+			mainLayout.setSizeFull();
 		}
 
 	}
 
 	public void generateHeader() {
 
-		headerLayout = new GridLayout(4, 1);
+		headerLayout = new GridLayout(5, 1);
 		headerLayout.setHeight("145px");
 		headerLayout.setWidth("100%");
 
@@ -101,8 +105,9 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		usernameLabel.setImmediate(true);
 		SnippetReader sr = new SnippetReader();
 		SnippetButton snip = new SnippetButton(sr.read("wandaUser.snip"),
-				"User representation");
-
+				WandaVaadinClient.captions.getString("snip.user"));
+		SnippetButton snip2 = new SnippetButton(sr.read("service.snip"),
+				WandaVaadinClient.captions.getString("snip.service"));
 		logout = new Button("Logout");
 		logout.setImmediate(true);
 
@@ -133,6 +138,7 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 			}
 		});
 
+		headerLayout.addComponent(snip2);
 		headerLayout.addComponent(embedded);
 
 		headerLayout.addComponent(usernameLabel);
@@ -145,10 +151,11 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		headerLayout.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
 		headerLayout.setComponentAlignment(snip, Alignment.TOP_RIGHT);
-		headerLayout.setColumnExpandRatio(0, 1000);
-		headerLayout.setColumnExpandRatio(1, 1);
+		headerLayout.setColumnExpandRatio(0, 1);
+		headerLayout.setColumnExpandRatio(1, 1000);
 		headerLayout.setColumnExpandRatio(2, 1);
 		headerLayout.setColumnExpandRatio(3, 1);
+		headerLayout.setColumnExpandRatio(4, 1);
 
 	}
 
@@ -158,10 +165,6 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 		try {
 			setAktUser(((WandaVaadinClient) (WandaVaadinClient.getCurrent()))
 					.getAktUser());
-
-			// logger.debug("Aktuser: " + aktUser.getId() +
-			// aktUser.getUsername());
-
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -220,23 +223,28 @@ public abstract class GeneralView extends Panel implements View, Serializable {
 			mainLayout.removeAllComponents();
 		}
 
-		if (bodyLayout.getComponentCount() == 0) {
-			bodyLayout.addStyleName("horizontalright");
-			bodyLayout.addComponent(mainLayout, 0, 0);
-			mainLayout.setStyleName("main");
-			bodyLayout.setComponentAlignment(mainLayout, Alignment.TOP_LEFT);
-			sidebar.setStyleName("sidebar");
-			bodyLayout.addComponent(sidebar, 1, 0);
-			bodyLayout.setComponentAlignment(sidebar, Alignment.TOP_LEFT);
-			bodyLayout.setColumnExpandRatio(0, 10);
-			bodyLayout.setColumnExpandRatio(1, 1);
+		if (bodyLayout.getComponentCount() > 0) {
+			bodyLayout.removeAllComponents();
 		}
+		bodyLayout.addStyleName("horizontalright");
+		bodyLayout.addComponent(mainLayout, 0, 0);
+		mainLayout.setStyleName("main");
+		bodyLayout.setComponentAlignment(mainLayout, Alignment.TOP_CENTER);
+		sidebar.setStyleName("sidebar");
+		bodyLayout.addComponent(sidebar, 1, 0);
+		bodyLayout.setComponentAlignment(sidebar, Alignment.TOP_LEFT);
+		bodyLayout.setColumnExpandRatio(0, 65);
+		bodyLayout.setColumnExpandRatio(1, 30);
+		// mainLayout.setWidth("60%");
+		// sidebar.setWidth("10%");
+
 		if (baseLayout.getComponentCount() == 0) {
 			baseLayout.addComponent(headerLayout);
 			baseLayout.addComponent(bodyLayout);
 			baseLayout.addComponent(footerLayout);
 			baseLayout.setExpandRatio(bodyLayout, 1);
-			baseLayout.setSizeUndefined();
+			// baseLayout.setSizeUndefined();
+			baseLayout.setSizeFull();
 		}
 		addComponent(baseLayout);
 

@@ -28,7 +28,7 @@ public class AboutMeView extends GeneralView {
 		cssLayout.setWidth("550px");
 		cssLayout.setStyleName("mydiv");
 		SnippetReader sr = new SnippetReader();
-		Label l = new CodeLabel(sr.read("aboutMe.snip"));
+		Label l = new CodeLabel(sr.read("aboutMe.txt"));
 		cssLayout.addComponent(l);
 		mainLayout.addComponent(cssLayout);
 	}

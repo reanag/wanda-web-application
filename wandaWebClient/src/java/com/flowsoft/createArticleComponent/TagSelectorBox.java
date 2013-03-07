@@ -333,4 +333,5 @@ public class TagSelectorBox extends CustomField implements Container.Editor,
 		newSet.clear();
 		setValue(newSet);
 	}
+
 }

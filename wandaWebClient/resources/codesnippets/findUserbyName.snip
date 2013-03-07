@@ -2,16 +2,16 @@
 	@Cacheable(value = "wandaUser")
 	@Transactional(propagation = Propagation.REQUIRED)
 	public WandaUser findUserByName(String username) {
-		logger.debug("Cache miss: " + username);
+		
 		if (username != null) {
 
 			Query query = em.createQuery(
-					"SELECT e FROM WandaUser e where username = :username")
-					.setParameter("username", username);
+					"SELECT e FROM WandaUser e where username = :uname")
+					.setParameter("uname", username);
 			try {
-				com.flowsoft.entity.WandaUser w = (com.flowsoft.entity.WandaUser) query
+				com.flowsoft.entity.WandaUser wandaUser = (com.flowsoft.entity.WandaUser) query
 						.getSingleResult();
-				return WandaUtil.convertWandaUserToDomain(w);
+				return WandaUtil.convertWandaUserToDomain(wandaUser);
 			} catch (NoResultException ns) {
 				return null;
 			}

@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.flowsoft.aviews.ArticleView;
 import com.flowsoft.client.WandaVaadinClient;
-import com.flowsoft.codesnippet.SnippetButton;
-import com.flowsoft.codesnippet.SnippetReader;
 import com.flowsoft.domain.Article;
 import com.flowsoft.forms.ReadMoreForm;
 import com.vaadin.ui.Panel;
@@ -19,6 +17,7 @@ public class ArticlePanel<E extends Article> extends TabSheet {
 
 	public ArticlePanel(List<E> w) {
 		this.setStyleName(Reindeer.TABSHEET_MINIMAL);
+		// this.setHeight("100%");
 		if (w == null) {
 			return;
 		}
@@ -30,11 +29,7 @@ public class ArticlePanel<E extends Article> extends TabSheet {
 
 		for (int i = 0; i < pageNumber; i++) {
 			Panel p = new Panel();
-			SnippetReader sr = new SnippetReader();
-			SnippetButton snip = new SnippetButton(
-					sr.read("articlePanel.snip"),
-					WandaVaadinClient.captions.getString("snip.articlePanel"));
-			p.addComponent(snip);
+
 			for (int j = ARTICLE_PER_PAGE * i; j < ARTICLE_PER_PAGE * (i + 1); j++) {
 				try {
 

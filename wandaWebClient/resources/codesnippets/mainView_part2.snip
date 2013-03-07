@@ -1,0 +1,23 @@
+@Component
+@Scope("prototype")
+public class MainView extends GeneralView {
+	
+	@Override
+	public void enter(ViewChangeEvent event) {
+		super.enter(event);
+	...
+		initSnippet();
+		mainLayout.add(snippetButton);
+	...
+		//init other pages
+		((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.initView(new AboutMeView());
+	...
+	}
+	
+	private void initSnippet(){
+		SnippetReader sr = new SnippetReader();
+		snippetButton = new SnippetButton(sr.read("mainView.snip"),
+				WandaVaadinClient.captions.getString("snip.mainView"));
+	}
+}

@@ -199,8 +199,14 @@ public class CreateArticleForm extends GridLayout implements
 		if (selectedCategory != null) {
 			categorySelectComboBox.unselect(selectedCategory.getCategoryName());
 		}
-		tagSelector.unselectAll();
 
+		if (tagSelector.getSelectedTags() != null
+				|| !tagSelector.getSelectedTags().isEmpty()) {
+			tagSelector.setTagList(((WandaVaadinClient) WandaVaadinClient
+					.getCurrent()).getController().getAllTag());
+		}
+
+		tagSelector.unselectAll();
 	}
 
 	protected void commit() {

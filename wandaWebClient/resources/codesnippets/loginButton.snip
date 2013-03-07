@@ -1,0 +1,26 @@
+loginButton = new Button(WandaVaadinClient.captions.getString("loginButtonText"), 
+		new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Authentication auth = new UsernamePasswordAuthenticationToken(
+							usernameTextField.getValue(), passwordField.getValue());
+				try {
+						Authentication returned = authenticationProvider.authenticate(auth);
+						...
+						fireEvent(new LoginEvent(((WandaVaadinClient) WandaVaadinClient
+								.getCurrent()).getLoginView(),returned));			
+					} catch (BadCredentialsException e) { 
+								new Notification(WandaVaadinClient.captions.getString("error.badCred"))
+									.show(Page.getCurrent());
+					} catch (DisabledException e) {
+					...
+					} catch (LockedException e) {
+					...
+					} catch (Exception e) {
+					...
+					}
+				});
+				
+loginButton.setClickShortcut(KeyCode.ENTER);

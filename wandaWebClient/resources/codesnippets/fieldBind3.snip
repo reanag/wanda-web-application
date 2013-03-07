@@ -1,0 +1,26 @@
+   usernameField.addValidator(new Validator() {
+		@Override
+		public void validate(Object value) throws InvalidValueException {
+				WandaUser s = ((WandaVaadinClient) WandaVaadinClient.getCurrent())
+				.getController().findByUsername(username.getValue());
+				if (s != null) {
+						submit.setEnabled(false);
+						username.setComponentError(new ErrorMessage() {	
+							private static final long serialVersionUID = 1L;
+	
+							@Override
+							public String getFormattedHtmlMessage() {
+								return WandaVaadinClient.captions.getString("error.UsernameAlreadyExist");
+							}
+	
+							@Override
+							public ErrorLevel getErrorLevel() {
+								return ErrorLevel.ERROR;
+							}
+						});
+					} else {
+						username.setComponentError(null);
+						submit.setEnabled(true);
+					}
+				}
+			});		

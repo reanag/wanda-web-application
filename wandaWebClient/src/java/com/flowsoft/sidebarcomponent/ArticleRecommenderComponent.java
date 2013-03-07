@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.flowsoft.client.WandaVaadinClient;
+import com.flowsoft.codesnippet.SnippetButton;
+import com.flowsoft.codesnippet.SnippetReader;
 import com.flowsoft.domain.Article;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.GridLayout;
@@ -20,6 +22,7 @@ public class ArticleRecommenderComponent extends GridLayout {
 	public static final int ARTICLE_COUNT = 3;
 
 	public ArticleRecommenderComponent() {
+		super(2, 1);
 		articleRecommender = new TabSheet();
 		articleRecommender.setStyleName(Reindeer.TABSHEET_MINIMAL);
 	}
@@ -44,7 +47,14 @@ public class ArticleRecommenderComponent extends GridLayout {
 						.getCurrent()).getController().getMostPopularArticle(
 						ARTICLE_COUNT)), WandaVaadinClient.captions
 						.getString("recommend.popular"));
-		addComponent(articleRecommender);
+		SnippetReader sr = new SnippetReader();
+		SnippetButton snip2 = new SnippetButton(sr.read("recommend.snip"),
+				WandaVaadinClient.captions.getString("snip.recommend"));
+
+		addComponent(articleRecommender, 0, 0);
+		addComponent(snip2, 1, 0);
+		setColumnExpandRatio(0, 50);
+		setColumnExpandRatio(1, 1);
 	}
 
 	private CssLinkListComponent initArticles(List<Article> articleList) {
@@ -53,8 +63,8 @@ public class ArticleRecommenderComponent extends GridLayout {
 
 		for (Article a : articleList) {
 			String s;
-			if (a.getTitle().length() > 20) {
-				s = a.getTitle().substring(0, 17) + "...";
+			if (a.getTitle().length() > 30) {
+				s = a.getTitle().substring(0, 27) + "...";
 			} else {
 				s = a.getTitle();
 			}

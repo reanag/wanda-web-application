@@ -239,25 +239,44 @@ public class RegistrationForm extends GridLayout implements BlurListener {
 		SnippetReader sr = new SnippetReader();
 		SnippetButton snip2 = new SnippetButton(sr.read("fieldBind.snip"),
 				WandaVaadinClient.captions.getString("snip.Binding"));
-
+		SnippetButton snip3 = new SnippetButton(sr.read("fieldBind2.snip"),
+				WandaVaadinClient.captions.getString("snip.Binding2"));
+		SnippetButton snip4 = new SnippetButton(sr.read("fieldBind3.snip"),
+				WandaVaadinClient.captions.getString("snip.Binding3"));
+		SnippetButton snip5 = new SnippetButton(sr.read("fieldBind4.snip"),
+				WandaVaadinClient.captions.getString("snip.Binding4"));
+		SnippetButton snip6 = new SnippetButton(sr.read("passwordValid.snip"),
+				WandaVaadinClient.captions.getString("snip.passwordValid"));
 		GridLayout l = new GridLayout(2, 1);
 		l.addComponent(username, 0, 0);
 		l.addComponent(snip2, 1, 0);
 		addComponent(l, 1, 0);
 		username.setWidth(FIELD_WIDHT);
 
+		GridLayout l3 = new GridLayout(2, 1);
+		l3.addComponent(password, 0, 0);
+		l3.addComponent(snip3, 1, 0);
 		addComponent(passwordL, 0, 1);
-		addComponent(password, 1, 1);
+		addComponent(l3, 1, 1);
 		password.setWidth(FIELD_WIDHT);
-
+		GridLayout l2 = new GridLayout(2, 1);
+		l2.addComponent(passwordAgain, 0, 0);
+		l2.addComponent(snip6, 1, 0);
 		addComponent(passwordAgainL, 0, 2);
-		addComponent(passwordAgain, 1, 2);
+		addComponent(l2, 1, 2);
 		passwordAgain.setWidth(FIELD_WIDHT);
+		GridLayout l4 = new GridLayout(2, 1);
+		l4.addComponent(firstName, 0, 0);
+		l4.addComponent(snip4, 1, 0);
 		addComponent(firstNameL, 0, 3);
-		addComponent(firstName, 1, 3);
+		addComponent(l4, 1, 3);
 		firstName.setWidth(FIELD_WIDHT);
+		GridLayout l5 = new GridLayout(2, 1);
+		l5.addComponent(lastName, 0, 0);
+		l5.addComponent(snip5, 1, 0);
 		addComponent(lastNameL, 0, 4);
-		addComponent(lastName, 1, 4);
+		addComponent(l5, 1, 4);
+
 		lastName.setWidth(FIELD_WIDHT);
 		addComponent(emailAddressL, 0, 5);
 		addComponent(emailAddress, 1, 5);

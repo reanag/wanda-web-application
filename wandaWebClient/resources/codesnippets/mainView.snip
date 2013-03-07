@@ -1,53 +1,29 @@
 package com.flowsoft.aviews;
 
-import java.util.List;
-
-
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 ...
-
 @Component
 @Scope("prototype")
 public class MainView extends GeneralView {
 
 	private static final long serialVersionUID = 1L;
-
 	private VerticalLayout layout;
 
 	public MainView() {
 		super();
-		NAME = "main";
 		layout = new VerticalLayout();
-		setSizeFull();
+		...
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-
-		List<ArticleHeader> w = ((WandaVaadinClient) WandaVaadinClient
+		
+		List<ArticleHeader> headerList = ((WandaVaadinClient) WandaVaadinClient
 				.getCurrent()).getController().findAllArticleHeader();
 
-		
-		SnippetReader sr = new SnippetReader();
-		SnippetButton snip = new SnippetButton(sr.read("mainView.snip"),
-				WandaVaadinClient.captions.getString("snip.mainView"));
-		ArticlePanel<ArticleHeader> panel = new ArticlePanel<ArticleHeader>(w);
-		layout.addComponent(snip);
-		layout.addComponent(panel);
-		mainLayout.addComponent(layout);
-
-		((WandaVaadinClient) WandaVaadinClient.getCurrent())
-				.initView(new AboutMeView());
-
-		((WandaVaadinClient) WandaVaadinClient.getCurrent())
-				.initView(new SearchView());
+		ArticlePanel<ArticleHeader> panel = new ArticlePanel<ArticleHeader>(headerList);
+		... 
 	}
-
-	@Override
-	public void generateBody() {
-	}
-
+...
 }

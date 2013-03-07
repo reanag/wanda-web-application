@@ -1,0 +1,30 @@
+public class RegistrationForm extends GridLayout implements BlurListener {
+	...
+	private Button submit;
+	@PropertyId("username")
+	private TextField usernameField;
+	...
+	private void initFields() {
+		usernameField = new TextField("");
+		usernameField.setImmediate(true);
+		usernameField.addBlurListener(this);
+			...
+		submit = new Button("Submit");
+		submit.addClickListener(new Button.ClickListener() {
+				@Override
+				public void buttonClick(ClickEvent event) {
+					RegistrationForm.this.commit();
+				}
+			});
+	}
+	...	
+	@Override
+	public void blur(BlurEvent event) {
+		ValidatorUtils.installSingleValidator(event.getComponent(),	WandaUser.class);
+		if (!binder.isValid()) {
+			submit.setEnabled(false);
+		} else {
+			submit.setEnabled(true);
+		}
+	}
+}

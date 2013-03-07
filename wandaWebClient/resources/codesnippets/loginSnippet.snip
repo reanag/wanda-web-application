@@ -1,18 +1,14 @@
-	
-	
 public class LoginView extends Panel implements View, Serializable {
 	private WandaAuthenticationProvider authenticationProvider;
 	
 	public LoginView(Navigator n) {
 	...
-
 	}
 	
 	public static class LoginEvent extends Event {
 
 		private static final long serialVersionUID = 1L;
 		private final Authentication authentication;
-		Logger logger = LoggerFactory.getLogger(LoginEvent.class);
 
 		public LoginEvent(LoginView source, Authentication authentication) {
 			super(source);
@@ -23,103 +19,5 @@ public class LoginView extends Panel implements View, Serializable {
 			return authentication;
 		}
 	}
-	
 	...
-	
-	public void init() {
-	
-	...
-	
-	loginButton = new Button(WandaVaadinClient.captions.getString("loginButtonText"), 
-		new Button.ClickListener() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-
-				Authentication auth = new UsernamePasswordAuthenticationToken(
-							usernameTextField.getValue(), passwordField.getValue());
-
-				try {
-						
-					Authentication returned = authenticationProvider.authenticate(auth);
-					
-					...
-							
-					fireEvent(new LoginEvent(((WandaVaadinClient) WandaVaadinClient
-								.getCurrent()).getLoginView(),returned));
-									
-					} catch (BadCredentialsException e) { 
-		
-						new Notification(WandaVaadinClient.captions
-									.getString("badCredentialsMessage"))
-									.show(Page.getCurrent());
-
-					} catch (DisabledException e) {
-
-						new Notification(WandaVaadinClient.captions
-									.getString("loginDisabledTitle")).show(Page
-									.getCurrent());
-
-					} catch (LockedException e) {
-
-						new Notification(WandaVaadinClient.captions
-									.getString("loginLockedTitle")).show(Page
-									.getCurrent());
-
-					} catch (Exception e) {
-		
-						new Notification(WandaVaadinClient.captions
-									.getString("noSuchUserTitle")).show(Page
-									.getCurrent());
-						}
-					}
-				});
-	
-	}
-	
 }
-
--------------------------------------------------------------------------------------------------
-package com.flowsoft.security;
-
-...
-import com.flowsoft.domain.WandaUser;
-import com.flowsoft.wanda.WandaService;
-
-public class WandaAuthenticationProvider implements AuthenticationProvider,
-		Serializable {
-
-	private static final long serialVersionUID = 1L;
-	private WandaUser user;
-
-
-	@Override
-	public Authentication authenticate(Authentication authentication)
-			throws AuthenticationException {
-
-		WandaServiceImplService ss = new WandaServiceImplService();
-		WandaService controller = ss.getWandaServicePort();
-		user = controller.findByUsername(authentication.getName());
-
-		if (authentication.getCredentials().equals(user.getPassword())) {
-			UsernamePasswordAuthenticationToken t = new UsernamePasswordAuthenticationToken(
-					user.getUsername(), user.getPassword(), user.getAuthorities());
-
-			return t;
-		} else {
-			throw new BadCredentialsException("Try again");
-		}
-	}
-
-	@Override
-	public boolean supports(Class<?> authentication) {
-
-		return (UsernamePasswordAuthenticationToken.class
-				.isAssignableFrom(authentication));
-
-	}
-...
-}
-
