@@ -30,6 +30,7 @@ public class Tag extends AbstractEntity implements Serializable {
 
 	public Tag(String name) {
 		this.tagName = name;
+		this.rank = 12;
 		initDefaults();
 	}
 
